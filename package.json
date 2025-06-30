@@ -10,15 +10,19 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@heroui/react": "^2.7.11",
     "@heroui/theme": "^2.2.11",
+    "framer-motion": "^11.9.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "framer-motion": "^11.9.0"
+    "react-router-dom": "^7.6.3",
+    "react-youtube": "^10.1.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
+    "@types/react-router-dom": "^5.3.3",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
     "@typescript-eslint/parser": "^6.10.0",
     "@vitejs/plugin-react": "^4.1.0",
@@ -31,4 +35,4 @@
     "typescript": "^5.2.2",
     "vite": "^5.0.0"
   }
-} 
+}

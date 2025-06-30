@@ -1,9 +1,11 @@
 import { Card, CardBody, CardHeader, Button, Chip } from "@heroui/react";
+import { useNavigate } from 'react-router-dom';
 
 const programs = [
   {
     id: 1,
     title: "Día a Día",
+    slug: "dia-a-dia",
     description: "Programa de variedades con lo mejor del entretenimiento boricua",
     image: "/dia-a-dia-logo.png",
     episodes: "12 episodios",
@@ -12,6 +14,7 @@ const programs = [
   {
     id: 2,
     title: "Raymond y Sus Amigos",
+    slug: "raymond-y-sus-amigos",
     description: "Entrevistas y conversaciones con personalidades puertorriqueñas",
     image: "/rysa logo.jpeg",
     episodes: "8 episodios",
@@ -20,6 +23,7 @@ const programs = [
   {
     id: 3,
     title: "Latin Doctors",
+    slug: "latin-doctors",
     description: "Programa de salud y bienestar con profesionales latinos",
     image: "/latin-doctors.jpeg",
     episodes: "15 episodios",
@@ -28,6 +32,7 @@ const programs = [
   {
     id: 4,
     title: "Rayos X",
+    slug: "rayos-x",
     description: "Investigación y análisis de temas de actualidad",
     image: "/rayos-x-logo.png",
     episodes: "6 episodios",
@@ -36,6 +41,12 @@ const programs = [
 ];
 
 export default function Programs() {
+  const navigate = useNavigate();
+
+  const handleProgramClick = (slug: string) => {
+    navigate(`/programs/${slug}`);
+  };
+
   return (
     <section id="programas" className="py-20 bg-gradient-to-b from-gray-50 to-white">
       <div className="max-w-6xl mx-auto px-5">
@@ -54,6 +65,7 @@ export default function Programs() {
               key={program.id}
               className="group hover:scale-105 hover:shadow-xl transition-all duration-300 border border-gray-100"
               isPressable
+              onPress={() => handleProgramClick(program.slug)}
             >
               <CardHeader className="p-0 relative">
                 <div className="relative w-full">
@@ -66,6 +78,7 @@ export default function Programs() {
                     <Button
                       className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white text-black font-semibold"
                       size="sm"
+                      onPress={() => handleProgramClick(program.slug)}
                     >
                       Ver Episodios
                     </Button>
