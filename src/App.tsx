@@ -1,27 +1,13 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Header from './components/Header'
-import Hero from './components/Hero'
-import Programs from './components/Programs'
-import Footer from './components/Footer'
-import ProgramDetail from './components/ProgramDetail'
-
-function HomePage() {
-  return (
-    <div className="min-h-screen">
-      <Header />
-      <Hero />
-      <Programs />
-      <Footer />
-    </div>
-  )
-}
+import Landing from './components/Landing'
+import ProgramDetail from './components/Programa'
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/programs/:showName" element={<ProgramDetail />} />
+        <Route path="/" element={<Landing />} />
+        <Route path="/programas/:showName" element={<ProgramDetail />} />
       </Routes>
     </Router>
   )

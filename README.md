@@ -51,7 +51,7 @@ src/
   components/          # React components
     Header.tsx         # Navigation header
     Hero.tsx          # Hero banner section
-    Programs.tsx      # Programs grid section
+    Programas.tsx      # Programs grid section
     Footer.tsx        # Footer with links
   App.tsx             # Main app component
   main.tsx           # Entry point

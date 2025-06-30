@@ -3,18 +3,9 @@ import { useState, useEffect } from 'react';
 import YouTube, { YouTubeProps } from 'react-youtube';
 import { Button } from '@heroui/react';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
-
 import Header from './Header'
 import Footer from './Footer'
 
-// Mock data for merchandise
-const merchandise = [
-  { id: 1, name: 'Camisa "Guardame eso ahí"', price: '$20', image: '/placeholder.svg' },
-  { id: 2, name: 'Camisa "Guardame eso ahí"', price: '$20', image: '/placeholder.svg' },
-  { id: 3, name: 'Camisa "Guardame eso ahí"', price: '$20', image: '/placeholder.svg' },
-  { id: 4, name: 'Camisa "Guardame eso ahí"', price: '$20', image: '/placeholder.svg' },
-  { id: 5, name: 'Camisa "Guardame eso ahí"', price: '$20', image: '/placeholder.svg' },
-];
 
 // Mock data for YouTube playlists - replace with actual playlist IDs
 const programPlaylists = {

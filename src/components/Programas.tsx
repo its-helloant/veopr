@@ -40,11 +40,11 @@ const programs = [
   }
 ];
 
-export default function Programs() {
+export default function Programas() {
   const navigate = useNavigate();
 
   const handleProgramClick = (slug: string) => {
-    navigate(`/programs/${slug}`);
+    navigate(`/programas/${slug}`);
   };
 
   return (
