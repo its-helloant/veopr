@@ -5,6 +5,7 @@ import { Button } from '@heroui/react';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Header from './Header'
 import Footer from './Footer'
+import Mercancia from './Mercancia';
 
 
 // Mock data for YouTube playlists - replace with actual playlist IDs
@@ -140,7 +141,7 @@ export default function ProgramDetail() {
         {/* Episodios Section */}
         <div className="mb-12">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-3xl font-bold text-gray-900">Episodios</h2>
+            <h2 className="text-3xl font-bold text-blue-900">Episodios</h2>
             <a href="#" className="text-sm font-medium text-blue-600 hover:text-blue-800">
               Ver todos
             </a>
@@ -168,6 +169,9 @@ export default function ProgramDetail() {
             </div>
           </div>
         </div>
+
+        
+      <Mercancia />
 
       </div>
       <Footer />
