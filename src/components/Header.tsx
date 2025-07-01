@@ -29,6 +29,15 @@ export default function Header() {
         </NavbarItem>
         
         <NavbarItem>
+          <RouterLink 
+            to="/productos"
+            className="text-white font-medium hover:opacity-80 transition-opacity"
+          >
+            Productos
+          </RouterLink>
+        </NavbarItem>
+        
+        <NavbarItem>
           <Link 
             color="foreground" 
             href="#nosotros"

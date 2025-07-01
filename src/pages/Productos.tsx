@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { 
@@ -233,49 +233,57 @@ const ProductosPage = () => {
               {viewMode === 'grid' ? (
                 <>
                   {/* Grid View */}
-                  <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
-                    <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-1.586-1.586a2 2 0 00-2.828 0L6 14m6-6l.01.01"></path>
-                    </svg>
-                  </div>
-                  <div className="p-4">
-                    <div className="flex justify-between items-start mb-2">
-                      <h3 className="text-lg font-semibold text-gray-800">{product.name}</h3>
-                      <p className="text-lg font-bold text-gray-900">${product.price}</p>
+                  <Link to={`/producto/${product.id}`} className="block">
+                    <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
+                      <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-1.586-1.586a2 2 0 00-2.828 0L6 14m6-6l.01.01"></path>
+                      </svg>
                     </div>
-                    <p className="text-sm text-gray-500 mb-2">{product.description}</p>
-                    <div className="flex justify-between items-center">
-                      <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
-                        {product.show}
-                      </span>
-                      <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors text-sm">
-                        Agregar al carrito
-                      </button>
+                    <div className="p-4">
+                      <div className="flex justify-between items-start mb-2">
+                        <h3 className="text-lg font-semibold text-gray-800 hover:text-blue-600 transition-colors">{product.name}</h3>
+                        <p className="text-lg font-bold text-gray-900">${product.price}</p>
+                      </div>
+                      <p className="text-sm text-gray-500 mb-2">{product.description}</p>
+                      <div className="flex justify-between items-center">
+                        <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                          {product.show}
+                        </span>
+                      </div>
                     </div>
+                  </Link>
+                  <div className="px-4 pb-4">
+                    <button className="w-full bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors text-sm">
+                      Agregar al carrito
+                    </button>
                   </div>
                 </>
               ) : (
                 <>
                   {/* List View */}
-                  <div className="w-20 h-20 bg-gray-200 rounded-lg flex items-center justify-center flex-shrink-0 mr-4">
-                    <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-1.586-1.586a2 2 0 00-2.828 0L6 14m6-6l.01.01"></path>
-                    </svg>
-                  </div>
-                  <div className="flex-grow">
-                    <div className="flex justify-between items-start mb-1">
-                      <h3 className="text-lg font-semibold text-gray-800">{product.name}</h3>
-                      <p className="text-lg font-bold text-gray-900">${product.price}</p>
+                  <Link to={`/producto/${product.id}`} className="flex flex-grow items-center">
+                    <div className="w-20 h-20 bg-gray-200 rounded-lg flex items-center justify-center flex-shrink-0 mr-4">
+                      <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-1.586-1.586a2 2 0 00-2.828 0L6 14m6-6l.01.01"></path>
+                      </svg>
                     </div>
-                    <p className="text-sm text-gray-500 mb-2">{product.description}</p>
-                    <div className="flex justify-between items-center">
-                      <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
-                        {product.show}
-                      </span>
-                      <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors text-sm">
-                        Agregar al carrito
-                      </button>
+                    <div className="flex-grow">
+                      <div className="flex justify-between items-start mb-1">
+                        <h3 className="text-lg font-semibold text-gray-800 hover:text-blue-600 transition-colors">{product.name}</h3>
+                        <p className="text-lg font-bold text-gray-900">${product.price}</p>
+                      </div>
+                      <p className="text-sm text-gray-500 mb-2">{product.description}</p>
+                      <div className="flex justify-between items-center">
+                        <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                          {product.show}
+                        </span>
+                      </div>
                     </div>
+                  </Link>
+                  <div className="ml-4">
+                    <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors text-sm">
+                      Agregar al carrito
+                    </button>
                   </div>
                 </>
               )}

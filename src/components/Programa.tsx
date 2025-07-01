@@ -5,7 +5,7 @@ import { Button } from '@heroui/react';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Header from './Header'
 import Footer from './Footer'
-import Mercancia from './Productos';
+import Mercancia from './CarruselProductos';
 
 
 // Mock data for YouTube playlists - replace with actual playlist IDs

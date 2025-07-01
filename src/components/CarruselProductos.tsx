@@ -1,40 +1,46 @@
 import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+// Featured products for the carousel
 const products = [
   {
     id: 1,
-    name: 'Camisa "Guardame eso ahi"',
-    description: 'Descripcion de camisa o frase',
-    price: 20,
+    name: 'Camisa "Guardarme eso ahí"',
+    description: 'Camiseta cómoda con el famoso catchphrase del programa',
+    price: 25,
+    show: 'Día a Día',
     image: '', // Placeholder
   },
   {
     id: 2,
-    name: 'Camisa "Guardame eso ahi"',
-    description: 'Descripcion de camisa o frase',
-    price: 20,
+    name: 'Taza "Buenos días familia"',
+    description: 'Taza de cerámica perfecta para el café matutino',
+    price: 15,
+    show: 'Día a Día',
     image: '', // Placeholder
   },
   {
     id: 3,
-    name: 'Camisa "Guardame eso ahi"',
-    description: 'Descripcion de camisa o frase',
+    name: 'Gorra "Rayos X"',
+    description: 'Gorra deportiva del programa de investigación',
     price: 20,
-    image: '', // Placeholder
-  },
-  {
-    id: 4,
-    name: 'Camisa "Guardame eso ahi"',
-    description: 'Descripcion de camisa o frase',
-    price: 20,
+    show: 'Rayos X',
     image: '', // Placeholder
   },
   {
     id: 5,
-    name: 'Camisa "Guardame eso ahi"',
-    description: 'Descripcion de camisa o frase',
-    price: 20,
+    name: 'Camisa "Rayos X Investigación"',
+    description: 'Camisa oficial del equipo de investigación',
+    price: 28,
+    show: 'Rayos X',
+    image: '', // Placeholder
+  },
+  {
+    id: 8,
+    name: 'Hoodie "VeoPR"',
+    description: 'Sudadera con capucha del canal',
+    price: 35,
+    show: 'General',
     image: '', // Placeholder
   },
 ];
@@ -99,18 +105,33 @@ const Mercancia = () => {
           style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' } as React.CSSProperties}
         >
           {products.map((product) => (
-            <div key={product.id} className="flex-shrink-0 w-64 bg-white border border-gray-200 rounded-lg shadow-md select-none">
-              <div className="w-full h-48 bg-gray-200 rounded-t-lg flex items-center justify-center pointer-events-none">
-                <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-1.586-1.586a2 2 0 00-2.828 0L6 14m6-6l.01.01"></path></svg>
+            <Link 
+              key={product.id} 
+              to={`/producto/${product.id}`}
+              className="flex-shrink-0 w-64 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow select-none block"
+              onClick={(e) => {
+                // Prevent navigation if user was dragging
+                if (isDown) {
+                  e.preventDefault();
+                }
+              }}
+            >
+              <div className="w-full h-48 bg-gray-200 rounded-t-lg flex items-center justify-center">
+                <svg className="w-12 h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-1.586-1.586a2 2 0 00-2.828 0L6 14m6-6l.01.01"></path>
+                </svg>
               </div>
-              <div className="p-4 pointer-events-none">
-                <div className="flex justify-between items-start">
-                  <h3 className="text-lg font-semibold text-gray-800">{product.name}</h3>
+              <div className="p-4">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="text-lg font-semibold text-gray-800 hover:text-blue-600 transition-colors">{product.name}</h3>
                   <p className="text-lg font-bold text-gray-900">${product.price}</p>
                 </div>
-                <p className="text-sm text-gray-500 mt-1">{product.description}</p>
+                <p className="text-sm text-gray-500 mb-2">{product.description}</p>
+                <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+                  {product.show}
+                </span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
