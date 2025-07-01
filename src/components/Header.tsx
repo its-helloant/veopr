@@ -7,7 +7,7 @@ export default function Header() {
     <Navbar 
       className="hero-gradient sticky top-0 z-50"
       classNames={{
-        wrapper: "max-w-6xl px-5",
+        wrapper: "max-w-7xl mx-auto px-4 md:px-8",
         brand: "text-white",
         content: "text-white",
       }}

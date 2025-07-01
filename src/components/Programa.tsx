@@ -5,7 +5,7 @@ import { Button } from '@heroui/react';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import Header from './Header'
 import Footer from './Footer'
-import Mercancia from './Mercancia';
+import Mercancia from './Productos';
 
 
 // Mock data for YouTube playlists - replace with actual playlist IDs
@@ -13,7 +13,7 @@ const programPlaylists = {
   1: {
     title: "Día a Día",
     slug: "dia-a-dia",
-    playlistId: "PLrAcYW6x1URNBBY10P5kRVe3fLT_j0HJg", // Example playlist ID
+    playlistId: "PLKcRz7euAKoO0M-UjCUZFfudX78juCcaJ", // Real Día a Día playlist
     colorTheme: {
       background: "bg-gradient-to-br from-cyan-100 to-teal-200",
       primary: "text-cyan-900",
@@ -169,32 +169,85 @@ export default function ProgramDetail() {
         {/* Episodios Section */}
         <div className="mb-12">
           <div className="flex justify-between items-center mb-4">
-            <h2 className={`text-3xl font-bold ${program.colorTheme.primary}`}>Episodios</h2>
-            <a href="#" className={`text-sm font-medium ${program.colorTheme.secondary} hover:opacity-80 transition-opacity`}>
-              Ver todos
-            </a>
+            <h2 className={`text-3xl font-bold ${program.colorTheme.primary}`}>Episodios ({program.videos.length})</h2>
+            <div className="flex items-center gap-2 text-sm text-gray-500">
+              <span>Desplázate para ver más</span>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
           </div>
+          
+          {/* Vertical Carousel Container */}
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div>
-              {program.videos.slice(0, 4).map((video, index) => (
+            <div className="h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+              {program.videos.map((video, index) => (
                 <div
                   key={video.id}
                   onClick={() => handleVideoSelect(video.id, index)}
-                  className={`flex items-center p-4 cursor-pointer transition-colors duration-200 ${
-                    currentVideoIndex === index ? program.colorTheme.cardHover : 'hover:bg-gray-50'
-                  } ${index !== program.videos.slice(0, 4).length - 1 ? 'border-b border-gray-200' : ''}`}
+                  className={`flex items-center p-4 cursor-pointer transition-all duration-200 hover:shadow-sm ${
+                    currentVideoIndex === index 
+                      ? `${program.colorTheme.cardHover} border-l-4 ${program.colorTheme.accent.replace('bg-', 'border-')}` 
+                      : 'hover:bg-gray-50'
+                  } ${index !== program.videos.length - 1 ? 'border-b border-gray-200' : ''}`}
                 >
-                  <div className="w-32 h-18 bg-gray-200 rounded-md flex-shrink-0">
-                    {/* Thumbnail placeholder */}
+                  <div className="w-32 h-18 bg-gray-200 rounded-md flex-shrink-0 relative overflow-hidden">
+                    {/* Thumbnail placeholder with play icon */}
+                    <div className="absolute inset-0 bg-gray-300 flex items-center justify-center">
+                      <svg className="w-6 h-6 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
+                    </div>
+                    {/* Episode number overlay */}
+                    <div className="absolute top-1 left-1 bg-black bg-opacity-70 text-white text-xs px-1 rounded">
+                      #{program.videos.length - index}
+                    </div>
                   </div>
-                  <div className="flex-grow mx-4">
-                    <h3 className={`font-bold text-md ${currentVideoIndex === index ? program.colorTheme.primary : 'text-gray-800'}`}>{video.title}</h3>
-                    <p className="text-sm text-gray-600 mt-1">{video.description}</p>
+                  
+                  <div className="flex-grow mx-4 min-w-0">
+                    <h3 className={`font-bold text-md ${
+                      currentVideoIndex === index ? program.colorTheme.primary : 'text-gray-800'
+                    } truncate`}>
+                      {video.title}
+                    </h3>
+                    <p className="text-sm text-gray-600 mt-1 line-clamp-2">{video.description}</p>
+                    {video.duration && (
+                      <div className="flex items-center gap-2 mt-2 text-xs text-gray-500">
+                        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        <span>{video.duration}</span>
+                      </div>
+                    )}
                   </div>
-                  <div className="text-gray-500 text-sm whitespace-nowrap">{video.date}</div>
+                  
+                  <div className="text-right flex-shrink-0">
+                    <div className="text-gray-500 text-sm whitespace-nowrap">{video.date}</div>
+                    {currentVideoIndex === index && (
+                      <div className={`text-xs ${program.colorTheme.secondary} font-medium mt-1`}>
+                        Reproduciendo
+                      </div>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
+            
+            {/* Scroll to current playing indicator */}
+            {program.videos.length > 4 && (
+              <div className="bg-gray-50 px-4 py-2 text-center">
+                <button 
+                  onClick={() => {
+                    const container = document.querySelector('.overflow-y-auto');
+                    const currentItem = container?.children[currentVideoIndex] as HTMLElement;
+                    currentItem?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }}
+                  className={`text-sm ${program.colorTheme.secondary} hover:opacity-80 transition-opacity`}
+                >
+                  Ir al episodio actual
+                </button>
+              </div>
+            )}
           </div>
         </div>
 

@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const products = [
   {
@@ -83,10 +84,10 @@ const Mercancia = () => {
     <section className="bg-white py-12">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="flex justify-between items-center mb-8">
-          <h2 className="text-4xl font-bold">Mercancia</h2>
-          <a href="#" className="text-gray-500 hover:text-gray-900 underline">
+          <h2 className="text-4xl font-bold">Productos</h2>
+          <Link to="/productos" className="text-gray-500 hover:text-gray-900 underline">
             Ver todos
-          </a>
+          </Link>
         </div>
         <div 
           ref={scrollContainerRef}
@@ -95,7 +96,7 @@ const Mercancia = () => {
           onMouseLeave={handleMouseLeave}
           onMouseUp={handleMouseUp}
           onMouseMove={handleMouseMove}
-          style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' }}
+          style={{ scrollbarWidth: 'none', '-ms-overflow-style': 'none' } as React.CSSProperties}
         >
           {products.map((product) => (
             <div key={product.id} className="flex-shrink-0 w-64 bg-white border border-gray-200 rounded-lg shadow-md select-none">

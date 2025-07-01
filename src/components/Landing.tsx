@@ -1,7 +1,7 @@
 import Header from './Header'
 import Hero from './Hero'
 import Programas from './Programas'
-import Mercancia from './Mercancia'
+import Mercancia from './Productos'
 import Footer from './Footer'
 
 function Landing() {
