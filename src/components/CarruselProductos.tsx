@@ -8,7 +8,7 @@ const products = [
     name: 'Camisa "Guardarme eso ahí"',
     description: 'Camiseta cómoda con el famoso catchphrase del programa',
     price: 25,
-    show: 'Día a Día',
+    showName: 'Día a Día',
     image: '', // Placeholder
   },
   {
@@ -16,7 +16,7 @@ const products = [
     name: 'Taza "Buenos días familia"',
     description: 'Taza de cerámica perfecta para el café matutino',
     price: 15,
-    show: 'Día a Día',
+    showName: 'Día a Día',
     image: '', // Placeholder
   },
   {
@@ -24,7 +24,7 @@ const products = [
     name: 'Gorra "Rayos X"',
     description: 'Gorra deportiva del programa de investigación',
     price: 20,
-    show: 'Rayos X',
+    showName: 'Rayos X',
     image: '', // Placeholder
   },
   {
@@ -32,7 +32,7 @@ const products = [
     name: 'Camisa "Rayos X Investigación"',
     description: 'Camisa oficial del equipo de investigación',
     price: 28,
-    show: 'Rayos X',
+    showName: 'Rayos X',
     image: '', // Placeholder
   },
   {
@@ -40,18 +40,23 @@ const products = [
     name: 'Hoodie "VeoPR"',
     description: 'Sudadera con capucha del canal',
     price: 35,
-    show: 'General',
+    showName: 'General',
     image: '', // Placeholder
   },
 ];
 
-const Mercancia = () => {
+const CarruselProductos = ({ showName }: { showName?: string }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isDown, setIsDown] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [cardWidth, setCardWidth] = useState(0);
+
+  // Filter products based on showName prop
+  const filteredProducts = showName 
+    ? products.filter(product => product.showName === showName)
+    : products;
 
   // Calculate card width and current index on scroll
   useEffect(() => {
@@ -80,7 +85,7 @@ const Mercancia = () => {
       
       const scrollPos = container.scrollLeft;
       const index = Math.round(scrollPos / (cardWidth + 16)); // 16px is gap
-      setCurrentIndex(Math.min(index, products.length - 1));
+      setCurrentIndex(Math.min(index, filteredProducts.length - 1));
     };
 
     const container = scrollContainerRef.current;
@@ -88,7 +93,7 @@ const Mercancia = () => {
       container.addEventListener('scroll', handleScroll);
       return () => container.removeEventListener('scroll', handleScroll);
     }
-  }, [cardWidth]);
+  }, [cardWidth, filteredProducts.length]);
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     const container = scrollContainerRef.current;
@@ -168,7 +173,7 @@ const Mercancia = () => {
   };
 
   const scrollToNext = () => {
-    if (currentIndex < products.length - 1) {
+    if (currentIndex < filteredProducts.length - 1) {
       scrollToIndex(currentIndex + 1);
     }
   };
@@ -185,28 +190,32 @@ const Mercancia = () => {
         
         {/* Carousel container with navigation */}
         <div className="relative">
-          {/* Navigation arrows */}
-          <button 
-            onClick={scrollToPrevious}
-            disabled={currentIndex === 0}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500"
-            style={{ transform: 'translateY(-50%)' }}
-          >
-            <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          
-          <button 
-            onClick={scrollToNext}
-            disabled={currentIndex >= products.length - 1}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500"
-            style={{ transform: 'translateY(-50%)' }}
-          >
-            <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
+          {/* Navigation arrows - only show if more than 3 products */}
+          {filteredProducts.length > 3 && (
+            <>
+              <button 
+                onClick={scrollToPrevious}
+                disabled={currentIndex === 0}
+                className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500"
+                style={{ transform: 'translateY(-50%)' }}
+              >
+                <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              
+              <button 
+                onClick={scrollToNext}
+                disabled={currentIndex >= filteredProducts.length - 1}
+                className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500"
+                style={{ transform: 'translateY(-50%)' }}
+              >
+                <svg className="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </>
+          )}
 
           {/* Carousel */}
           <div 
@@ -225,7 +234,7 @@ const Mercancia = () => {
               scrollSnapType: 'x mandatory'
             } as React.CSSProperties}
           >
-            {products.map((product) => (
+            {filteredProducts.map((product) => (
               <Link 
                 key={product.id} 
                 to={`/producto/${product.id}`}
@@ -252,7 +261,7 @@ const Mercancia = () => {
                   </div>
                   <p className="text-sm text-gray-500 mb-2">{product.description}</p>
                   <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
-                    {product.show}
+                    {product.showName}
                   </span>
                 </div>
               </Link>
@@ -262,7 +271,7 @@ const Mercancia = () => {
 
         {/* Touch indicators/dots */}
         <div className="flex justify-center mt-4 gap-2">
-          {products.map((_, index) => (
+          {filteredProducts.map((_, index) => (
             <button
               key={index}
               onClick={() => scrollToIndex(index)}
@@ -278,4 +287,4 @@ const Mercancia = () => {
   );
 };
 
-export default Mercancia; 
+export default CarruselProductos; 

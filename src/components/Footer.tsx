@@ -1,4 +1,5 @@
-import { Link } from "@heroui/react";
+import { Link as HeroLink } from "@heroui/react";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
@@ -20,29 +21,25 @@ export default function Footer() {
             <h5 className="text-mobile-body sm:text-lg font-semibold">Programas</h5>
             <div className="flex flex-col space-y-1 sm:space-y-2">
               <Link 
-                href="#" 
-                color="foreground" 
+                to="/programas/dia-a-dia" 
                 className="text-mobile-body text-gray-300 hover:text-white focus:text-white transition-colors touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 w-fit"
               >
                 Día a Día
               </Link>
               <Link 
-                href="#" 
-                color="foreground" 
+                to="/programas/raymond-y-sus-amigos" 
                 className="text-mobile-body text-gray-300 hover:text-white focus:text-white transition-colors touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 w-fit"
               >
                 Raymond y Sus Amigos
               </Link>
               <Link 
-                href="#" 
-                color="foreground" 
+                to="/programas/latin-doctors" 
                 className="text-mobile-body text-gray-300 hover:text-white focus:text-white transition-colors touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 w-fit"
               >
                 Latin Doctors
               </Link>
               <Link 
-                href="#" 
-                color="foreground" 
+                to="/programas/rayos-x" 
                 className="text-mobile-body text-gray-300 hover:text-white focus:text-white transition-colors touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 w-fit"
               >
                 Rayos X
@@ -53,15 +50,15 @@ export default function Footer() {
           <div className="space-y-3 sm:space-y-4">
             <h5 className="text-mobile-body sm:text-lg font-semibold">Síguenos</h5>
             <div className="flex flex-col space-y-1 sm:space-y-2">
-              <Link 
+              <HeroLink 
                 href="#" 
                 color="foreground" 
                 className="text-mobile-body text-gray-300 hover:text-white focus:text-white transition-colors touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 w-fit"
                 aria-label="Seguir en Facebook"
               >
                 Facebook
-              </Link>
-              <Link 
+              </HeroLink>
+              <HeroLink 
                 href="https://www.youtube.com/@VeoPR" 
                 color="foreground" 
                 className="text-mobile-body text-gray-300 hover:text-white focus:text-white transition-colors touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 w-fit"
@@ -70,15 +67,15 @@ export default function Footer() {
                 rel="noopener noreferrer"
               >
                 YouTube
-              </Link>
-              <Link 
+              </HeroLink>
+              <HeroLink 
                 href="#" 
                 color="foreground" 
                 className="text-mobile-body text-gray-300 hover:text-white focus:text-white transition-colors touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 w-fit"
                 aria-label="Seguir en Instagram"
               >
                 Instagram
-              </Link>
+              </HeroLink>
             </div>
           </div>
         </div>

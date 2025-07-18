@@ -39,11 +39,11 @@ export default function Header() {
   return (
     <>
       <Navbar 
-        className="bg-white sticky top-0 z-50 shadow-sm"
+        className="bg-gray-900 sticky top-0 z-50 shadow-sm"
         classNames={{
           wrapper: "max-w-7xl mx-auto padding-mobile",
-          brand: "text-gray-900",
-          content: "text-gray-900",
+          brand: "text-white",
+          content: "text-white",
         }}
       >
         <NavbarBrand>
@@ -65,7 +65,7 @@ export default function Header() {
           <NavbarItem>
             <RouterLink 
               to="/#programas"
-              className="text-gray-900 font-medium hover:text-blue-600 focus:text-blue-600 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white"
+              className="text-white font-medium hover:text-blue-400 focus:text-blue-400 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900"
             >
               Programas
             </RouterLink>
@@ -74,7 +74,7 @@ export default function Header() {
           <NavbarItem>
             <RouterLink 
               to="/productos"
-              className="text-gray-900 font-medium hover:text-blue-600 focus:text-blue-600 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white"
+              className="text-white font-medium hover:text-blue-400 focus:text-blue-400 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900"
             >
               Productos
             </RouterLink>
@@ -84,14 +84,14 @@ export default function Header() {
             <Link 
               color="foreground" 
               href="#nosotros"
-              className="text-gray-900 font-medium hover:text-blue-600 focus:text-blue-600 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white"
+              className="text-white font-medium hover:text-blue-400 focus:text-blue-400 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900"
             >
               Nosotros
             </Link>
           </NavbarItem>
           <NavbarItem>
             <button 
-              className="text-gray-900 hover:text-blue-600 focus:text-blue-600 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white"
+              className="text-white hover:text-blue-400 focus:text-blue-400 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900"
               aria-label="Ver carrito de compras"
             >
               <ShoppingCartIcon className="h-6 w-6" />
@@ -103,7 +103,7 @@ export default function Header() {
         <NavbarContent justify="end" className="md:hidden">
           <NavbarItem>
             <button 
-              className="text-gray-900 hover:text-blue-600 focus:text-blue-600 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white"
+              className="text-white hover:text-blue-400 focus:text-blue-400 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900"
               aria-label="Ver carrito de compras"
             >
               <ShoppingCartIcon className="h-6 w-6" />
@@ -112,7 +112,7 @@ export default function Header() {
           <NavbarItem>
             <button 
               onClick={toggleMobileMenu}
-              className="text-gray-900 hover:text-blue-600 focus:text-blue-600 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white"
+              className="text-white hover:text-blue-400 focus:text-blue-400 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900"
               aria-label={isMobileMenuOpen ? "Cerrar menú de navegación" : "Abrir menú de navegación"}
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-menu"

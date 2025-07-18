@@ -1,11 +1,10 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import YouTube, { YouTubeProps } from 'react-youtube';
-import { Button } from '@heroui/react';
-import { ArrowLeftIcon, PlayIcon, ListBulletIcon } from '@heroicons/react/24/outline';
+import { PlayIcon, ListBulletIcon } from '@heroicons/react/24/outline';
 import Header from './Header';
 import Footer from './Footer';
-import Mercancia from './CarruselProductos';
+import CarruselProductos from './CarruselProductos';
 
 // Mock data for YouTube playlists
 const programPlaylists = {
@@ -70,7 +69,6 @@ const programPlaylists = {
 
 export default function ProgramDetail() {
   const { showName } = useParams<{ showName: string }>();
-  const navigate = useNavigate();
   const [currentVideoId, setCurrentVideoId] = useState<string>('');
   const [currentVideoIndex, setCurrentVideoIndex] = useState<number>(0);
   const [isPlaylistVisible, setIsPlaylistVisible] = useState<boolean>(true);
@@ -128,21 +126,15 @@ export default function ProgramDetail() {
       <Header />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        {/* Back Button */}
-        <div className="mb-4">
-          <Button
-            isIconOnly
-            variant="light"
-            onPress={() => navigate('/')}
-            className="text-gray-700 hover:text-gray-900"
-          >
-            <ArrowLeftIcon className="h-5 w-5" />
-          </Button>
-        </div>
 
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Left Column - Video Player and Info */}
           <div className="flex-1">
+            {/* Program Title */}
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+              {program.title}
+            </h1>
+            
             {/* Video Player */}
             <div className="bg-black rounded-lg overflow-hidden mb-4 aspect-video">
               {currentVideoId && (
@@ -301,7 +293,7 @@ export default function ProgramDetail() {
 
       {/* Mercancia Carousel - Full Width */}
       <div className="mt-8">
-        <Mercancia />
+        <CarruselProductos showName={program.title} />
       </div>
       
       <Footer />
