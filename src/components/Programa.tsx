@@ -127,14 +127,14 @@ export default function ProgramDetail() {
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
 
+        {/* Program Title - Full Width */}
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+          {program.title}
+        </h1>
+
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Left Column - Video Player and Info */}
           <div className="flex-1">
-            {/* Program Title */}
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
-              {program.title}
-            </h1>
-            
             {/* Video Player */}
             <div className="bg-black rounded-lg overflow-hidden mb-4 aspect-video">
               {currentVideoId && (
@@ -266,25 +266,6 @@ export default function ProgramDetail() {
                   ))}
                 </div>
               )}
-
-              {/* Shuffle/Repeat Controls */}
-              <div className="p-3 border-t border-gray-200 bg-white">
-                <div className="flex items-center justify-center gap-4">
-                  <button className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M10.59,9.17L5.41,4L4,5.41L9.17,10.58L10.59,9.17M14.5,4L16.54,6.04L4.41,18.17L5.82,19.58L18,7.41L20.07,9.5L21.5,4H14.5M14.83,13.41L13.42,14.82L18.59,20L20,18.59L14.83,13.41Z"/>
-                    </svg>
-                    <span>Aleatorio</span>
-                  </button>
-                  
-                  <button className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M7,7H17V10L21,6L17,2V5H5V11H7V7M17,17H7V14L3,18L7,22V19H19V13H17V17Z"/>
-                    </svg>
-                    <span>Repetir</span>
-                  </button>
-                </div>
-              </div>
             </div>
           </div>
         </div>
