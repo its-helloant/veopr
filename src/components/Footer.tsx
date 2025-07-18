@@ -6,7 +6,11 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto padding-mobile">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
           <div className="space-y-3 sm:space-y-4">
-            <h4 className="text-mobile-h2 font-bold">VeoPR</h4>
+            <img 
+              src="/veopr-logo.png" 
+              alt="VeoPR Logo" 
+              className="h-8 w-auto"
+            />
             <p className="text-mobile-body text-gray-300">
               El mejor entretenimiento puertorriqueño
             </p>
@@ -58,10 +62,12 @@ export default function Footer() {
                 Facebook
               </Link>
               <Link 
-                href="#" 
+                href="https://www.youtube.com/@VeoPR" 
                 color="foreground" 
                 className="text-mobile-body text-gray-300 hover:text-white focus:text-white transition-colors touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 w-fit"
                 aria-label="Seguir en YouTube"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 YouTube
               </Link>

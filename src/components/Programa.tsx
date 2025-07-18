@@ -2,84 +2,68 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import YouTube, { YouTubeProps } from 'react-youtube';
 import { Button } from '@heroui/react';
-import { ArrowLeftIcon } from '@heroicons/react/24/outline';
-import Header from './Header'
-import Footer from './Footer'
+import { ArrowLeftIcon, PlayIcon, ListBulletIcon } from '@heroicons/react/24/outline';
+import Header from './Header';
+import Footer from './Footer';
 import Mercancia from './CarruselProductos';
 
-
-// Mock data for YouTube playlists - replace with actual playlist IDs
+// Mock data for YouTube playlists
 const programPlaylists = {
   1: {
     title: "Día a Día",
     slug: "dia-a-dia",
-    playlistId: "PLKcRz7euAKoO0M-UjCUZFfudX78juCcaJ", // Real Día a Día playlist
-    colorTheme: {
-      background: "bg-gradient-to-br from-cyan-100 to-teal-200",
-      primary: "text-cyan-900",
-      secondary: "text-cyan-700",
-      accent: "bg-cyan-500",
-      cardHover: "bg-cyan-50"
-    },
+    playlistId: "PLKcRz7euAKoO0M-UjCUZFfudX78juCcaJ",
+    description: "El mejor entretenimiento diario con variedades, música y cultura puertorriqueña.",
+    totalVideos: 120,
+    views: "2.5M",
     videos: [
-      { id: "dQw4w9WgXcQ", title: "Episodio 12", description: "Lo mejor del entretenimiento", date: "24/6/2025", duration: "25:30" },
-      { id: "9bZkp7q19f0", title: "Episodio 11", description: "Especial invitados", date: "17/6/2025", duration: "28:15" },
-      { id: "kJQP7kiw5Fk", title: "Episodio 10", description: "Variedades boricuas", date: "10/6/2025", duration: "30:45" },
-      { id: "fJ9rUzIMcZQ", title: "Episodio 9", description: "Música y cultura", date: "3/6/2025", duration: "27:20" }
+      { id: "dQw4w9WgXcQ", title: "Episodio 120 - Especial Navideño", description: "Celebramos las fiestas navideñas con invitados especiales y música tradicional", date: "2024-12-24", duration: "25:30", views: "45K" },
+      { id: "9bZkp7q19f0", title: "Episodio 119 - Artistas Emergentes", description: "Conoce a los nuevos talentos de la música puertorriqueña", date: "2024-12-17", duration: "28:15", views: "38K" },
+      { id: "kJQP7kiw5Fk", title: "Episodio 118 - Cocina Boricua", description: "Los mejores chefs nos enseñan recetas tradicionales", date: "2024-12-10", duration: "30:45", views: "52K" },
+      { id: "fJ9rUzIMcZQ", title: "Episodio 117 - Festival de Salsa", description: "Lo mejor del festival de salsa con entrevistas exclusivas", date: "2024-12-03", duration: "27:20", views: "41K" },
+      { id: "M7lc1UVf-VE", title: "Episodio 116 - Deportes Locales", description: "Cobertura especial del boxeo puertorriqueño", date: "2024-11-26", duration: "32:10", views: "35K" }
     ]
   },
   2: {
     title: "Raymond y Sus Amigos",
     slug: "raymond-y-sus-amigos",
     playlistId: "PLrAcYW6x1URNBBY10P5kRVe3fLT_j0HJg",
-    colorTheme: {
-      background: "bg-gradient-to-br from-emerald-50 to-teal-100",
-      primary: "text-emerald-900",
-      secondary: "text-emerald-600",
-      accent: "bg-emerald-500",
-      cardHover: "bg-emerald-50"
-    },
+    description: "Comedia, entretenimiento y conversaciones divertidas con Raymond y sus invitados.",
+    totalVideos: 352,
+    views: "8.2M",
     videos: [
-      { id: "M7lc1UVf-VE", title: "Episodio 352", description: "Descripción de camisa o frase", date: "24/6/2025", duration: "35:20" },
-      { id: "2Vv-BfVoq4g", title: "Episodio 351", description: "Descripción de camisa o frase", date: "17/6/2025", duration: "40:15" },
-      { id: "ktvTqknDobU", title: "Episodio 350", description: "Descripción de camisa o frase", date: "10/6/2025", duration: "32:30" },
-      { id: "ikwjx9VXv_4", title: "Episodio 349", description: "Descripción de camisa o frase", date: "3/6/2025", duration: "38:45" }
+      { id: "M7lc1UVf-VE", title: "Episodio 352 - Especial de Año Nuevo", description: "Reflexiones del año y planes para el futuro con mucha diversión", date: "2024-12-31", duration: "35:20", views: "89K" },
+      { id: "2Vv-BfVoq4g", title: "Episodio 351 - Invitados Sorpresa", description: "Los mejores momentos con invitados inesperados", date: "2024-12-29", duration: "40:15", views: "76K" },
+      { id: "ktvTqknDobU", title: "Episodio 350 - Celebración Especial", description: "Celebramos el episodio 350 con los mejores momentos", date: "2024-12-27", duration: "32:30", views: "95K" },
+      { id: "ikwjx9VXv_4", title: "Episodio 349 - Juegos y Risas", description: "Una tarde llena de juegos divertidos y muchas risas", date: "2024-12-25", duration: "38:45", views: "68K" }
     ]
   },
   3: {
     title: "Latin Doctors",
     slug: "latin-doctors",
     playlistId: "PLrAcYW6x1URNBBY10P5kRVe3fLT_j0HJg",
-    colorTheme: {
-      background: "bg-gradient-to-br from-blue-50 to-cyan-100",
-      primary: "text-blue-900",
-      secondary: "text-blue-600",
-      accent: "bg-blue-500",
-      cardHover: "bg-blue-50"
-    },
+    description: "Información médica y consejos de salud para la comunidad latina.",
+    totalVideos: 89,
+    views: "1.8M",
     videos: [
-      { id: "PAR9QvEe-ew", title: "Salud mental", description: "En la comunidad latina", date: "22/6/2025", duration: "45:30" },
-      { id: "jNQXAC9IVRw", title: "Prevención de diabetes", description: "Consejos y dietas", date: "15/6/2025", duration: "42:15" },
-      { id: "L_LUpnjgPso", title: "Nutrición saludable", description: "Recetas y hábitos", date: "8/6/2025", duration: "38:20" },
-      { id: "EWvvhDUFBB0", title: "Ejercicio y bienestar", description: "Rutinas para todos", date: "1/6/2025", duration: "40:10" }
+      { id: "PAR9QvEe-ew", title: "Salud Mental en Tiempos Difíciles", description: "Estrategias para mantener el bienestar emocional durante crisis", date: "2024-12-22", duration: "45:30", views: "62K" },
+      { id: "jNQXAC9IVRw", title: "Prevención de Diabetes Tipo 2", description: "Guía completa para prevenir y manejar la diabetes", date: "2024-12-15", duration: "42:15", views: "74K" },
+      { id: "L_LUpnjgPso", title: "Nutrición para Toda la Familia", description: "Recetas saludables y consejos nutricionales", date: "2024-12-08", duration: "38:20", views: "58K" },
+      { id: "EWvvhDUFBB0", title: "Ejercicio y Longevidad", description: "Cómo mantenerse activo para una vida más larga y saludable", date: "2024-12-01", duration: "40:10", views: "49K" }
     ]
   },
   4: {
     title: "Rayos X",
     slug: "rayos-x",
     playlistId: "PLrAcYW6x1URNBBY10P5kRVe3fLT_j0HJg",
-    colorTheme: {
-      background: "bg-gradient-to-br from-purple-50 to-indigo-100",
-      primary: "text-purple-900",
-      secondary: "text-purple-600",
-      accent: "bg-purple-500",
-      cardHover: "bg-purple-50"
-    },
+    description: "Periodismo investigativo que expone la verdad detrás de los hechos.",
+    totalVideos: 156,
+    views: "4.1M",
     videos: [
-      { id: "YykjpeuMNEk", title: "Corrupción municipal", description: "Investigación a fondo", date: "25/6/2025", duration: "50:20" },
-      { id: "3AtDnEC4zak", title: "Crisis económica", description: "Análisis de expertos", date: "18/6/2025", duration: "48:15" },
-      { id: "JGwWNGJdvx8", title: "Educación pública", description: "Reportaje especial", date: "11/6/2025", duration: "52:30" },
-      { id: "ZbZSe6N_BXs", title: "Medio ambiente", description: "Retos y soluciones", date: "4/6/2025", duration: "46:45" }
+      { id: "YykjpeuMNEk", title: "Corrupción en el Gobierno Municipal", description: "Investigación exclusiva sobre irregularidades en contratos públicos", date: "2024-12-25", duration: "50:20", views: "128K" },
+      { id: "3AtDnEC4zak", title: "Crisis del Sistema de Salud", description: "Análisis profundo de los problemas estructurales", date: "2024-12-18", duration: "48:15", views: "105K" },
+      { id: "JGwWNGJdvx8", title: "Educación en Crisis", description: "Reportaje especial sobre el estado de las escuelas públicas", date: "2024-12-11", duration: "52:30", views: "97K" },
+      { id: "ZbZSe6N_BXs", title: "Contaminación Ambiental", description: "Investigación sobre el impacto ambiental de las industrias", date: "2024-12-04", duration: "46:45", views: "89K" }
     ]
   }
 };
@@ -89,6 +73,7 @@ export default function ProgramDetail() {
   const navigate = useNavigate();
   const [currentVideoId, setCurrentVideoId] = useState<string>('');
   const [currentVideoIndex, setCurrentVideoIndex] = useState<number>(0);
+  const [isPlaylistVisible, setIsPlaylistVisible] = useState<boolean>(true);
 
   const program = Object.values(programPlaylists).find(p => p.slug === showName);
 
@@ -125,136 +110,200 @@ export default function ProgramDetail() {
       autoplay: 1,
       rel: 0,
       modestbranding: 1,
-      controls: 0,
     },
   };
 
   if (!program) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-sky-100">
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
         <p className="text-xl text-gray-600">Programa no encontrado</p>
       </div>
     );
   }
 
+  const currentVideo = program.videos[currentVideoIndex];
+
   return (
-    <div className={`min-h-screen ${program.colorTheme.background} text-gray-800`}>
+    <div className="min-h-screen bg-white">
       <Header />
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-6 flex items-center gap-4">
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        {/* Back Button */}
+        <div className="mb-4">
           <Button
             isIconOnly
             variant="light"
             onPress={() => navigate('/')}
             className="text-gray-700 hover:text-gray-900"
           >
-            <ArrowLeftIcon className="h-6 w-6" />
+            <ArrowLeftIcon className="h-5 w-5" />
           </Button>
-          <h1 className={`text-4xl md:text-5xl font-bold ${program.colorTheme.primary}`}>{program.title}</h1>
         </div>
 
-        {/* Video Player Section */}
-        <div className="bg-black rounded-lg shadow-2xl overflow-hidden mb-12 aspect-video">
-            {currentVideoId && (
-              <YouTube 
-                videoId={currentVideoId} 
-                opts={opts} 
-                onReady={onPlayerReady} 
-                onEnd={onPlayerEnd}
-                className="w-full h-full"
-              />
-            )}
-        </div>
+        <div className="flex flex-col lg:flex-row gap-6">
+          {/* Left Column - Video Player and Info */}
+          <div className="flex-1">
+            {/* Video Player */}
+            <div className="bg-black rounded-lg overflow-hidden mb-4 aspect-video">
+              {currentVideoId && (
+                <YouTube 
+                  videoId={currentVideoId} 
+                  opts={opts} 
+                  onReady={onPlayerReady} 
+                  onEnd={onPlayerEnd}
+                  className="w-full h-full"
+                />
+              )}
+            </div>
 
-        {/* Episodios Section */}
-        <div className="mb-12">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className={`text-3xl font-bold ${program.colorTheme.primary}`}>Episodios ({program.videos.length})</h2>
-            <div className="flex items-center gap-2 text-sm text-gray-500">
-              <span>Desplázate para ver más</span>
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </div>
-          </div>
-          
-          {/* Vertical Carousel Container */}
-          <div className="bg-white rounded-lg shadow-md overflow-hidden">
-            <div className="h-96 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
-              {program.videos.map((video, index) => (
-                <div
-                  key={video.id}
-                  onClick={() => handleVideoSelect(video.id, index)}
-                  className={`flex items-center p-4 cursor-pointer transition-all duration-200 hover:shadow-sm ${
-                    currentVideoIndex === index 
-                      ? `${program.colorTheme.cardHover} border-l-4 ${program.colorTheme.accent.replace('bg-', 'border-')}` 
-                      : 'hover:bg-gray-50'
-                  } ${index !== program.videos.length - 1 ? 'border-b border-gray-200' : ''}`}
-                >
-                  <div className="w-32 h-18 bg-gray-200 rounded-md flex-shrink-0 relative overflow-hidden">
-                    {/* Thumbnail placeholder with play icon */}
-                    <div className="absolute inset-0 bg-gray-300 flex items-center justify-center">
-                      <svg className="w-6 h-6 text-gray-500" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z"/>
-                      </svg>
-                    </div>
-                    {/* Episode number overlay */}
-                    <div className="absolute top-1 left-1 bg-black bg-opacity-70 text-white text-xs px-1 rounded">
-                      #{program.videos.length - index}
-                    </div>
-                  </div>
-                  
-                  <div className="flex-grow mx-4 min-w-0">
-                    <h3 className={`font-bold text-md ${
-                      currentVideoIndex === index ? program.colorTheme.primary : 'text-gray-800'
-                    } truncate`}>
-                      {video.title}
-                    </h3>
-                    <p className="text-sm text-gray-600 mt-1 line-clamp-2">{video.description}</p>
-                    {video.duration && (
-                      <div className="flex items-center gap-2 mt-2 text-xs text-gray-500">
-                        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                        </svg>
-                        <span>{video.duration}</span>
-                      </div>
-                    )}
-                  </div>
-                  
-                  <div className="text-right flex-shrink-0">
-                    <div className="text-gray-500 text-sm whitespace-nowrap">{video.date}</div>
-                    {currentVideoIndex === index && (
-                      <div className={`text-xs ${program.colorTheme.secondary} font-medium mt-1`}>
-                        Reproduciendo
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-            
-            {/* Scroll to current playing indicator */}
-            {program.videos.length > 4 && (
-              <div className="bg-gray-50 px-4 py-2 text-center">
-                <button 
-                  onClick={() => {
-                    const container = document.querySelector('.overflow-y-auto');
-                    const currentItem = container?.children[currentVideoIndex] as HTMLElement;
-                    currentItem?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                  }}
-                  className={`text-sm ${program.colorTheme.secondary} hover:opacity-80 transition-opacity`}
-                >
-                  Ir al episodio actual
-                </button>
+            {/* Video Info */}
+            <div className="mb-4">
+              <h1 className="text-xl md:text-2xl font-semibold text-gray-900 mb-2">
+                {currentVideo?.title}
+              </h1>
+              
+              <div className="flex items-center gap-4 text-sm text-gray-600 mb-3">
+                <span>{currentVideo?.views} visualizaciones</span>
+                <span>•</span>
+                <span>{currentVideo?.date}</span>
               </div>
-            )}
+            </div>
+
+            {/* Video Description */}
+            <div className="bg-gray-100 rounded-lg p-4">
+              <p className="text-gray-800 text-sm leading-relaxed">
+                {currentVideo?.description}
+              </p>
+            </div>
+          </div>
+
+          {/* Right Column - Playlist Section */}
+          <div className="lg:w-80 w-full flex-shrink-0">
+            <div className="bg-gray-50 rounded-lg overflow-hidden">
+              {/* Playlist Header */}
+              <div className="bg-gray-900 text-white p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <ListBulletIcon className="h-5 w-5" />
+                    <span className="font-semibold">Lista de reproducción</span>
+                  </div>
+                  <button
+                    onClick={() => setIsPlaylistVisible(!isPlaylistVisible)}
+                    className="p-1 hover:bg-gray-700 rounded"
+                  >
+                    <svg
+                      className={`h-4 w-4 transition-transform ${isPlaylistVisible ? 'rotate-180' : ''}`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                </div>
+                
+                <h3 className="font-bold text-lg mb-1">{program.title}</h3>
+                <p className="text-gray-300 text-sm">{program.description}</p>
+                
+                <div className="flex items-center gap-4 mt-3 text-sm text-gray-300">
+                  <span>{currentVideoIndex + 1} / {program.videos.length}</span>
+                  <span>•</span>
+                  <span>{program.totalVideos} episodios totales</span>
+                </div>
+              </div>
+
+              {/* Playlist Videos */}
+              {isPlaylistVisible && (
+                <div className="max-h-96 overflow-y-auto">
+                  {program.videos.map((video, index) => (
+                    <div
+                      key={video.id}
+                      onClick={() => handleVideoSelect(video.id, index)}
+                      className={`flex items-start gap-3 p-3 cursor-pointer hover:bg-gray-100 transition-colors ${
+                        currentVideoIndex === index ? 'bg-blue-50 border-l-4 border-blue-500' : ''
+                      }`}
+                    >
+                      {/* Thumbnail */}
+                      <div className="relative flex-shrink-0">
+                        <div className="w-24 h-14 bg-gray-300 rounded flex items-center justify-center relative overflow-hidden">
+                          <PlayIcon className="h-6 w-6 text-gray-500" />
+                          
+                          {/* Episode number */}
+                          <div className="absolute top-1 left-1 bg-black bg-opacity-70 text-white text-xs px-1 rounded">
+                            {index + 1}
+                          </div>
+                          
+                          {/* Duration */}
+                          <div className="absolute bottom-1 right-1 bg-black bg-opacity-70 text-white text-xs px-1 rounded">
+                            {video.duration}
+                          </div>
+                          
+                          {/* Currently playing indicator */}
+                          {currentVideoIndex === index && (
+                            <div className="absolute inset-0 bg-blue-500 bg-opacity-20 flex items-center justify-center">
+                              <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                                <PlayIcon className="h-4 w-4 text-white ml-0.5" />
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Video Info */}
+                      <div className="flex-1 min-w-0">
+                        <h4 className={`font-medium text-sm line-clamp-2 ${
+                          currentVideoIndex === index ? 'text-blue-600' : 'text-gray-900'
+                        }`}>
+                          {video.title}
+                        </h4>
+                        
+                        <div className="flex items-center gap-2 mt-1 text-xs text-gray-600">
+                          <span>{program.title}</span>
+                          <span>•</span>
+                          <span>{video.views} visualizaciones</span>
+                        </div>
+                        
+                        {currentVideoIndex === index && (
+                          <div className="flex items-center gap-1 mt-1">
+                            <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                            <span className="text-xs text-blue-600 font-medium">Reproduciendo</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Shuffle/Repeat Controls */}
+              <div className="p-3 border-t border-gray-200 bg-white">
+                <div className="flex items-center justify-center gap-4">
+                  <button className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M10.59,9.17L5.41,4L4,5.41L9.17,10.58L10.59,9.17M14.5,4L16.54,6.04L4.41,18.17L5.82,19.58L18,7.41L20.07,9.5L21.5,4H14.5M14.83,13.41L13.42,14.82L18.59,20L20,18.59L14.83,13.41Z"/>
+                    </svg>
+                    <span>Aleatorio</span>
+                  </button>
+                  
+                  <button className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M7,7H17V10L21,6L17,2V5H5V11H7V7M17,17H7V14L3,18L7,22V19H19V13H17V17Z"/>
+                    </svg>
+                    <span>Repetir</span>
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-
-        
-      <Mercancia />
 
       </div>
+
+      {/* Mercancia Carousel - Full Width */}
+      <div className="mt-8">
+        <Mercancia />
+      </div>
+      
       <Footer />
     </div>
   );
