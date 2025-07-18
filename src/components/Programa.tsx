@@ -16,11 +16,11 @@ const programPlaylists = {
     totalVideos: 120,
     views: "2.5M",
     videos: [
-      { id: "dQw4w9WgXcQ", title: "Episodio 120 - Especial Navideño", description: "Celebramos las fiestas navideñas con invitados especiales y música tradicional", date: "2024-12-24", duration: "25:30", views: "45K" },
-      { id: "9bZkp7q19f0", title: "Episodio 119 - Artistas Emergentes", description: "Conoce a los nuevos talentos de la música puertorriqueña", date: "2024-12-17", duration: "28:15", views: "38K" },
-      { id: "kJQP7kiw5Fk", title: "Episodio 118 - Cocina Boricua", description: "Los mejores chefs nos enseñan recetas tradicionales", date: "2024-12-10", duration: "30:45", views: "52K" },
-      { id: "fJ9rUzIMcZQ", title: "Episodio 117 - Festival de Salsa", description: "Lo mejor del festival de salsa con entrevistas exclusivas", date: "2024-12-03", duration: "27:20", views: "41K" },
-      { id: "M7lc1UVf-VE", title: "Episodio 116 - Deportes Locales", description: "Cobertura especial del boxeo puertorriqueño", date: "2024-11-26", duration: "32:10", views: "35K" }
+      { id: "dQw4w9WgXcQ", title: "Episodio 120 - Especial Navideño", description: "Celebramos las fiestas navideñas con invitados especiales y música tradicional", date: "24-12-2024", duration: "25:30", views: "45K" },
+      { id: "9bZkp7q19f0", title: "Episodio 119 - Artistas Emergentes", description: "Conoce a los nuevos talentos de la música puertorriqueña", date: "17-12-2024", duration: "28:15", views: "38K" },
+      { id: "kJQP7kiw5Fk", title: "Episodio 118 - Cocina Boricua", description: "Los mejores chefs nos enseñan recetas tradicionales", date: "10-12-2024", duration: "30:45", views: "52K" },
+      { id: "fJ9rUzIMcZQ", title: "Episodio 117 - Festival de Salsa", description: "Lo mejor del festival de salsa con entrevistas exclusivas", date: "03-12-2024", duration: "27:20", views: "41K" },
+      { id: "M7lc1UVf-VE", title: "Episodio 116 - Deportes Locales", description: "Cobertura especial del boxeo puertorriqueño", date: "26-11-2024", duration: "32:10", views: "35K" }
     ]
   },
   2: {
@@ -31,10 +31,10 @@ const programPlaylists = {
     totalVideos: 352,
     views: "8.2M",
     videos: [
-      { id: "M7lc1UVf-VE", title: "Episodio 352 - Especial de Año Nuevo", description: "Reflexiones del año y planes para el futuro con mucha diversión", date: "2024-12-31", duration: "35:20", views: "89K" },
-      { id: "2Vv-BfVoq4g", title: "Episodio 351 - Invitados Sorpresa", description: "Los mejores momentos con invitados inesperados", date: "2024-12-29", duration: "40:15", views: "76K" },
-      { id: "ktvTqknDobU", title: "Episodio 350 - Celebración Especial", description: "Celebramos el episodio 350 con los mejores momentos", date: "2024-12-27", duration: "32:30", views: "95K" },
-      { id: "ikwjx9VXv_4", title: "Episodio 349 - Juegos y Risas", description: "Una tarde llena de juegos divertidos y muchas risas", date: "2024-12-25", duration: "38:45", views: "68K" }
+      { id: "M7lc1UVf-VE", title: "Episodio 352 - Especial de Año Nuevo", description: "Reflexiones del año y planes para el futuro con mucha diversión", date: "31-12-2024", duration: "35:20", views: "89K" },
+      { id: "2Vv-BfVoq4g", title: "Episodio 351 - Invitados Sorpresa", description: "Los mejores momentos con invitados inesperados", date: "29-12-2024", duration: "40:15", views: "76K" },
+      { id: "ktvTqknDobU", title: "Episodio 350 - Celebración Especial", description: "Celebramos el episodio 350 con los mejores momentos", date: "27-12-2024", duration: "32:30", views: "95K" },
+      { id: "ikwjx9VXv_4", title: "Episodio 349 - Juegos y Risas", description: "Una tarde llena de juegos divertidos y muchas risas", date: "25-12-2024", duration: "38:45", views: "68K" }
     ]
   },
   3: {
@@ -45,10 +45,10 @@ const programPlaylists = {
     totalVideos: 89,
     views: "1.8M",
     videos: [
-      { id: "PAR9QvEe-ew", title: "Salud Mental en Tiempos Difíciles", description: "Estrategias para mantener el bienestar emocional durante crisis", date: "2024-12-22", duration: "45:30", views: "62K" },
-      { id: "jNQXAC9IVRw", title: "Prevención de Diabetes Tipo 2", description: "Guía completa para prevenir y manejar la diabetes", date: "2024-12-15", duration: "42:15", views: "74K" },
-      { id: "L_LUpnjgPso", title: "Nutrición para Toda la Familia", description: "Recetas saludables y consejos nutricionales", date: "2024-12-08", duration: "38:20", views: "58K" },
-      { id: "EWvvhDUFBB0", title: "Ejercicio y Longevidad", description: "Cómo mantenerse activo para una vida más larga y saludable", date: "2024-12-01", duration: "40:10", views: "49K" }
+      { id: "PAR9QvEe-ew", title: "Salud Mental en Tiempos Difíciles", description: "Estrategias para mantener el bienestar emocional durante crisis", date: "22-12-2024", duration: "45:30", views: "62K" },
+      { id: "jNQXAC9IVRw", title: "Prevención de Diabetes Tipo 2", description: "Guía completa para prevenir y manejar la diabetes", date: "15-12-2024", duration: "42:15", views: "74K" },
+      { id: "L_LUpnjgPso", title: "Nutrición para Toda la Familia", description: "Recetas saludables y consejos nutricionales", date: "08-12-2024", duration: "38:20", views: "58K" },
+      { id: "EWvvhDUFBB0", title: "Ejercicio y Longevidad", description: "Cómo mantenerse activo para una vida más larga y saludable", date: "01-12-2024", duration: "40:10", views: "49K" }
     ]
   },
   4: {
@@ -59,10 +59,10 @@ const programPlaylists = {
     totalVideos: 156,
     views: "4.1M",
     videos: [
-      { id: "YykjpeuMNEk", title: "Corrupción en el Gobierno Municipal", description: "Investigación exclusiva sobre irregularidades en contratos públicos", date: "2024-12-25", duration: "50:20", views: "128K" },
-      { id: "3AtDnEC4zak", title: "Crisis del Sistema de Salud", description: "Análisis profundo de los problemas estructurales", date: "2024-12-18", duration: "48:15", views: "105K" },
-      { id: "JGwWNGJdvx8", title: "Educación en Crisis", description: "Reportaje especial sobre el estado de las escuelas públicas", date: "2024-12-11", duration: "52:30", views: "97K" },
-      { id: "ZbZSe6N_BXs", title: "Contaminación Ambiental", description: "Investigación sobre el impacto ambiental de las industrias", date: "2024-12-04", duration: "46:45", views: "89K" }
+      { id: "YykjpeuMNEk", title: "Corrupción en el Gobierno Municipal", description: "Investigación exclusiva sobre irregularidades en contratos públicos", date: "25-12-2024", duration: "50:20", views: "128K" },
+      { id: "3AtDnEC4zak", title: "Crisis del Sistema de Salud", description: "Análisis profundo de los problemas estructurales", date: "18-12-2024", duration: "48:15", views: "105K" },
+      { id: "JGwWNGJdvx8", title: "Educación en Crisis", description: "Reportaje especial sobre el estado de las escuelas públicas", date: "11-12-2024", duration: "52:30", views: "97K" },
+      { id: "ZbZSe6N_BXs", title: "Contaminación Ambiental", description: "Investigación sobre el impacto ambiental de las industrias", date: "04-12-2024", duration: "46:45", views: "89K" }
     ]
   }
 };
@@ -132,11 +132,11 @@ export default function ProgramDetail() {
           {program.title}
         </h1>
 
-        <div className="flex flex-col lg:flex-row gap-6">
+        <div className="flex flex-col lg:flex-row gap-6 items-start">
           {/* Left Column - Video Player and Info */}
           <div className="flex-1">
             {/* Video Player */}
-            <div className="bg-black rounded-lg overflow-hidden mb-4 aspect-video">
+            <div className="bg-black rounded-lg overflow-hidden mb-4 aspect-video" id="video-player">
               {currentVideoId && (
                 <YouTube 
                   videoId={currentVideoId} 
@@ -155,7 +155,7 @@ export default function ProgramDetail() {
               </h1>
               
               <div className="flex items-center gap-4 text-sm text-gray-600 mb-3">
-                <span>{currentVideo?.views} visualizaciones</span>
+                <span>{currentVideo?.views} vistas</span>
                 <span>•</span>
                 <span>{currentVideo?.date}</span>
               </div>
@@ -171,9 +171,9 @@ export default function ProgramDetail() {
 
           {/* Right Column - Playlist Section */}
           <div className="lg:w-80 w-full flex-shrink-0">
-            <div className="bg-gray-50 rounded-lg overflow-hidden">
+            <div className="bg-gray-50 rounded-lg overflow-hidden flex flex-col h-auto lg:h-[calc((100vw-4rem-1.5rem-20rem)*9/16)] xl:h-[calc((80rem-4rem-1.5rem-20rem)*9/16)]">
               {/* Playlist Header */}
-              <div className="bg-gray-900 text-white p-4">
+              <div className="bg-gray-900 text-white p-4 flex-shrink-0">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
                     <ListBulletIcon className="h-5 w-5" />
@@ -194,7 +194,6 @@ export default function ProgramDetail() {
                   </button>
                 </div>
                 
-                <h3 className="font-bold text-lg mb-1">{program.title}</h3>
                 <p className="text-gray-300 text-sm">{program.description}</p>
                 
                 <div className="flex items-center gap-4 mt-3 text-sm text-gray-300">
@@ -206,7 +205,7 @@ export default function ProgramDetail() {
 
               {/* Playlist Videos */}
               {isPlaylistVisible && (
-                <div className="max-h-96 overflow-y-auto">
+                <div className="flex-1 overflow-y-auto">
                   {program.videos.map((video, index) => (
                     <div
                       key={video.id}
@@ -233,9 +232,9 @@ export default function ProgramDetail() {
                           {/* Currently playing indicator */}
                           {currentVideoIndex === index && (
                             <div className="absolute inset-0 bg-blue-500 bg-opacity-20 flex items-center justify-center">
-                              <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                                <PlayIcon className="h-4 w-4 text-white ml-0.5" />
-                              </div>
+                              <svg className="h-8 w-8 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z"/>
+                              </svg>
                             </div>
                           )}
                         </div>
@@ -250,17 +249,8 @@ export default function ProgramDetail() {
                         </h4>
                         
                         <div className="flex items-center gap-2 mt-1 text-xs text-gray-600">
-                          <span>{program.title}</span>
-                          <span>•</span>
-                          <span>{video.views} visualizaciones</span>
+                          <span>{video.views} vistas</span>
                         </div>
-                        
-                        {currentVideoIndex === index && (
-                          <div className="flex items-center gap-1 mt-1">
-                            <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-                            <span className="text-xs text-blue-600 font-medium">Reproduciendo</span>
-                          </div>
-                        )}
                       </div>
                     </div>
                   ))}
