@@ -39,20 +39,24 @@ export default function Header() {
   return (
     <>
       <Navbar 
-        className="hero-gradient sticky top-0 z-50"
+        className="bg-white sticky top-0 z-50 shadow-sm"
         classNames={{
           wrapper: "max-w-7xl mx-auto padding-mobile",
-          brand: "text-white",
-          content: "text-white",
+          brand: "text-gray-900",
+          content: "text-gray-900",
         }}
       >
         <NavbarBrand>
           <RouterLink 
             to="/" 
             onClick={closeMobileMenu}
-            className="touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600 transition-all"
+            className="touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white transition-all"
           >
-            <h1 className="text-mobile-h2 sm:text-2xl font-bold text-white">VeoPR</h1>
+            <img 
+              src="/veopr-logo.png" 
+              alt="VeoPR Logo" 
+              className="h-8 w-auto"
+            />
           </RouterLink>
         </NavbarBrand>
         
@@ -61,7 +65,7 @@ export default function Header() {
           <NavbarItem>
             <RouterLink 
               to="/#programas"
-              className="text-white font-medium hover:opacity-80 focus:opacity-80 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600"
+              className="text-gray-900 font-medium hover:text-blue-600 focus:text-blue-600 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white"
             >
               Programas
             </RouterLink>
@@ -70,7 +74,7 @@ export default function Header() {
           <NavbarItem>
             <RouterLink 
               to="/productos"
-              className="text-white font-medium hover:opacity-80 focus:opacity-80 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600"
+              className="text-gray-900 font-medium hover:text-blue-600 focus:text-blue-600 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white"
             >
               Productos
             </RouterLink>
@@ -80,14 +84,14 @@ export default function Header() {
             <Link 
               color="foreground" 
               href="#nosotros"
-              className="text-white font-medium hover:opacity-80 focus:opacity-80 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600"
+              className="text-gray-900 font-medium hover:text-blue-600 focus:text-blue-600 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white"
             >
               Nosotros
             </Link>
           </NavbarItem>
           <NavbarItem>
             <button 
-              className="text-white hover:opacity-80 focus:opacity-80 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600"
+              className="text-gray-900 hover:text-blue-600 focus:text-blue-600 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white"
               aria-label="Ver carrito de compras"
             >
               <ShoppingCartIcon className="h-6 w-6" />
@@ -99,7 +103,7 @@ export default function Header() {
         <NavbarContent justify="end" className="md:hidden">
           <NavbarItem>
             <button 
-              className="text-white hover:opacity-80 focus:opacity-80 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600"
+              className="text-gray-900 hover:text-blue-600 focus:text-blue-600 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white"
               aria-label="Ver carrito de compras"
             >
               <ShoppingCartIcon className="h-6 w-6" />
@@ -108,7 +112,7 @@ export default function Header() {
           <NavbarItem>
             <button 
               onClick={toggleMobileMenu}
-              className="text-white hover:opacity-80 focus:opacity-80 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600"
+              className="text-gray-900 hover:text-blue-600 focus:text-blue-600 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white"
               aria-label={isMobileMenuOpen ? "Cerrar menú de navegación" : "Abrir menú de navegación"}
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-menu"
@@ -131,7 +135,7 @@ export default function Header() {
             onClick={closeMobileMenu}
             aria-hidden="true"
           ></div>
-          <div className="relative hero-gradient border-t border-white/20">
+          <div className="relative bg-white border-t border-gray-200">
             <nav 
               className="padding-mobile py-6 space-y-2"
               id="mobile-menu"
@@ -140,7 +144,7 @@ export default function Header() {
             >
               <RouterLink 
                 to="/#programas"
-                className="block text-white text-mobile-body sm:text-lg font-medium hover:opacity-80 focus:opacity-80 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600"
+                className="block text-gray-900 text-mobile-body sm:text-lg font-medium hover:text-blue-600 focus:text-blue-600 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white"
                 onClick={closeMobileMenu}
               >
                 Programas
@@ -148,7 +152,7 @@ export default function Header() {
               
               <RouterLink 
                 to="/productos"
-                className="block text-white text-mobile-body sm:text-lg font-medium hover:opacity-80 focus:opacity-80 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600"
+                className="block text-gray-900 text-mobile-body sm:text-lg font-medium hover:text-blue-600 focus:text-blue-600 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white"
                 onClick={closeMobileMenu}
               >
                 Productos
@@ -157,7 +161,7 @@ export default function Header() {
               <Link 
                 color="foreground" 
                 href="#nosotros"
-                className="block text-white text-mobile-body sm:text-lg font-medium hover:opacity-80 focus:opacity-80 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600"
+                className="block text-gray-900 text-mobile-body sm:text-lg font-medium hover:text-blue-600 focus:text-blue-600 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white"
                 onClick={closeMobileMenu}
               >
                 Nosotros
