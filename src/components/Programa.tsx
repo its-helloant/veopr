@@ -76,6 +76,9 @@ export default function ProgramDetail() {
   const program = Object.values(programPlaylists).find(p => p.slug === showName);
 
   useEffect(() => {
+    // Scroll to top when component mounts or program changes
+    window.scrollTo(0, 0);
+    
     if (program && program.videos.length > 0) {
       setCurrentVideoId(program.videos[0].id);
       setCurrentVideoIndex(0);
