@@ -1,10 +1,10 @@
-# VeoPR - React TypeScript Project
+# VeoPR - Next.js TypeScript Project
 
-A modern React application showcasing Puerto Rican entertainment programs, built with Vite, TypeScript, Tailwind CSS, and HeroUI.
+A modern React application showcasing Puerto Rican entertainment programs, built with Next.js, TypeScript, Tailwind CSS, and HeroUI.
 
 ## Features
 
-- 🚀 Built with Vite for fast development and build times
+- 🚀 Built with Next.js for optimized performance and SEO
 - ⚡ TypeScript for type safety
 - 🎨 Tailwind CSS for styling
 - 🌟 HeroUI (NextUI) for beautiful UI components
@@ -30,7 +30,7 @@ npm install
 npm run dev
 ```
 
-3. Open your browser and navigate to `http://localhost:5173`
+3. Open your browser and navigate to `http://localhost:3000`
 
 ### Building for Production
 
@@ -38,31 +38,38 @@ npm run dev
 npm run build
 ```
 
-### Preview Production Build
+### Start Production Server
 
 ```bash
-npm run preview
+npm run start
 ```
 
 ## Project Structure
 
 ```
+pages/               # Next.js pages
+  _app.tsx          # App wrapper
+  _document.tsx     # Document head
+  index.tsx         # Home page
+  producto/         # Product pages
+  productos.tsx     # Products listing
+  programas/        # Program pages
 src/
-  components/          # React components
-    Header.tsx         # Navigation header
-    Hero.tsx          # Hero banner section
-    Programas.tsx      # Programs grid section
-    Footer.tsx        # Footer with links
-  App.tsx             # Main app component
-  main.tsx           # Entry point
-  index.css          # Global styles with Tailwind
-public/              # Static assets
-  *.png, *.jpeg      # Program images
+  components/       # React components
+    Header.tsx      # Navigation header
+    Hero.tsx        # Hero banner section
+    CarruselProgramas.tsx  # Programs carousel
+    CarruselProductos.tsx  # Products carousel
+    Footer.tsx      # Footer with links
+  pages/            # Page components
+  index.css         # Global styles with Tailwind
+public/             # Static assets
+  *.png, *.jpeg     # Program and product images
 ```
 
 ## Technologies Used
 
-- **Vite** - Build tool and dev server
+- **Next.js 15** - React framework with SSR/SSG
 - **React 18** - UI library
 - **TypeScript** - Type safety
 - **Tailwind CSS** - Utility-first CSS framework
