@@ -78,7 +78,9 @@ export default function ProgramDetail() {
 
   useEffect(() => {
     // Scroll to top when component mounts or program changes
-    window.scrollTo(0, 0);
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+    }
     
     if (program && program.videos.length > 0) {
       setCurrentVideoId(program.videos[0].id);

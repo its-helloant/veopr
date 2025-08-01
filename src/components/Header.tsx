@@ -5,6 +5,11 @@ import { ShoppingCartIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/24/outl
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -16,6 +21,8 @@ export default function Header() {
 
   // Handle keyboard navigation
   useEffect(() => {
+    if (!isClient) return;
+
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && isMobileMenuOpen) {
         closeMobileMenu();
@@ -34,7 +41,7 @@ export default function Header() {
       document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = 'unset';
     };
-  }, [isMobileMenuOpen]);
+  }, [isMobileMenuOpen, isClient]);
 
   return (
     <>
@@ -128,7 +135,7 @@ export default function Header() {
       </Navbar>
 
       {/* Mobile Menu Overlay */}
-      {isMobileMenuOpen && (
+      {isClient && isMobileMenuOpen && (
         <div className="fixed inset-0 top-16 z-40 md:hidden">
           <div 
             className="absolute inset-0 bg-black bg-opacity-50" 

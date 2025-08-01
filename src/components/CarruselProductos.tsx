@@ -51,7 +51,12 @@ const CarruselProductos = ({ showName }: { showName?: string }) => {
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [cardWidth, setCardWidth] = useState(0);
+  const [cardWidth, setCardWidth] = useState(300); // Default fallback width
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Filter products based on showName prop
   const filteredProducts = showName 
@@ -60,6 +65,8 @@ const CarruselProductos = ({ showName }: { showName?: string }) => {
 
   // Calculate card width and current index on scroll
   useEffect(() => {
+    if (!isClient) return;
+
     const updateCardWidth = () => {
       const container = scrollContainerRef.current;
       if (!container) return;
@@ -75,10 +82,12 @@ const CarruselProductos = ({ showName }: { showName?: string }) => {
     updateCardWidth();
     window.addEventListener('resize', updateCardWidth);
     return () => window.removeEventListener('resize', updateCardWidth);
-  }, []);
+  }, [isClient]);
 
   // Update current index based on scroll position
   useEffect(() => {
+    if (!isClient) return;
+
     const handleScroll = () => {
       const container = scrollContainerRef.current;
       if (!container || cardWidth === 0) return;
@@ -93,7 +102,7 @@ const CarruselProductos = ({ showName }: { showName?: string }) => {
       container.addEventListener('scroll', handleScroll);
       return () => container.removeEventListener('scroll', handleScroll);
     }
-  }, [cardWidth, filteredProducts.length]);
+  }, [cardWidth, filteredProducts.length, isClient]);
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     const container = scrollContainerRef.current;

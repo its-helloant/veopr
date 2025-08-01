@@ -1,4 +1,3 @@
-import { Link as HeroLink } from "@heroui/react";
 import Link from "next/link";
 
 export default function Footer() {
@@ -50,32 +49,29 @@ export default function Footer() {
           <div className="space-y-3 sm:space-y-4">
             <h5 className="text-mobile-body sm:text-lg font-semibold">Síguenos</h5>
             <div className="flex flex-col space-y-1 sm:space-y-2">
-              <HeroLink 
+              <Link 
                 href="#" 
-                color="foreground" 
                 className="text-mobile-body text-gray-300 hover:text-white focus:text-white transition-colors touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 w-fit"
                 aria-label="Seguir en Facebook"
               >
                 Facebook
-              </HeroLink>
-              <HeroLink 
+              </Link>
+              <Link 
                 href="https://www.youtube.com/@VeoPR" 
-                color="foreground" 
                 className="text-mobile-body text-gray-300 hover:text-white focus:text-white transition-colors touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 w-fit"
                 aria-label="Seguir en YouTube"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 YouTube
-              </HeroLink>
-              <HeroLink 
+              </Link>
+              <Link 
                 href="#" 
-                color="foreground" 
                 className="text-mobile-body text-gray-300 hover:text-white focus:text-white transition-colors touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 w-fit"
                 aria-label="Seguir en Instagram"
               >
                 Instagram
-              </HeroLink>
+              </Link>
             </div>
           </div>
         </div>

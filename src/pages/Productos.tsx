@@ -142,7 +142,7 @@ const ProductosPage = () => {
       query
     });
     // Close mobile filter drawer after selection
-    if (window.innerWidth < 768) {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
       setShowFilters(false);
     }
   };
@@ -157,7 +157,7 @@ const ProductosPage = () => {
     const touchDiff = touchY - touchStartY;
     
     // If user scrolled down from top and pulled down more than 100px
-    if (window.scrollY === 0 && touchDiff > 100 && !isRefreshing) {
+    if (typeof window !== 'undefined' && window.scrollY === 0 && touchDiff > 100 && !isRefreshing) {
       handleRefresh();
     }
   };

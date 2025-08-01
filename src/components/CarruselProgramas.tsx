@@ -1,4 +1,4 @@
-import { Card, CardBody, CardHeader, Button, Chip } from "@heroui/react";
+import { Card, CardBody, CardHeader, Chip } from "@heroui/react";
 import { useRouter } from 'next/router';
 
 const programs = [
@@ -86,15 +86,9 @@ export default function Programas() {
                     className="w-full h-40 sm:h-48 object-cover"
                   />
                   <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 group-focus-within:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
-                    <Button
-                      className="opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300 bg-white text-black font-semibold touch-target focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                      size="sm"
-                      onPress={() => handleProgramClick(program.slug)}
-                      aria-label={`Ver episodios de ${program.title}`}
-                      tabIndex={-1}
-                    >
+                    <div className="opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300 bg-white text-black font-semibold text-sm px-4 py-2 rounded-md">
                       Ver Episodios
-                    </Button>
+                    </div>
                   </div>
                   <Chip 
                     size="sm" 
