@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { 
@@ -186,8 +187,8 @@ const mockProducts = [
 ];
 
 const ProductDetail = () => {
-  const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
+  const router = useRouter();
+  const { id } = router.query;
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
@@ -196,7 +197,7 @@ const ProductDetail = () => {
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
 
-  const product = mockProducts.find(p => p.id === parseInt(id || '0'));
+  const product = mockProducts.find(p => p.id === parseInt(Array.isArray(id) ? id[0] || '0' : id || '0'));
 
   if (!product) {
     return (
@@ -207,7 +208,7 @@ const ProductDetail = () => {
             <h2 className="text-mobile-h2 text-gray-900 margin-mobile">Producto no encontrado</h2>
             <p className="text-mobile-body text-gray-600 margin-mobile">El producto que buscas no existe o ha sido removido.</p>
             <Link 
-              to="/productos" 
+              href="/productos" 
               className="touch-target bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors"
             >
               Volver a productos
@@ -271,16 +272,16 @@ const ProductDetail = () => {
       <main className="max-w-7xl mx-auto padding-mobile py-4 sm:py-8">
         {/* Breadcrumb - Hidden on mobile to save space */}
         <nav className="hidden sm:flex items-center gap-2 text-sm text-gray-600 margin-mobile">
-          <Link to="/" className="hover:text-blue-500">Inicio</Link>
+          <Link href="/" className="hover:text-blue-500">Inicio</Link>
           <span>/</span>
-          <Link to="/productos" className="hover:text-blue-500">Productos</Link>
+          <Link href="/productos" className="hover:text-blue-500">Productos</Link>
           <span>/</span>
           <span className="text-gray-900">{product.name}</span>
         </nav>
 
         {/* Back Button - Mobile optimized */}
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => router.back()}
           className="touch-target flex items-center gap-2 text-gray-600 hover:text-gray-900 margin-mobile transition-colors"
         >
           <ArrowLeftIcon className="h-5 w-5" />
@@ -526,7 +527,7 @@ const ProductDetail = () => {
               {relatedProducts.map((relatedProduct) => (
                 <Link
                   key={relatedProduct.id}
-                  to={`/producto/${relatedProduct.id}`}
+                  href={`/producto/${relatedProduct.id}`}
                   className="bg-white rounded-lg shadow-sm border hover:shadow-md transition-shadow overflow-hidden"
                 >
                   <div className="w-full h-40 sm:h-48 bg-gray-200 flex items-center justify-center">

@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 // Featured products for the carousel
 const products = [
@@ -183,7 +183,7 @@ const CarruselProductos = ({ showName }: { showName?: string }) => {
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-4xl font-bold">Productos</h2>
-          <Link to="/productos" className="text-gray-500 hover:text-gray-900 underline">
+          <Link href="/productos" className="text-gray-500 hover:text-gray-900 underline">
             Ver todos
           </Link>
         </div>
@@ -230,14 +230,14 @@ const CarruselProductos = ({ showName }: { showName?: string }) => {
             onTouchEnd={handleTouchEnd}
             style={{ 
               scrollbarWidth: 'none', 
-              '-ms-overflow-style': 'none',
+              msOverflowStyle: 'none',
               scrollSnapType: 'x mandatory'
             } as React.CSSProperties}
           >
             {filteredProducts.map((product) => (
               <Link 
                 key={product.id} 
-                to={`/producto/${product.id}`}
+                href={`/producto/${product.id}`}
                 className="flex-shrink-0 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow select-none block"
                 style={{ 
                   width: `${cardWidth}px`,

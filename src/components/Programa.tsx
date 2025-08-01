@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 import YouTube, { YouTubeProps } from 'react-youtube';
 import { PlayIcon, ListBulletIcon } from '@heroicons/react/24/outline';
@@ -68,7 +68,8 @@ const programPlaylists = {
 };
 
 export default function ProgramDetail() {
-  const { showName } = useParams<{ showName: string }>();
+  const router = useRouter();
+  const { showName } = router.query;
   const [currentVideoId, setCurrentVideoId] = useState<string>('');
   const [currentVideoIndex, setCurrentVideoIndex] = useState<number>(0);
   const [isPlaylistVisible, setIsPlaylistVisible] = useState<boolean>(true);

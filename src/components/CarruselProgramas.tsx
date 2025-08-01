@@ -1,5 +1,5 @@
 import { Card, CardBody, CardHeader, Button, Chip } from "@heroui/react";
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/router';
 
 const programs = [
   {
@@ -41,10 +41,10 @@ const programs = [
 ];
 
 export default function Programas() {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handleProgramClick = (slug: string) => {
-    navigate(`/programas/${slug}`);
+    router.push(`/programas/${slug}`);
   };
 
   const handleKeyDown = (event: React.KeyboardEvent, slug: string) => {

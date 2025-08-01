@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { 
@@ -88,9 +89,10 @@ const mockProducts = [
 ];
 
 const ProductosPage = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || '');
-  const [selectedShow, setSelectedShow] = useState(searchParams.get('show') || 'all');
+  const router = useRouter();
+  const { search, show } = router.query;
+  const [searchTerm, setSearchTerm] = useState((search as string) || '');
+  const [selectedShow, setSelectedShow] = useState((show as string) || 'all');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showFilters, setShowFilters] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -98,7 +100,7 @@ const ProductosPage = () => {
 
   // Get unique shows for filter
   const shows = useMemo(() => {
-    const uniqueShows = [...new Set(mockProducts.map(product => product.show))];
+    const uniqueShows = Array.from(new Set(mockProducts.map(product => product.show)));
     return ['all', ...uniqueShows];
   }, []);
 
@@ -115,24 +117,30 @@ const ProductosPage = () => {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
-    const newSearchParams = new URLSearchParams(searchParams);
+    const query = { ...router.query };
     if (value) {
-      newSearchParams.set('search', value);
+      query.search = value;
     } else {
-      newSearchParams.delete('search');
+      delete query.search;
     }
-    setSearchParams(newSearchParams);
+    router.push({
+      pathname: router.pathname,
+      query
+    });
   };
 
   const handleShowFilter = (show: string) => {
     setSelectedShow(show);
-    const newSearchParams = new URLSearchParams(searchParams);
+    const query = { ...router.query };
     if (show !== 'all') {
-      newSearchParams.set('show', show);
+      query.show = show;
     } else {
-      newSearchParams.delete('show');
+      delete query.show;
     }
-    setSearchParams(newSearchParams);
+    router.push({
+      pathname: router.pathname,
+      query
+    });
     // Close mobile filter drawer after selection
     if (window.innerWidth < 768) {
       setShowFilters(false);
@@ -338,7 +346,7 @@ const ProductosPage = () => {
               {viewMode === 'grid' ? (
                 <>
                   {/* Enhanced Grid View for Mobile */}
-                  <Link to={`/producto/${product.id}`} className="block flex-grow flex flex-col">
+                  <Link href={`/producto/${product.id}`} className="block flex-grow flex flex-col">
                     <div className="w-full h-40 sm:h-48 bg-gray-200 flex items-center justify-center flex-shrink-0">
                       <svg className="w-8 h-8 sm:w-12 sm:h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-1.586-1.586a2 2 0 00-2.828 0L6 14m6-6l.01.01"></path>
@@ -366,7 +374,7 @@ const ProductosPage = () => {
               ) : (
                 <>
                   {/* Enhanced List View for Mobile */}
-                  <Link to={`/producto/${product.id}`} className="flex flex-grow items-center min-w-0">
+                  <Link href={`/producto/${product.id}`} className="flex flex-grow items-center min-w-0">
                     <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gray-200 rounded-lg flex items-center justify-center flex-shrink-0 mr-3 sm:mr-4">
                       <svg className="w-6 h-6 sm:w-8 sm:h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-1.586-1.586a2 2 0 00-2.828 0L6 14m6-6l.01.01"></path>

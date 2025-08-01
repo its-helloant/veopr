@@ -1,5 +1,5 @@
 import { Link as HeroLink } from "@heroui/react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -21,25 +21,25 @@ export default function Footer() {
             <h5 className="text-mobile-body sm:text-lg font-semibold">Programas</h5>
             <div className="flex flex-col space-y-1 sm:space-y-2">
               <Link 
-                to="/programas/dia-a-dia" 
+                href="/programas/dia-a-dia" 
                 className="text-mobile-body text-gray-300 hover:text-white focus:text-white transition-colors touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 w-fit"
               >
                 Día a Día
               </Link>
               <Link 
-                to="/programas/raymond-y-sus-amigos" 
+                href="/programas/raymond-y-sus-amigos" 
                 className="text-mobile-body text-gray-300 hover:text-white focus:text-white transition-colors touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 w-fit"
               >
                 Raymond y Sus Amigos
               </Link>
               <Link 
-                to="/programas/latin-doctors" 
+                href="/programas/latin-doctors" 
                 className="text-mobile-body text-gray-300 hover:text-white focus:text-white transition-colors touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 w-fit"
               >
                 Latin Doctors
               </Link>
               <Link 
-                to="/programas/rayos-x" 
+                href="/programas/rayos-x" 
                 className="text-mobile-body text-gray-300 hover:text-white focus:text-white transition-colors touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 w-fit"
               >
                 Rayos X
