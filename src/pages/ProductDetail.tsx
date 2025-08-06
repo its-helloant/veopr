@@ -1,8 +1,10 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
+'use client'
+
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Header from '../components/layout/Header';
+import Footer from '../components/layout/Footer';
 import { 
   ArrowLeftIcon,
   HeartIcon,
@@ -186,9 +188,15 @@ const mockProducts = [
   }
 ];
 
-const ProductDetail = () => {
+interface ProductDetailProps {
+  params?: Promise<{
+    id?: string;
+  }>;
+}
+
+const ProductDetail = ({ params }: ProductDetailProps) => {
   const router = useRouter();
-  const { id } = router.query;
+  const [id, setId] = useState<string>('');
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState('');
   const [selectedColor, setSelectedColor] = useState('');
@@ -197,7 +205,16 @@ const ProductDetail = () => {
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
 
-  const product = mockProducts.find(p => p.id === parseInt(Array.isArray(id) ? id[0] || '0' : id || '0'));
+  // Handle async params
+  useEffect(() => {
+    if (params) {
+      params.then(resolvedParams => {
+        setId(resolvedParams.id || '');
+      });
+    }
+  }, [params]);
+
+  const product = mockProducts.find(p => p.id === parseInt(id || '0'));
 
   if (!product) {
     return (

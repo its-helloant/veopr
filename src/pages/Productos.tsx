@@ -1,8 +1,10 @@
+'use client'
+
 import React, { useState, useMemo, useCallback } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import Header from '../components/layout/Header';
+import Footer from '../components/layout/Footer';
 import { 
   MagnifyingGlassIcon, 
   Squares2X2Icon, 
@@ -90,9 +92,11 @@ const mockProducts = [
 
 const ProductosPage = () => {
   const router = useRouter();
-  const { search, show } = router.query;
-  const [searchTerm, setSearchTerm] = useState((search as string) || '');
-  const [selectedShow, setSelectedShow] = useState((show as string) || 'all');
+  const searchParams = useSearchParams();
+  const search = searchParams?.get('search');
+  const show = searchParams?.get('show');
+  const [searchTerm, setSearchTerm] = useState(search || '');
+  const [selectedShow, setSelectedShow] = useState(show || 'all');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showFilters, setShowFilters] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -117,30 +121,24 @@ const ProductosPage = () => {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
-    const query = { ...router.query };
+    const params = new URLSearchParams(searchParams?.toString() || '');
     if (value) {
-      query.search = value;
+      params.set('search', value);
     } else {
-      delete query.search;
+      params.delete('search');
     }
-    router.push({
-      pathname: router.pathname,
-      query
-    });
+    router.push(`/productos?${params.toString()}`);
   };
 
   const handleShowFilter = (show: string) => {
     setSelectedShow(show);
-    const query = { ...router.query };
+    const params = new URLSearchParams(searchParams?.toString() || '');
     if (show !== 'all') {
-      query.show = show;
+      params.set('show', show);
     } else {
-      delete query.show;
+      params.delete('show');
     }
-    router.push({
-      pathname: router.pathname,
-      query
-    });
+    router.push(`/productos?${params.toString()}`);
     // Close mobile filter drawer after selection
     if (typeof window !== 'undefined' && window.innerWidth < 768) {
       setShowFilters(false);

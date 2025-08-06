@@ -1,5 +1,7 @@
+'use client'
+
 import { Card, CardBody, CardHeader, Chip } from "@heroui/react";
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 const programs = [
   {

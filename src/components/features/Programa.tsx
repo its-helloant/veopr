@@ -1,11 +1,13 @@
-import { useRouter } from 'next/router';
+'use client'
+
+import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import YouTube, { YouTubeProps } from 'react-youtube';
 import { PlayIcon, ListBulletIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
-import Header from './Header';
-import Footer from './Footer';
+import Header from '../layout/Header';
+import Footer from '../layout/Footer';
 import CarruselProductos from './CarruselProductos';
-import { useYouTubePlaylist } from '../hooks/useYouTubePlaylist';
+import { useYouTubePlaylist } from '../../hooks/useYouTubePlaylist';
 
 // Program configuration mapping slugs to playlist IDs
 const programPlaylists = {
@@ -31,12 +33,27 @@ const programPlaylists = {
   }
 } as const;
 
-export default function ProgramDetail() {
+interface ProgramDetailProps {
+  params?: Promise<{
+    showName: string;
+  }>;
+}
+
+export default function ProgramDetail({ params }: ProgramDetailProps) {
   const router = useRouter();
-  const { showName } = router.query;
+  const [showName, setShowName] = useState<string>('');
   const [currentVideoId, setCurrentVideoId] = useState<string>('');
   const [currentVideoIndex, setCurrentVideoIndex] = useState<number>(0);
   const [isPlaylistVisible, setIsPlaylistVisible] = useState<boolean>(true);
+
+  // Handle async params
+  useEffect(() => {
+    if (params) {
+      params.then(resolvedParams => {
+        setShowName(resolvedParams.showName);
+      });
+    }
+  }, [params]);
 
   // Get program configuration
   const programConfig = programPlaylists[showName as keyof typeof programPlaylists];

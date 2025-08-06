@@ -1,6 +1,6 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { fetchPlaylistVideos } from '../../../../../src/lib/youtube';
-import { PlaylistVideosApiResponse } from '../../../../../src/types/youtube';
+import { NextRequest, NextResponse } from 'next/server';
+import { fetchPlaylistVideos } from '@/src/lib/youtube';
+import { PlaylistVideosApiResponse } from '@/src/types/youtube';
 
 /**
  * API Route: /api/youtube/playlist/[playlistId]/videos
@@ -13,47 +13,41 @@ import { PlaylistVideosApiResponse } from '../../../../../src/types/youtube';
  * 
  * Example: /api/youtube/playlist/PLrAcYW6x1URNBBY10P5kRVe3fLT_j0HJg/videos?maxResults=25
  */
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<PlaylistVideosApiResponse>
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ playlistId: string }> }
 ) {
-  // Only allow GET requests
-  if (req.method !== 'GET') {
-    return res.status(405).json({
-      success: false,
-      error: 'Method not allowed. Use GET.'
-    });
-  }
-
   try {
-    const { playlistId } = req.query;
-    const { maxResults = '50', pageToken } = req.query;
+    const { searchParams } = new URL(request.url);
+    const maxResults = searchParams.get('maxResults') || '50';
+    const pageToken = searchParams.get('pageToken');
+    const { playlistId } = await params;
 
     // Validate playlist ID
-    if (!playlistId || typeof playlistId !== 'string') {
-      return res.status(400).json({
+    if (!playlistId) {
+      return NextResponse.json({
         success: false,
         error: 'Invalid or missing playlist ID'
-      });
+      }, { status: 400 });
     }
 
     // Validate API key
     const apiKey = process.env.YOUTUBE_API_KEY;
     if (!apiKey) {
       console.error('YouTube API key not configured');
-      return res.status(500).json({
+      return NextResponse.json({
         success: false,
         error: 'YouTube API not configured'
-      });
+      }, { status: 500 });
     }
 
     // Validate maxResults parameter
-    const maxResultsNum = parseInt(maxResults as string, 10);
+    const maxResultsNum = parseInt(maxResults, 10);
     if (isNaN(maxResultsNum) || maxResultsNum < 1 || maxResultsNum > 50) {
-      return res.status(400).json({
+      return NextResponse.json({
         success: false,
         error: 'maxResults must be a number between 1 and 50'
-      });
+      }, { status: 400 });
     }
 
     // Fetch playlist videos
@@ -61,13 +55,10 @@ export default async function handler(
       playlistId,
       apiKey,
       maxResultsNum,
-      pageToken as string | undefined
+      pageToken || undefined
     );
 
-    // Set cache headers (cache for 10 minutes)
-    res.setHeader('Cache-Control', 's-maxage=600, stale-while-revalidate=300');
-
-    return res.status(200).json({
+    const response = NextResponse.json({
       success: true,
       data: result.videos,
       pagination: {
@@ -77,6 +68,11 @@ export default async function handler(
       }
     });
 
+    // Set cache headers (cache for 10 minutes)
+    response.headers.set('Cache-Control', 's-maxage=600, stale-while-revalidate=300');
+
+    return response;
+
   } catch (error) {
     console.error('Error in playlist videos API:', error);
     
@@ -84,30 +80,30 @@ export default async function handler(
     
     // Handle specific YouTube API errors
     if (errorMessage.includes('playlistNotFound')) {
-      return res.status(404).json({
+      return NextResponse.json({
         success: false,
         error: 'Playlist not found'
-      });
+      }, { status: 404 });
     }
     
     if (errorMessage.includes('quotaExceeded')) {
-      return res.status(429).json({
+      return NextResponse.json({
         success: false,
         error: 'API quota exceeded. Please try again later.'
-      });
+      }, { status: 429 });
     }
     
     if (errorMessage.includes('keyInvalid')) {
-      return res.status(401).json({
+      return NextResponse.json({
         success: false,
         error: 'Invalid API key'
-      });
+      }, { status: 401 });
     }
 
-    return res.status(500).json({
+    return NextResponse.json({
       success: false,
       error: 'Failed to fetch playlist videos',
       message: process.env.NODE_ENV === 'development' ? errorMessage : undefined
-    });
+    }, { status: 500 });
   }
-}
+} 
