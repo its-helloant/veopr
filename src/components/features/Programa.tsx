@@ -18,17 +18,17 @@ const programPlaylists = {
   },
   'raymond-y-sus-amigos': {
     title: "Raymond y Sus Amigos",
-    playlistId: "PLrAcYW6x1URNBBY10P5kRVe3fLT_j0HJg",
+    playlistId: "PLUsWg2Ffmenc2Pkr7si59fgEb-46VZM5r",
     description: "Comedia, entretenimiento y conversaciones divertidas con Raymond y sus invitados."
   },
   'latin-doctors': {
     title: "Latin Doctors",
-    playlistId: "PLrAcYW6x1URNBBY10P5kRVe3fLT_j0HJg",
+    playlistId: "PLUsWg2Ffmenc2Pkr7si59fgEb-46VZM5r",
     description: "Información médica y consejos de salud para la comunidad latina."
   },
   'rayos-x': {
     title: "Rayos X",
-    playlistId: "PLrAcYW6x1URNBBY10P5kRVe3fLT_j0HJg",
+    playlistId: "PLUsWg2Ffmenc2Pkr7si59fgEb-46VZM5r",
     description: "Periodismo investigativo que expone la verdad detrás de los hechos."
   }
 } as const;
