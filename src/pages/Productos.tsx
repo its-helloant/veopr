@@ -344,7 +344,7 @@ const ProductosPage = () => {
               {viewMode === 'grid' ? (
                 <>
                   {/* Enhanced Grid View for Mobile */}
-                  <Link href={`/producto/${product.id}`} className="block flex-grow flex flex-col">
+                  <Link href={`/productos/${product.id}`} className="block flex-grow flex flex-col">
                     <div className="w-full h-40 sm:h-48 bg-gray-200 flex items-center justify-center flex-shrink-0">
                       <svg className="w-8 h-8 sm:w-12 sm:h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-1.586-1.586a2 2 0 00-2.828 0L6 14m6-6l.01.01"></path>
@@ -372,7 +372,7 @@ const ProductosPage = () => {
               ) : (
                 <>
                   {/* Enhanced List View for Mobile */}
-                  <Link href={`/producto/${product.id}`} className="flex flex-grow items-center min-w-0">
+                  <Link href={`/productos/${product.id}`} className="flex flex-grow items-center min-w-0">
                     <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gray-200 rounded-lg flex items-center justify-center flex-shrink-0 mr-3 sm:mr-4">
                       <svg className="w-6 h-6 sm:w-8 sm:h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-1.586-1.586a2 2 0 00-2.828 0L6 14m6-6l.01.01"></path>
