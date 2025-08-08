@@ -544,7 +544,7 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
               {relatedProducts.map((relatedProduct) => (
                 <Link
                   key={relatedProduct.id}
-                  href={`/producto/${relatedProduct.id}`}
+                  href={`/productos/${relatedProduct.id}`}
                   className="bg-white rounded-lg shadow-sm border hover:shadow-md transition-shadow overflow-hidden"
                 >
                   <div className="w-full h-40 sm:h-48 bg-gray-200 flex items-center justify-center">
