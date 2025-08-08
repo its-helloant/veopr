@@ -248,7 +248,7 @@ const CarruselProductos = ({ showName }: { showName?: string }) => {
             {filteredProducts.map((product) => (
               <Link 
                 key={product.id} 
-                href={`/producto/${product.id}`}
+                href={`/productos/${product.id}`}
                 className="flex-shrink-0 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow select-none block"
                 style={{ 
                   width: `${cardWidth}px`,
