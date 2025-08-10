@@ -75,7 +75,6 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        
         {/* Copyright */}
         <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-gray-700">
           <p className="text-mobile-body text-gray-400 text-center">
