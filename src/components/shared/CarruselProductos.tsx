@@ -1,5 +1,7 @@
+'use client'
+
 import React, { useRef, useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 // Featured products for the carousel
 const products = [
@@ -51,7 +53,12 @@ const CarruselProductos = ({ showName }: { showName?: string }) => {
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [cardWidth, setCardWidth] = useState(0);
+  const [cardWidth, setCardWidth] = useState(300); // Default fallback width
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   // Filter products based on showName prop
   const filteredProducts = showName 
@@ -60,6 +67,8 @@ const CarruselProductos = ({ showName }: { showName?: string }) => {
 
   // Calculate card width and current index on scroll
   useEffect(() => {
+    if (!isClient) return;
+
     const updateCardWidth = () => {
       const container = scrollContainerRef.current;
       if (!container) return;
@@ -75,10 +84,12 @@ const CarruselProductos = ({ showName }: { showName?: string }) => {
     updateCardWidth();
     window.addEventListener('resize', updateCardWidth);
     return () => window.removeEventListener('resize', updateCardWidth);
-  }, []);
+  }, [isClient]);
 
   // Update current index based on scroll position
   useEffect(() => {
+    if (!isClient) return;
+
     const handleScroll = () => {
       const container = scrollContainerRef.current;
       if (!container || cardWidth === 0) return;
@@ -93,7 +104,7 @@ const CarruselProductos = ({ showName }: { showName?: string }) => {
       container.addEventListener('scroll', handleScroll);
       return () => container.removeEventListener('scroll', handleScroll);
     }
-  }, [cardWidth, filteredProducts.length]);
+  }, [cardWidth, filteredProducts.length, isClient]);
 
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
     const container = scrollContainerRef.current;
@@ -183,7 +194,7 @@ const CarruselProductos = ({ showName }: { showName?: string }) => {
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="flex justify-between items-center mb-8">
           <h2 className="text-4xl font-bold">Productos</h2>
-          <Link to="/productos" className="text-gray-500 hover:text-gray-900 underline">
+          <Link href="/productos" className="text-gray-500 hover:text-gray-900 underline">
             Ver todos
           </Link>
         </div>
@@ -230,14 +241,14 @@ const CarruselProductos = ({ showName }: { showName?: string }) => {
             onTouchEnd={handleTouchEnd}
             style={{ 
               scrollbarWidth: 'none', 
-              '-ms-overflow-style': 'none',
+              msOverflowStyle: 'none',
               scrollSnapType: 'x mandatory'
             } as React.CSSProperties}
           >
             {filteredProducts.map((product) => (
               <Link 
                 key={product.id} 
-                to={`/producto/${product.id}`}
+                href={`/productos/${product.id}`}
                 className="flex-shrink-0 bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition-shadow select-none block"
                 style={{ 
                   width: `${cardWidth}px`,

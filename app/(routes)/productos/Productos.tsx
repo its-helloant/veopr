@@ -1,7 +1,10 @@
+'use client'
+
 import React, { useState, useMemo, useCallback } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
+import Header from '@/components/shared/Header';
+import Footer from '@/components/shared/Footer';
 import { 
   MagnifyingGlassIcon, 
   Squares2X2Icon, 
@@ -88,9 +91,12 @@ const mockProducts = [
 ];
 
 const ProductosPage = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const [searchTerm, setSearchTerm] = useState(searchParams.get('search') || '');
-  const [selectedShow, setSelectedShow] = useState(searchParams.get('show') || 'all');
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const search = searchParams?.get('search');
+  const show = searchParams?.get('show');
+  const [searchTerm, setSearchTerm] = useState(search || '');
+  const [selectedShow, setSelectedShow] = useState(show || 'all');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showFilters, setShowFilters] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -98,7 +104,7 @@ const ProductosPage = () => {
 
   // Get unique shows for filter
   const shows = useMemo(() => {
-    const uniqueShows = [...new Set(mockProducts.map(product => product.show))];
+    const uniqueShows = Array.from(new Set(mockProducts.map(product => product.show)));
     return ['all', ...uniqueShows];
   }, []);
 
@@ -115,26 +121,26 @@ const ProductosPage = () => {
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
-    const newSearchParams = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(searchParams?.toString() || '');
     if (value) {
-      newSearchParams.set('search', value);
+      params.set('search', value);
     } else {
-      newSearchParams.delete('search');
+      params.delete('search');
     }
-    setSearchParams(newSearchParams);
+    router.push(`/productos?${params.toString()}`);
   };
 
   const handleShowFilter = (show: string) => {
     setSelectedShow(show);
-    const newSearchParams = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(searchParams?.toString() || '');
     if (show !== 'all') {
-      newSearchParams.set('show', show);
+      params.set('show', show);
     } else {
-      newSearchParams.delete('show');
+      params.delete('show');
     }
-    setSearchParams(newSearchParams);
+    router.push(`/productos?${params.toString()}`);
     // Close mobile filter drawer after selection
-    if (window.innerWidth < 768) {
+    if (typeof window !== 'undefined' && window.innerWidth < 768) {
       setShowFilters(false);
     }
   };
@@ -149,7 +155,7 @@ const ProductosPage = () => {
     const touchDiff = touchY - touchStartY;
     
     // If user scrolled down from top and pulled down more than 100px
-    if (window.scrollY === 0 && touchDiff > 100 && !isRefreshing) {
+    if (typeof window !== 'undefined' && window.scrollY === 0 && touchDiff > 100 && !isRefreshing) {
       handleRefresh();
     }
   };
@@ -183,28 +189,28 @@ const ProductosPage = () => {
           <p className="text-mobile-body text-gray-600">Descubre toda nuestra colección de productos oficiales</p>
         </div>
 
-        {/* Mobile-optimized Search and Filters */}
+        {/* Search and Filters */}
         <div className="bg-white rounded-lg shadow-sm border p-4 sm:p-6 margin-mobile">
-          {/* Search Bar - Mobile optimized */}
-          <div className="relative margin-mobile">
-            <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Buscar productos..."
-              value={searchTerm}
-              onChange={handleSearch}
-              className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-mobile-body"
-              inputMode="search"
-              autoComplete="off"
-            />
-          </div>
+          {/* Desktop Layout - Single row with search, filters, and view toggle */}
+          <div className="hidden md:flex md:items-center md:gap-4">
+            {/* Search Bar - Desktop */}
+            <div className="relative flex-1">
+              <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Buscar productos..."
+                value={searchTerm}
+                onChange={handleSearch}
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                inputMode="search"
+                autoComplete="off"
+              />
+            </div>
 
-          {/* Mobile Controls */}
-          <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center sm:gap-4">
-            {/* Filter Button - Enhanced for mobile */}
+            {/* Filter Button - Desktop */}
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="touch-target flex items-center justify-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-mobile-body font-medium sm:justify-start"
+              className="flex items-center gap-2 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-medium whitespace-nowrap"
             >
               <FunnelIcon className="h-5 w-5" />
               <span>Filtros</span>
@@ -213,24 +219,77 @@ const ProductosPage = () => {
               )}
             </button>
 
-            {/* View Mode Toggle - Mobile optimized */}
-            <div className="flex items-center justify-center gap-2 sm:justify-start">
-              <span className="text-mobile-body text-gray-600 mr-2">Vista:</span>
+            {/* View Mode Toggle - Desktop */}
+            <div className="flex items-center gap-2">
+              <span className="text-gray-600 whitespace-nowrap">Vista:</span>
               <div className="flex border border-gray-300 rounded-lg overflow-hidden">
                 <button
                   onClick={() => setViewMode('grid')}
-                  className={`touch-target ${viewMode === 'grid' ? 'bg-blue-500 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'} transition-colors`}
+                  className={`p-3 ${viewMode === 'grid' ? 'bg-blue-500 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'} transition-colors`}
                   aria-label="Vista de cuadrícula"
                 >
                   <Squares2X2Icon className="h-5 w-5" />
                 </button>
                 <button
                   onClick={() => setViewMode('list')}
-                  className={`touch-target ${viewMode === 'list' ? 'bg-blue-500 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'} transition-colors`}
+                  className={`p-3 ${viewMode === 'list' ? 'bg-blue-500 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'} transition-colors`}
                   aria-label="Vista de lista"
                 >
                   <ListBulletIcon className="h-5 w-5" />
                 </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile Layout - Stacked */}
+          <div className="md:hidden">
+            {/* Search Bar - Mobile */}
+            <div className="relative margin-mobile">
+              <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Buscar productos..."
+                value={searchTerm}
+                onChange={handleSearch}
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-mobile-body"
+                inputMode="search"
+                autoComplete="off"
+              />
+            </div>
+
+            {/* Mobile Controls */}
+            <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center sm:gap-4">
+              {/* Filter Button - Mobile */}
+              <button
+                onClick={() => setShowFilters(!showFilters)}
+                className="touch-target flex items-center justify-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-mobile-body font-medium sm:justify-start"
+              >
+                <FunnelIcon className="h-5 w-5" />
+                <span>Filtros</span>
+                {selectedShow !== 'all' && (
+                  <span className="bg-blue-500 text-white text-xs px-2 py-1 rounded-full">1</span>
+                )}
+              </button>
+
+              {/* View Mode Toggle - Mobile */}
+              <div className="flex items-center justify-center gap-2 sm:justify-start">
+                <span className="text-mobile-body text-gray-600 mr-2">Vista:</span>
+                <div className="flex border border-gray-300 rounded-lg overflow-hidden">
+                  <button
+                    onClick={() => setViewMode('grid')}
+                    className={`touch-target ${viewMode === 'grid' ? 'bg-blue-500 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'} transition-colors`}
+                    aria-label="Vista de cuadrícula"
+                  >
+                    <Squares2X2Icon className="h-5 w-5" />
+                  </button>
+                  <button
+                    onClick={() => setViewMode('list')}
+                    className={`touch-target ${viewMode === 'list' ? 'bg-blue-500 text-white' : 'bg-white text-gray-600 hover:bg-gray-50'} transition-colors`}
+                    aria-label="Vista de lista"
+                  >
+                    <ListBulletIcon className="h-5 w-5" />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -325,7 +384,7 @@ const ProductosPage = () => {
         {/* Products Grid/List - Enhanced mobile responsiveness */}
         <div className={`${
           viewMode === 'grid' 
-            ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6' 
+            ? 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-4 sm:gap-6' 
             : 'space-y-4'
         }`}>
           {filteredProducts.map((product) => (
@@ -338,7 +397,7 @@ const ProductosPage = () => {
               {viewMode === 'grid' ? (
                 <>
                   {/* Enhanced Grid View for Mobile */}
-                  <Link to={`/producto/${product.id}`} className="block flex-grow flex flex-col">
+                  <Link href={`/productos/${product.id}`} className="block flex-grow flex flex-col">
                     <div className="w-full h-40 sm:h-48 bg-gray-200 flex items-center justify-center flex-shrink-0">
                       <svg className="w-8 h-8 sm:w-12 sm:h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-1.586-1.586a2 2 0 00-2.828 0L6 14m6-6l.01.01"></path>
@@ -366,7 +425,7 @@ const ProductosPage = () => {
               ) : (
                 <>
                   {/* Enhanced List View for Mobile */}
-                  <Link to={`/producto/${product.id}`} className="flex flex-grow items-center min-w-0">
+                  <Link href={`/productos/${product.id}`} className="flex flex-grow items-center min-w-0">
                     <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gray-200 rounded-lg flex items-center justify-center flex-shrink-0 mr-3 sm:mr-4">
                       <svg className="w-6 h-6 sm:w-8 sm:h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l-1.586-1.586a2 2 0 00-2.828 0L6 14m6-6l.01.01"></path>

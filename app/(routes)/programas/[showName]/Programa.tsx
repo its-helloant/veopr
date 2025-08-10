@@ -1,89 +1,89 @@
-import { useParams } from 'react-router-dom';
+'use client'
+
+import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import YouTube, { YouTubeProps } from 'react-youtube';
-import { PlayIcon, ListBulletIcon } from '@heroicons/react/24/outline';
-import Header from './Header';
-import Footer from './Footer';
-import CarruselProductos from './CarruselProductos';
+import { PlayIcon, ListBulletIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
+import Header from '@/src/components/shared/Header';
+import Footer from '@/src/components/shared/Footer';
+import CarruselProductos from '@/src/components/shared/CarruselProductos';
+import { useYouTubePlaylist } from '@/src/hooks/useYouTubePlaylist';
 
-// Mock data for YouTube playlists
+// Program configuration mapping slugs to playlist IDs
 const programPlaylists = {
-  1: {
+  'dia-a-dia': {
     title: "Día a Día",
-    slug: "dia-a-dia",
-    playlistId: "PLKcRz7euAKoO0M-UjCUZFfudX78juCcaJ",
-    description: "El mejor entretenimiento diario con variedades, música y cultura puertorriqueña.",
-    totalVideos: 120,
-    views: "2.5M",
-    videos: [
-      { id: "dQw4w9WgXcQ", title: "Episodio 120 - Especial Navideño", description: "Celebramos las fiestas navideñas con invitados especiales y música tradicional", date: "24-12-2024", duration: "25:30", views: "45K" },
-      { id: "9bZkp7q19f0", title: "Episodio 119 - Artistas Emergentes", description: "Conoce a los nuevos talentos de la música puertorriqueña", date: "17-12-2024", duration: "28:15", views: "38K" },
-      { id: "kJQP7kiw5Fk", title: "Episodio 118 - Cocina Boricua", description: "Los mejores chefs nos enseñan recetas tradicionales", date: "10-12-2024", duration: "30:45", views: "52K" },
-      { id: "fJ9rUzIMcZQ", title: "Episodio 117 - Festival de Salsa", description: "Lo mejor del festival de salsa con entrevistas exclusivas", date: "03-12-2024", duration: "27:20", views: "41K" },
-      { id: "M7lc1UVf-VE", title: "Episodio 116 - Deportes Locales", description: "Cobertura especial del boxeo puertorriqueño", date: "26-11-2024", duration: "32:10", views: "35K" }
-    ]
+    playlistId: "PLUsWg2FfmencnFilb7jcKZ-LUSIUPcVyZ",
+    description: "El mejor entretenimiento diario con variedades, música y cultura puertorriqueña."
   },
-  2: {
+  'raymond-y-sus-amigos': {
     title: "Raymond y Sus Amigos",
-    slug: "raymond-y-sus-amigos",
-    playlistId: "PLrAcYW6x1URNBBY10P5kRVe3fLT_j0HJg",
-    description: "Comedia, entretenimiento y conversaciones divertidas con Raymond y sus invitados.",
-    totalVideos: 352,
-    views: "8.2M",
-    videos: [
-      { id: "M7lc1UVf-VE", title: "Episodio 352 - Especial de Año Nuevo", description: "Reflexiones del año y planes para el futuro con mucha diversión", date: "31-12-2024", duration: "35:20", views: "89K" },
-      { id: "2Vv-BfVoq4g", title: "Episodio 351 - Invitados Sorpresa", description: "Los mejores momentos con invitados inesperados", date: "29-12-2024", duration: "40:15", views: "76K" },
-      { id: "ktvTqknDobU", title: "Episodio 350 - Celebración Especial", description: "Celebramos el episodio 350 con los mejores momentos", date: "27-12-2024", duration: "32:30", views: "95K" },
-      { id: "ikwjx9VXv_4", title: "Episodio 349 - Juegos y Risas", description: "Una tarde llena de juegos divertidos y muchas risas", date: "25-12-2024", duration: "38:45", views: "68K" }
-    ]
+    playlistId: "PLUsWg2Ffmenc2Pkr7si59fgEb-46VZM5r",
+    description: "Comedia, entretenimiento y conversaciones divertidas con Raymond y sus invitados."
   },
-  3: {
+  'latin-doctors': {
     title: "Latin Doctors",
-    slug: "latin-doctors",
-    playlistId: "PLrAcYW6x1URNBBY10P5kRVe3fLT_j0HJg",
-    description: "Información médica y consejos de salud para la comunidad latina.",
-    totalVideos: 89,
-    views: "1.8M",
-    videos: [
-      { id: "PAR9QvEe-ew", title: "Salud Mental en Tiempos Difíciles", description: "Estrategias para mantener el bienestar emocional durante crisis", date: "22-12-2024", duration: "45:30", views: "62K" },
-      { id: "jNQXAC9IVRw", title: "Prevención de Diabetes Tipo 2", description: "Guía completa para prevenir y manejar la diabetes", date: "15-12-2024", duration: "42:15", views: "74K" },
-      { id: "L_LUpnjgPso", title: "Nutrición para Toda la Familia", description: "Recetas saludables y consejos nutricionales", date: "08-12-2024", duration: "38:20", views: "58K" },
-      { id: "EWvvhDUFBB0", title: "Ejercicio y Longevidad", description: "Cómo mantenerse activo para una vida más larga y saludable", date: "01-12-2024", duration: "40:10", views: "49K" }
-    ]
+    playlistId: "PLUsWg2Ffmenc2Pkr7si59fgEb-46VZM5r",
+    description: "Información médica y consejos de salud para la comunidad latina."
   },
-  4: {
+  'rayos-x': {
     title: "Rayos X",
-    slug: "rayos-x",
-    playlistId: "PLrAcYW6x1URNBBY10P5kRVe3fLT_j0HJg",
-    description: "Periodismo investigativo que expone la verdad detrás de los hechos.",
-    totalVideos: 156,
-    views: "4.1M",
-    videos: [
-      { id: "YykjpeuMNEk", title: "Corrupción en el Gobierno Municipal", description: "Investigación exclusiva sobre irregularidades en contratos públicos", date: "25-12-2024", duration: "50:20", views: "128K" },
-      { id: "3AtDnEC4zak", title: "Crisis del Sistema de Salud", description: "Análisis profundo de los problemas estructurales", date: "18-12-2024", duration: "48:15", views: "105K" },
-      { id: "JGwWNGJdvx8", title: "Educación en Crisis", description: "Reportaje especial sobre el estado de las escuelas públicas", date: "11-12-2024", duration: "52:30", views: "97K" },
-      { id: "ZbZSe6N_BXs", title: "Contaminación Ambiental", description: "Investigación sobre el impacto ambiental de las industrias", date: "04-12-2024", duration: "46:45", views: "89K" }
-    ]
+    playlistId: "PLUsWg2Ffmenc2Pkr7si59fgEb-46VZM5r",
+    description: "Periodismo investigativo que expone la verdad detrás de los hechos."
   }
-};
+} as const;
 
-export default function ProgramDetail() {
-  const { showName } = useParams<{ showName: string }>();
+interface ProgramDetailProps {
+  params?: Promise<{
+    showName: string;
+  }>;
+}
+
+export default function ProgramDetail({ params }: ProgramDetailProps) {
+  const router = useRouter();
+  const [showName, setShowName] = useState<string>('');
   const [currentVideoId, setCurrentVideoId] = useState<string>('');
   const [currentVideoIndex, setCurrentVideoIndex] = useState<number>(0);
   const [isPlaylistVisible, setIsPlaylistVisible] = useState<boolean>(true);
 
-  const program = Object.values(programPlaylists).find(p => p.slug === showName);
+  // Handle async params
+  useEffect(() => {
+    if (params) {
+      params.then(resolvedParams => {
+        setShowName(resolvedParams.showName);
+      });
+    }
+  }, [params]);
+
+  // Get program configuration
+  const programConfig = programPlaylists[showName as keyof typeof programPlaylists];
+  
+  // Fetch YouTube playlist data
+  const {
+    playlist,
+    videos,
+    loading,
+    error,
+    hasMore,
+    loadMore,
+    refetch
+  } = useYouTubePlaylist({
+    playlistId: programConfig?.playlistId || '',
+    maxResults: 50,
+    autoFetch: Boolean(programConfig?.playlistId)
+  });
 
   useEffect(() => {
     // Scroll to top when component mounts or program changes
-    window.scrollTo(0, 0);
+    if (typeof window !== 'undefined') {
+      window.scrollTo(0, 0);
+    }
     
-    if (program && program.videos.length > 0) {
-      setCurrentVideoId(program.videos[0].id);
+    if (videos.length > 0) {
+      setCurrentVideoId(videos[0].id);
       setCurrentVideoIndex(0);
     }
-  }, [program]);
+  }, [videos]);
 
   const handleVideoSelect = (videoId: string, index: number) => {
     setCurrentVideoId(videoId);
@@ -97,9 +97,9 @@ export default function ProgramDetail() {
 
   const onPlayerEnd: YouTubeProps['onEnd'] = () => {
     // Auto-play next video when current video ends
-    if (program && currentVideoIndex < program.videos.length - 1) {
+    if (videos && currentVideoIndex < videos.length - 1) {
       const nextIndex = currentVideoIndex + 1;
-      setCurrentVideoId(program.videos[nextIndex].id);
+      setCurrentVideoId(videos[nextIndex].id);
       setCurrentVideoIndex(nextIndex);
     }
   };
@@ -114,15 +114,64 @@ export default function ProgramDetail() {
     },
   };
 
-  if (!program) {
+  // Show loading state
+  if (loading && !videos.length) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <p className="text-xl text-gray-600">Programa no encontrado</p>
+      <div className="min-h-screen bg-white">
+        <Header />
+        <div className="flex items-center justify-center py-20">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-xl text-gray-600">Cargando programa...</p>
+          </div>
+        </div>
+        <Footer />
       </div>
     );
   }
 
-  const currentVideo = program.videos[currentVideoIndex];
+  // Show error state
+  if (error) {
+    return (
+      <div className="min-h-screen bg-white">
+        <Header />
+        <div className="flex items-center justify-center py-20">
+          <div className="text-center max-w-md">
+            <ExclamationTriangleIcon className="h-16 w-16 text-red-500 mx-auto mb-4" />
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Error al cargar el programa</h2>
+            <p className="text-gray-600 mb-4">{error}</p>
+            <button 
+              onClick={refetch}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors"
+            >
+              Intentar de nuevo
+            </button>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Show not found state
+  if (!programConfig) {
+    return (
+      <div className="min-h-screen bg-white">
+        <Header />
+        <div className="flex items-center justify-center py-20">
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">Programa no encontrado</h2>
+            <p className="text-gray-600">El programa que buscas no existe.</p>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  const currentVideo = videos[currentVideoIndex];
+  const displayTitle = playlist?.title || programConfig.title;
+  const displayDescription = playlist?.description || programConfig.description;
 
   return (
     <div className="min-h-screen bg-white">
@@ -132,7 +181,7 @@ export default function ProgramDetail() {
 
         {/* Program Title - Full Width */}
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
-          {program.title}
+          {displayTitle}
         </h1>
 
         <div className="flex flex-col lg:flex-row gap-6 items-start">
@@ -197,19 +246,22 @@ export default function ProgramDetail() {
                   </button>
                 </div>
                 
-                <p className="text-gray-300 text-sm">{program.description}</p>
+                <p className="text-gray-300 text-sm">{displayDescription}</p>
                 
                 <div className="flex items-center gap-4 mt-3 text-sm text-gray-300">
-                  <span>{currentVideoIndex + 1} / {program.videos.length}</span>
+                  <span>{currentVideoIndex + 1} / {videos.length}</span>
                   <span>•</span>
-                  <span>{program.totalVideos} episodios totales</span>
+                  <span>{playlist?.totalVideos || videos.length} episodios totales</span>
+                  {hasMore && (
+                    <span className="text-blue-300">+ más videos</span>
+                  )}
                 </div>
               </div>
 
               {/* Playlist Videos */}
               {isPlaylistVisible && (
                 <div className="flex-1 overflow-y-auto">
-                  {program.videos.map((video, index) => (
+                  {videos.map((video, index) => (
                     <div
                       key={video.id}
                       onClick={() => handleVideoSelect(video.id, index)}
@@ -220,7 +272,15 @@ export default function ProgramDetail() {
                       {/* Thumbnail */}
                       <div className="relative flex-shrink-0">
                         <div className="w-24 h-14 bg-gray-300 rounded flex items-center justify-center relative overflow-hidden">
-                          <PlayIcon className="h-6 w-6 text-gray-500" />
+                          {video.thumbnails?.medium?.url ? (
+                            <img 
+                              src={video.thumbnails.medium.url} 
+                              alt={video.title}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <PlayIcon className="h-6 w-6 text-gray-500" />
+                          )}
                           
                           {/* Episode number */}
                           <div className="absolute top-1 left-1 bg-black bg-opacity-70 text-white text-xs px-1 rounded">
@@ -257,6 +317,26 @@ export default function ProgramDetail() {
                       </div>
                     </div>
                   ))}
+                  
+                  {/* Load More Button */}
+                  {hasMore && (
+                    <div className="p-4 border-t border-gray-200">
+                      <button
+                        onClick={loadMore}
+                        disabled={loading}
+                        className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white py-2 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+                      >
+                        {loading ? (
+                          <>
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                            Cargando...
+                          </>
+                        ) : (
+                          'Cargar más videos'
+                        )}
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -267,7 +347,7 @@ export default function ProgramDetail() {
 
       {/* Mercancia Carousel - Full Width */}
       <div className="mt-8">
-        <CarruselProductos showName={program.title} />
+        <CarruselProductos showName={displayTitle} />
       </div>
       
       <Footer />
