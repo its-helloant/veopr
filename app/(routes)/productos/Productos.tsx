@@ -3,8 +3,8 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import Header from '../components/layout/Header';
-import Footer from '../components/layout/Footer';
+import Header from '@/components/shared/Header';
+import Footer from '@/components/shared/Footer';
 import { 
   MagnifyingGlassIcon, 
   Squares2X2Icon, 

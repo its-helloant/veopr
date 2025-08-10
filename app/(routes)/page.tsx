@@ -1,8 +1,8 @@
-import Header from '../../src/components/layout/Header'
+import Header from '../../src/components/shared/Header'
 import Hero from '../../src/components/features/Hero'
 import Programas from '../../src/components/features/CarruselProgramas'
-import CarruselProductos from '../../src/components/features/CarruselProductos'
-import Footer from '../../src/components/layout/Footer'
+import CarruselProductos from '../../src/components/shared/CarruselProductos'
+import Footer from '../../src/components/shared/Footer'
 
 export default function Home() {
   return (

@@ -1,4 +1,4 @@
-import ProductDetail from '@/src/pages/ProductDetail'
+import ProductDetail from './ProductDetail'
 
 interface ProductPageProps {
   params: Promise<{

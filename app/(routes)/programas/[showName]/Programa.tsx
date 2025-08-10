@@ -4,10 +4,10 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import YouTube, { YouTubeProps } from 'react-youtube';
 import { PlayIcon, ListBulletIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
-import Header from '../layout/Header';
-import Footer from '../layout/Footer';
-import CarruselProductos from './CarruselProductos';
-import { useYouTubePlaylist } from '../../hooks/useYouTubePlaylist';
+import Header from '@/src/components/shared/Header';
+import Footer from '@/src/components/shared/Footer';
+import CarruselProductos from '@/src/components/shared/CarruselProductos';
+import { useYouTubePlaylist } from '@/src/hooks/useYouTubePlaylist';
 
 // Program configuration mapping slugs to playlist IDs
 const programPlaylists = {

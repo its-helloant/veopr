@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import ProductosPage from '@/src/pages/Productos'
+import ProductosPage from './Productos'
 
 export default function Productos() {
   return (

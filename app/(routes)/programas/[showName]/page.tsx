@@ -1,4 +1,4 @@
-import ProgramDetail from '@/src/components/features/Programa'
+import ProgramDetail from '@/app/(routes)/programas/[showName]/Programa'
 
 interface ProgramPageProps {
   params: Promise<{
