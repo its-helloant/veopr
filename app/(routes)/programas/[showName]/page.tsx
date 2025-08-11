@@ -1,4 +1,4 @@
-import ProgramDetail from '@/app/(routes)/programas/[showName]/Programa'
+import DetallePrograma from './DetallePrograma'
 
 interface ProgramPageProps {
   params: Promise<{
@@ -7,6 +7,5 @@ interface ProgramPageProps {
 }
 
 export default async function ProgramaDetalle({ params }: ProgramPageProps) {
-  const resolvedParams = await params;
-  return <ProgramDetail params={Promise.resolve(resolvedParams)} />
+  return <DetallePrograma params={params} />
 } 
