@@ -4,39 +4,14 @@ import { useState, useEffect } from 'react';
 import { YouTubeProps } from 'react-youtube';
 import { useYouTubePlaylist } from '@/src/hooks/useYouTubePlaylist';
 import { ProcessedVideo } from '@/src/types/youtube';
-import Header from '@/components/shared/Header';
-import Footer from '@/components/shared/Footer';
-import YoutubeVideoPlayer, { VideoInfo } from '@/components/youtube/YoutubeVideoPlayer';
-import YoutubePlaylist from '@/components/youtube/YoutubePlaylist';
+import Header from '@/src/components/shared/Header';
+import Footer from '@/src/components/shared/Footer';
+import YoutubeVideoPlayer, { VideoInfo } from '@/src/components/youtube/YoutubeVideoPlayer';
+import YoutubePlaylist from '@/src/components/youtube/YoutubePlaylist';
+import { ProgramConfig } from './ConfigProgramas';
 
-// Program configuration mapping slugs to playlist IDs
-const programPlaylists = {
-  'dia-a-dia': {
-    title: "Día a Día",
-    playlistId: "PLUsWg2FfmencnFilb7jcKZ-LUSIUPcVyZ",
-    description: "El mejor entretenimiento diario con variedades, música y cultura puertorriqueña."
-  },
-  'raymond-y-sus-amigos': {
-    title: "Raymond y Sus Amigos",
-    playlistId: "PLUsWg2Ffmenc2Pkr7si59fgEb-46VZM5r",
-    description: "Comedia, entretenimiento y conversaciones divertidas con Raymond y sus invitados."
-  },
-  'latin-doctors': {
-    title: "Latin Doctors",
-    playlistId: "PLUsWg2Ffmenc2Pkr7si59fgEb-46VZM5r",
-    description: "Información médica y consejos de salud para la comunidad latina."
-  },
-  'rayos-x': {
-    title: "Rayos X",
-    playlistId: "PLUsWg2Ffmenc2Pkr7si59fgEb-46VZM5r",
-    description: "Periodismo investigativo que expone la verdad detrás de los hechos."
-  }
-} as const;
-
-interface ProgramDetailProps {
-  params: Promise<{
-    showName: string;
-  }>;
+interface DetalleProgramaProps {
+  programConfig: ProgramConfig;
 }
 
 const Breadcrumb = ({ title }: { title: string }) => (
@@ -55,19 +30,11 @@ const Breadcrumb = ({ title }: { title: string }) => (
   </nav>
 );
 
-export default function DetallePrograma({ params }: ProgramDetailProps) {
-  const [resolvedParams, setResolvedParams] = useState<{ showName: string } | null>(null);
+export default function DetallePrograma({ programConfig }: DetalleProgramaProps) {
   const [currentVideoId, setCurrentVideoId] = useState<string>('');
   const [currentVideo, setCurrentVideo] = useState<ProcessedVideo | null>(null);
 
-  // Resolve params
-  useEffect(() => {
-    params.then(setResolvedParams);
-  }, [params]);
-
-  const programConfig = resolvedParams ? programPlaylists[resolvedParams.showName as keyof typeof programPlaylists] : null;
-
-  const { playlist, videos, loading, error } = useYouTubePlaylist({
+  const { videos, loading, error } = useYouTubePlaylist({
     playlistId: programConfig?.playlistId || '',
     maxResults: 50,
     autoFetch: !!programConfig?.playlistId
@@ -157,28 +124,6 @@ export default function DetallePrograma({ params }: ProgramDetailProps) {
       iv_load_policy: 3 // Hide annotations
     }
   };
-
-  if (!resolvedParams) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Cargando...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!programConfig) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Programa no encontrado</h1>
-          <p className="text-gray-600">El programa que buscas no existe.</p>
-        </div>
-      </div>
-    );
-  }
 
   if (loading) {
     return (
