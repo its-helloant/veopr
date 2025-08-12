@@ -203,7 +203,7 @@ export default function DetallePrograma({ params }: ProgramDetailProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-200">
         <Header />
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Breadcrumb */}

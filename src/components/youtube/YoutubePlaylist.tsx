@@ -19,8 +19,8 @@ const YoutubePlaylist: React.FC<YoutubePlaylistProps> = ({
   formatDate
 }) => {
   return (
-    <div className="bg-white rounded-lg shadow-sm overflow-hidden sticky top-4">
-      <div className="bg-gray-50 px-4 py-3 border-b">
+    <div className="bg-white rounded-lg shadow-sm overflow-hidden sticky top-4 border border-gray-300">
+      <div className="bg-gray-50 px-4 py-3 border-b border-gray-300">
         <h3 className="font-semibold text-gray-900">Lista de reproducción</h3>
         <p className="text-sm text-gray-600">{videos.length} videos</p>
       </div>
@@ -30,8 +30,8 @@ const YoutubePlaylist: React.FC<YoutubePlaylistProps> = ({
           <div
             key={video.id}
             onClick={() => handleVideoSelect(video)}
-            className={`p-3 lg:p-4 cursor-pointer hover:bg-gray-50 border-b border-gray-100 last:border-b-0 transition-colors ${
-              currentVideoId === video.id ? 'bg-blue-50 border-l-4 border-l-blue-500' : ''
+            className={`p-3 lg:p-4 cursor-pointer hover:bg-gray-200 border-b border-gray-300 last:border-b-0 transition-colors ${
+              currentVideoId === video.id ? 'bg-blue-200 border-l-4 border-l-blue-500' : ''
             }`}
           >
             <div className="flex space-x-3">
