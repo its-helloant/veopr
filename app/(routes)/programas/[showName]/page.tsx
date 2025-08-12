@@ -1,4 +1,6 @@
-import ProgramDetail from '@/app/(routes)/programas/[showName]/Programa'
+import DetallePrograma from './PaginaPrograma'
+import configPrograma, { ProgramConfig } from './ConfigProgramas'
+import { notFound } from 'next/navigation'
 
 interface ProgramPageProps {
   params: Promise<{
@@ -6,7 +8,17 @@ interface ProgramPageProps {
   }>
 }
 
-export default async function ProgramaDetalle({ params }: ProgramPageProps) {
-  const resolvedParams = await params;
-  return <ProgramDetail params={Promise.resolve(resolvedParams)} />
+export default async function ProgramaPage({ params }: ProgramPageProps) {
+  // Resolve params on the server
+  const { showName } = await params
+  
+  // Get program configuration
+  const programConfig: ProgramConfig | undefined = configPrograma[showName]
+  
+  // If program doesn't exist, show 404
+  if (!programConfig) {
+    notFound()
+  }
+  
+  return <DetallePrograma programConfig={programConfig} />
 } 
