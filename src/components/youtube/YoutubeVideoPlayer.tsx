@@ -78,12 +78,14 @@ const VideoInfo: React.FC<VideoInfoProps> = ({ currentVideo }) => {
         <span>{formatDate(currentVideo.date)}</span>
       </div>
 
-      <div className="border-t pt-4">
-        <h3 className="font-medium text-gray-900 mb-2">Descripción</h3>
-        <div className="text-gray-700 text-sm whitespace-pre-wrap">
-          {currentVideo.description || 'Sin descripción disponible.'}
+      { currentVideo.description && (
+        <div className="border-t pt-4">
+          <h3 className="font-medium text-gray-900 mb-2">Descripción</h3>
+          <div className="text-gray-700 text-sm whitespace-pre-wrap">
+            {currentVideo.description || 'Sin descripción disponible.'}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

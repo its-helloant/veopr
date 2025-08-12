@@ -19,7 +19,7 @@ const YoutubePlaylist: React.FC<YoutubePlaylistProps> = ({
   formatDate
 }) => {
   return (
-    <div className="bg-white rounded-lg shadow-sm overflow-hidden sticky top-4 border border-gray-300">
+    <div className="bg-white rounded-lg shadow-sm overflow-hidden top-4 border border-gray-300">
       <div className="bg-gray-50 px-4 py-3 border-b border-gray-300">
         <h3 className="font-semibold text-gray-900">Lista de reproducción</h3>
         <p className="text-sm text-gray-600">{videos.length} videos</p>
