@@ -27,7 +27,7 @@ alwaysApply: true
       - Use custom error types for consistent error handling.
 
     ### UI and Styling
-    - Use modern UI frameworks (e.g., Tailwind CSS, Shadcn UI, Radix UI) for styling.
+    - Use modern UI frameworks (e.g., Tailwind CSS, HeroUI) for styling.
     - Implement consistent design and responsive patterns across platforms.
 
     ### State Management and Data Fetching
