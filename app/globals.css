@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import '@fortawesome/fontawesome-free/css/all.css';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -110,3 +111,27 @@
     outline-offset: 2px;
   }
 } 
+
+.social-icons {
+  display: flex;
+  justify-content: left;
+  gap: 20px;
+  padding: 10px 0;
+}
+
+.social-icon {
+  color: white;
+  font-size: 24px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+  color: #ccc;
+  transform: translateY(-2px);
+}
+
+/* Optional: Specific brand colors on hover */
+.social-icon:hover .fa-youtube, .social-icon:hover .fa-instagram {
+  color: #ff8800;
+}

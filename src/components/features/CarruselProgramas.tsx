@@ -2,45 +2,8 @@
 
 import { Card, CardBody, CardHeader, Chip } from "@heroui/react";
 import { useRouter } from 'next/navigation';
+import { programs } from '@/data/programas';
 
-const programs = [
-  {
-    id: 1,
-    title: "Día a Día",
-    slug: "dia-a-dia",
-    description: "Programa de variedades con lo mejor del entretenimiento boricua",
-    image: "/dia-a-dia-logo.png",
-    episodes: "12 episodios",
-    hasNewEpisode: true
-  },
-  {
-    id: 2,
-    title: "Raymond y Sus Amigos",
-    slug: "raymond-y-sus-amigos",
-    description: "Entrevistas y conversaciones con personalidades puertorriqueñas",
-    image: "/rysa logo.jpeg",
-    episodes: "8 episodios",
-    hasNewEpisode: false
-  },
-  {
-    id: 3,
-    title: "Latin Doctors",
-    slug: "latin-doctors",
-    description: "Programa de salud y bienestar con profesionales latinos",
-    image: "/latin-doctors.jpeg",
-    episodes: "15 episodios",
-    hasNewEpisode: false
-  },
-  {
-    id: 4,
-    title: "Rayos X",
-    slug: "rayos-x",
-    description: "Investigación y análisis de temas de actualidad",
-    image: "/rayos-x-logo.png",
-    episodes: "6 episodios",
-    hasNewEpisode: true
-  }
-];
 
 export default function Programas() {
   const router = useRouter();
@@ -77,7 +40,7 @@ export default function Programas() {
               onPress={() => handleProgramClick(program.slug)}
               tabIndex={0}
               role="button"
-              aria-label={`Ver episodios de ${program.title}. ${program.description}. ${program.episodes} disponibles.`}
+              aria-label={`Ver episodios de ${program.title}. ${program.description}.`}
               onKeyDown={(e) => handleKeyDown(e, program.slug)}
             >
               <CardHeader className="p-0 relative">
@@ -92,13 +55,6 @@ export default function Programas() {
                       Ver Episodios
                     </div>
                   </div>
-                  <Chip 
-                    size="sm" 
-                    className="absolute top-3 right-3 bg-black bg-opacity-70 text-white text-xs sm:text-sm"
-                    aria-label={`${program.episodes} disponibles`}
-                  >
-                    {program.episodes}
-                  </Chip>
                 </div>
               </CardHeader>
               
@@ -108,18 +64,6 @@ export default function Programas() {
                     <h4 className="text-mobile-body sm:text-lg font-bold text-gray-900">
                       {program.title}
                     </h4>
-                    {program.hasNewEpisode && (
-                      <Chip 
-                        size="sm" 
-                        color="success" 
-                        variant="flat"
-                        className="animate-pulse text-xs"
-                        aria-label="Tiene nuevo episodio disponible"
-                      >
-                        <span className="hidden sm:inline">Nuevo Episodio</span>
-                        <span className="sm:hidden">Nuevo</span>
-                      </Chip>
-                    )}
                   </div>
                   <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
                     {program.description}
