@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.0.0",
     "@heroicons/react": "^2.2.0",
     "@heroui/react": "^2.7.11",
     "@heroui/theme": "^2.4.17",

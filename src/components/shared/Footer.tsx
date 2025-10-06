@@ -14,6 +14,24 @@ export default function Footer() {
             <p className="text-mobile-body text-gray-300">
               El mejor entretenimiento puertorriqueño
             </p>
+            <div className="social-icons">
+              <a 
+                href="https://youtube.com/@VeoPR" 
+                className="social-icon"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i className="fab fa-youtube"></i>
+              </a>
+              <a 
+                href="https://instagram.com/veoproficial" 
+                className="social-icon"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i className="fab fa-instagram"></i>
+              </a>
+            </div>
           </div>
           
           <div className="space-y-3 sm:space-y-4">
@@ -45,40 +63,11 @@ export default function Footer() {
               </Link>
             </div>
           </div>
-          
-          <div className="space-y-3 sm:space-y-4">
-            <h5 className="text-mobile-body sm:text-lg font-semibold">Síguenos</h5>
-            <div className="flex flex-col space-y-1 sm:space-y-2">
-              <Link 
-                href="#" 
-                className="text-mobile-body text-gray-300 hover:text-white focus:text-white transition-colors touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 w-fit"
-                aria-label="Seguir en Facebook"
-              >
-                Facebook
-              </Link>
-              <Link 
-                href="https://www.youtube.com/@VeoPR" 
-                className="text-mobile-body text-gray-300 hover:text-white focus:text-white transition-colors touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 w-fit"
-                aria-label="Seguir en YouTube"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                YouTube
-              </Link>
-              <Link 
-                href="#" 
-                className="text-mobile-body text-gray-300 hover:text-white focus:text-white transition-colors touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-900 w-fit"
-                aria-label="Seguir en Instagram"
-              >
-                Instagram
-              </Link>
-            </div>
-          </div>
         </div>
         {/* Copyright */}
         <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-gray-700">
           <p className="text-mobile-body text-gray-400 text-center">
-            © 2024 VeoPR. Todos los derechos reservados.
+            © 2025 VeoPR. Todos los derechos reservados.
           </p>
         </div>
       </div>

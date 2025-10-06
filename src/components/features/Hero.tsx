@@ -3,14 +3,6 @@
 import { Button } from "@heroui/react";
 
 export default function Hero() {
-  const handleProgramsClick = () => {
-    if (typeof window !== 'undefined') {
-      const programsSection = document.getElementById('programas');
-      if (programsSection) {
-        programsSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  };
 
   const handleVideoPlay = () => {
     // Video play functionality would go here
@@ -32,15 +24,6 @@ export default function Hero() {
             Disfruta del mejor entretenimiento boricua. Programas originales, 
             entrevistas exclusivas y mucho más.
           </p>
-          <Button 
-            size="lg"
-            onClick={handleProgramsClick}
-            className="cta-gradient text-white font-semibold px-6 sm:px-8 py-4 sm:py-6 text-mobile-body sm:text-lg shadow-lg hover:shadow-xl focus:shadow-xl transition-all duration-300 hover:-translate-y-1 focus:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-red-500 touch-target"
-            startContent={<span className="text-lg sm:text-xl" aria-hidden="true">▶</span>}
-            aria-label="Ver programas disponibles"
-          >
-            Ver Programas
-          </Button>
         </div>
         
         <div className="flex justify-center lg:justify-end">
