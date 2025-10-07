@@ -4,10 +4,14 @@ import { useState, useEffect } from "react";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/react";
 import Link from "next/link";
 import { ShoppingCartIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import ShoppingCart from "./ShoppingCart";
+import { useShopifyCart } from "@/hooks/useShopifyCart";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
+  const { itemCount } = useShopifyCart();
 
   useEffect(() => {
     setIsClient(true);
@@ -100,10 +104,16 @@ export default function Header() {
           </NavbarItem>
           <NavbarItem>
             <button 
-              className="text-white hover:text-blue-400 focus:text-blue-400 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900"
+              onClick={() => setIsCartOpen(true)}
+              className="text-white hover:text-blue-400 focus:text-blue-400 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900 relative"
               aria-label="Ver carrito de compras"
             >
               <ShoppingCartIcon className="h-6 w-6" />
+              {itemCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
+                  {itemCount}
+                </span>
+              )}
             </button>
           </NavbarItem>
         </NavbarContent>
@@ -112,10 +122,16 @@ export default function Header() {
         <NavbarContent justify="end" className="md:hidden">
           <NavbarItem>
             <button 
-              className="text-white hover:text-blue-400 focus:text-blue-400 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900"
+              onClick={() => setIsCartOpen(true)}
+              className="text-white hover:text-blue-400 focus:text-blue-400 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900 relative"
               aria-label="Ver carrito de compras"
             >
               <ShoppingCartIcon className="h-6 w-6" />
+              {itemCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
+                  {itemCount}
+                </span>
+              )}
             </button>
           </NavbarItem>
           <NavbarItem>
@@ -179,6 +195,9 @@ export default function Header() {
           </div>
         </div>
       )}
+
+      {/* Shopping Cart */}
+      <ShoppingCart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </>
   )
 } 
