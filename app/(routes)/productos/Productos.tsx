@@ -5,19 +5,27 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Header from '@/components/shared/Header';
 import Footer from '@/components/shared/Footer';
-import { useShopifyProducts } from '@/hooks/useShopifyProducts';
+import { useProducts } from '@/hooks/useProducts';
 import { useShopifyCart } from '@/hooks/useShopifyCart';
+import { 
+  Product, 
+  isShopifyProduct, 
+  canAddToShopifyCart, 
+  getPurchaseAction, 
+  getDefaultVariantId 
+} from '@/types/product';
 import { 
   MagnifyingGlassIcon, 
   Squares2X2Icon, 
   ListBulletIcon,
   FunnelIcon,
   XMarkIcon,
-  ArrowPathIcon
+  ArrowPathIcon,
+  ArrowTopRightOnSquareIcon
 } from '@heroicons/react/24/outline';
 
 const ProductosPage = () => {
-  const { products, loading: productsLoading, refetch } = useShopifyProducts();
+  const { products, loading: productsLoading, refetch } = useProducts();
   const { addItem, loading: cartLoading } = useShopifyCart();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -85,6 +93,66 @@ const ProductosPage = () => {
     } finally {
       setAddingToCart(null);
     }
+  };
+
+  const handleProductAction = (product: Product) => {
+    const action = getPurchaseAction(product);
+    
+    switch (action.type) {
+      case 'add_to_cart':
+        const variantId = getDefaultVariantId(product);
+        if (variantId) {
+          handleAddToCart(product.id, variantId);
+        }
+        break;
+      case 'external_link':
+        if (action.data?.url) {
+          window.open(action.data.url, '_blank', 'noopener,noreferrer');
+        }
+        break;
+      case 'contact':
+        if (action.data?.email) {
+          window.location.href = `mailto:${action.data.email}?subject=Consulta sobre ${product.name}`;
+        }
+        break;
+      default:
+        console.log('Custom action:', action);
+    }
+  };
+
+  const getActionButton = (product: Product) => {
+    const action = getPurchaseAction(product);
+    const isAddingThis = addingToCart === product.id;
+    
+    if (action.type === 'add_to_cart') {
+      return {
+        text: isAddingThis ? 'Agregando...' : !product.availableForSale ? 'Agotado' : 'Agregar al carrito',
+        disabled: !product.availableForSale || isAddingThis || cartLoading,
+        icon: null,
+      };
+    }
+    
+    if (action.type === 'external_link') {
+      return {
+        text: action.data?.buttonText || 'Ver Producto',
+        disabled: false,
+        icon: <ArrowTopRightOnSquareIcon className="h-4 w-4" />,
+      };
+    }
+    
+    if (action.type === 'contact') {
+      return {
+        text: action.data?.buttonText || 'Contactar',
+        disabled: false,
+        icon: null,
+      };
+    }
+    
+    return {
+      text: 'Ver Detalles',
+      disabled: false,
+      icon: null,
+    };
   };
 
   // Pull to refresh functionality
@@ -340,8 +408,7 @@ const ProductosPage = () => {
           }`}>
             {filteredProducts.map((product) => {
               const primaryImage = product.images[0];
-              const defaultVariant = product.variants[0];
-              const isAddingThis = addingToCart === product.id;
+              const buttonConfig = getActionButton(product);
               
               return (
               <div 
@@ -385,11 +452,12 @@ const ProductosPage = () => {
                     </Link>
                     <div className="px-3 sm:px-4 pb-3 sm:pb-4 mt-auto">
                       <button 
-                        onClick={() => defaultVariant && handleAddToCart(product.id, defaultVariant.id)}
-                        disabled={!product.availableForSale || isAddingThis || cartLoading}
-                        className="w-full bg-blue-500 text-white touch-target rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors text-mobile-body font-medium"
+                        onClick={() => handleProductAction(product)}
+                        disabled={buttonConfig.disabled}
+                        className="w-full bg-blue-500 text-white touch-target rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors text-mobile-body font-medium flex items-center justify-center gap-2"
                       >
-                        {isAddingThis ? 'Agregando...' : !product.availableForSale ? 'Agotado' : 'Agregar al carrito'}
+                        {buttonConfig.text}
+                        {buttonConfig.icon}
                       </button>
                     </div>
                   </>
@@ -428,11 +496,12 @@ const ProductosPage = () => {
                     </Link>
                     <div className="ml-2 sm:ml-4 flex-shrink-0">
                       <button 
-                        onClick={() => defaultVariant && handleAddToCart(product.id, defaultVariant.id)}
-                        disabled={!product.availableForSale || isAddingThis || cartLoading}
-                        className="bg-blue-500 text-white touch-target rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors text-xs sm:text-sm font-medium px-3 sm:px-4"
+                        onClick={() => handleProductAction(product)}
+                        disabled={buttonConfig.disabled}
+                        className="bg-blue-500 text-white touch-target rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors text-xs sm:text-sm font-medium px-3 sm:px-4 flex items-center gap-1"
                       >
-                        {isAddingThis ? '...' : !product.availableForSale ? 'Agotado' : 'Agregar'}
+                        {buttonConfig.icon}
+                        {buttonConfig.text}
                       </button>
                     </div>
                   </>
