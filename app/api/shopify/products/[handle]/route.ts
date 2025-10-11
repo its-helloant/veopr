@@ -7,10 +7,11 @@ import { getProduct } from '@/lib/shopify';
  */
 export async function GET(
   request: Request,
-  { params }: { params: { handle: string } }
+  { params }: { params: Promise<{ handle: string }> }
 ) {
   try {
-    const product = await getProduct(params.handle);
+    const { handle } = await params;
+    const product = await getProduct(handle);
     
     if (!product) {
       return NextResponse.json(

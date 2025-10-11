@@ -27,7 +27,7 @@ if (!SHOPIFY_STORE_DOMAIN || !SHOPIFY_STOREFRONT_ACCESS_TOKEN) {
   console.warn('Shopify credentials not configured. Add them to your .env.local file.');
 }
 
-const SHOPIFY_GRAPHQL_URL = `https://${SHOPIFY_STORE_DOMAIN}/api/2024-01/graphql.json`;
+const SHOPIFY_GRAPHQL_URL = `https://${SHOPIFY_STORE_DOMAIN}/api/2025-10/graphql.json`;
 
 /**
  * Makes a GraphQL request to Shopify Storefront API
@@ -45,11 +45,14 @@ async function shopifyFetch<T>(query: string, variables: Record<string, any> = {
         'X-Shopify-Storefront-Access-Token': SHOPIFY_STOREFRONT_ACCESS_TOKEN,
       },
       body: JSON.stringify({ query, variables }),
-      cache: 'no-store', // For client-side, we don't cache. Server-side routes handle caching.
+      next: { 
+        revalidate: 3600, // Cache for 1 hour (3600 seconds)
+        tags: ['shopify', 'products'] // Tags for on-demand revalidation
+      }
     });
 
     if (!response.ok) {
-      throw new Error(`Shopify API error: ${response.statusText}`);
+      throw new Error(`Shopify API error ${response.status}: ${response.statusText}`);
     }
 
     const json = await response.json();
