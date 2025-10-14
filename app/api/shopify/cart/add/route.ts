@@ -17,7 +17,13 @@ export async function POST(request: Request) {
     }
 
     const cart = await addToCart(cartId, variantId, quantity || 1);
-    return NextResponse.json({ cart });
+    return NextResponse.json({ cart }, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      },
+    });
   } catch (error) {
     console.error('Error adding to cart:', error);
     return NextResponse.json(

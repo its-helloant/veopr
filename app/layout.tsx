@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { HeroUIProvider } from '@heroui/react'
+import { CartProvider } from '@/contexts/CartContext'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -42,7 +43,9 @@ export default function RootLayout({
       </head>
       <body>
         <HeroUIProvider>
-          {children}
+          <CartProvider>
+            {children}
+          </CartProvider>
         </HeroUIProvider>
       </body>
     </html>

@@ -4,7 +4,7 @@ import React from 'react';
 import Header from '@/components/shared/Header';
 import Footer from '@/components/shared/Footer';
 import { useProducts } from '@/hooks/useProducts';
-import { useShopifyCart } from '@/hooks/useShopifyCart';
+import { useCart } from '@/contexts/CartContext';
 import { useProductFilters } from '@/hooks/useProductFilters';
 import { usePullToRefresh } from '@/hooks/usePullToRefresh';
 import { useProductActions } from '@/hooks/useProductActions';
@@ -15,7 +15,7 @@ import { PullToRefreshIndicator } from '@/components/productos/PullToRefreshIndi
 
 const ProductosPage = () => {
   const { products, loading: productsLoading, refetch } = useProducts();
-  const { addItem, loading: cartLoading } = useShopifyCart();
+  const { addItem, loading: cartLoading } = useCart();
   
   const {
     searchTerm,

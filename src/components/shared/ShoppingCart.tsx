@@ -7,7 +7,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { useShopifyCart } from '@/hooks/useShopifyCart';
+import { useCart } from '@/contexts/CartContext';
 import { 
   XMarkIcon, 
   ShoppingBagIcon,
@@ -22,7 +22,7 @@ interface ShoppingCartProps {
 }
 
 export default function ShoppingCart({ isOpen, onClose }: ShoppingCartProps) {
-  const { cart, loading, updateItem, removeItem, itemCount } = useShopifyCart();
+  const { cart, loading, updateItem, removeItem, itemCount } = useCart();
 
   const handleUpdateQuantity = async (lineId: string, currentQuantity: number, change: number) => {
     const newQuantity = currentQuantity + change;
@@ -146,7 +146,7 @@ export default function ShoppingCart({ isOpen, onClose }: ShoppingCartProps) {
                     <div className="flex items-center gap-2 mt-2">
                       <button
                         onClick={() => handleUpdateQuantity(item.id, item.quantity, -1)}
-                        disabled={loading || item.quantity <= 1}
+                        disabled={item.quantity <= 1}
                         className="p-1 hover:bg-gray-200 rounded disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         aria-label="Disminuir cantidad"
                       >
@@ -157,16 +157,14 @@ export default function ShoppingCart({ isOpen, onClose }: ShoppingCartProps) {
                       </span>
                       <button
                         onClick={() => handleUpdateQuantity(item.id, item.quantity, 1)}
-                        disabled={loading}
-                        className="p-1 hover:bg-gray-200 rounded disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        className="p-1 hover:bg-gray-200 rounded transition-colors"
                         aria-label="Aumentar cantidad"
                       >
                         <PlusIcon className="h-4 w-4 text-gray-600" />
                       </button>
                       <button
                         onClick={() => handleRemoveItem(item.id)}
-                        disabled={loading}
-                        className="ml-auto p-1 hover:bg-red-100 rounded disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        className="ml-auto p-1 hover:bg-red-100 rounded transition-colors"
                         aria-label="Eliminar producto"
                       >
                         <TrashIcon className="h-4 w-4 text-red-600" />

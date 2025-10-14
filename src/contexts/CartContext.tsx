@@ -1,13 +1,16 @@
 /**
- * Custom hook for managing Shopify cart state
+ * Cart Context Provider
+ * Provides shared cart state across all components
  */
 
-import { useState, useEffect, useCallback } from 'react';
+'use client'
+
+import React, { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
 import { Cart } from '@/types/shopify';
 
 const CART_ID_KEY = 'shopify_cart_id';
 
-interface UseShopifyCartReturn {
+interface CartContextType {
   cart: Cart | null;
   loading: boolean;
   error: string | null;
@@ -18,7 +21,9 @@ interface UseShopifyCartReturn {
   itemCount: number;
 }
 
-export function useShopifyCart(): UseShopifyCartReturn {
+const CartContext = createContext<CartContextType | undefined>(undefined);
+
+export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<Cart | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -43,6 +48,7 @@ export function useShopifyCart(): UseShopifyCartReturn {
    * Creates a new cart
    */
   const createCart = useCallback(async (): Promise<Cart> => {
+    console.log('[CartContext] Creating new cart...');
     const response = await fetch('/api/shopify/cart', {
       method: 'POST',
     });
@@ -54,6 +60,7 @@ export function useShopifyCart(): UseShopifyCartReturn {
     const data = await response.json();
     const newCart = data.cart;
     
+    console.log('[CartContext] New cart created:', newCart.id);
     saveCartId(newCart.id);
     setCart(newCart);
     
@@ -65,22 +72,28 @@ export function useShopifyCart(): UseShopifyCartReturn {
    */
   const fetchCart = useCallback(async (cartId: string): Promise<Cart | null> => {
     try {
-      const response = await fetch(`/api/shopify/cart?cartId=${encodeURIComponent(cartId)}`);
+      console.log('[CartContext] Fetching cart:', cartId);
+      const response = await fetch(`/api/shopify/cart?cartId=${encodeURIComponent(cartId)}`, {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache',
+        },
+      });
 
       if (!response.ok) {
         if (response.status === 404) {
-          // Cart not found, create a new one
+          console.log('[CartContext] Cart not found, creating new one');
           return await createCart();
         }
         throw new Error('Failed to fetch cart');
       }
 
       const data = await response.json();
+      console.log('[CartContext] Cart fetched:', data.cart);
       setCart(data.cart);
       return data.cart;
     } catch (err) {
-      console.error('Error fetching cart:', err);
-      // If cart fetch fails, create a new one
+      console.error('[CartContext] Error fetching cart:', err);
       return await createCart();
     }
   }, [createCart]);
@@ -104,7 +117,7 @@ export function useShopifyCart(): UseShopifyCartReturn {
    * Adds an item to the cart
    */
   const addItem = useCallback(async (variantId: string, quantity = 1) => {
-    console.log('[addItem] Adding item:', variantId, 'quantity:', quantity);
+    console.log('[CartContext] Adding item:', variantId, 'quantity:', quantity);
     
     try {
       setLoading(true);
@@ -112,15 +125,12 @@ export function useShopifyCart(): UseShopifyCartReturn {
 
       let currentCart = cart;
       
-      // Create cart if it doesn't exist
       if (!currentCart) {
-        console.log('[addItem] No cart exists, creating new cart...');
+        console.log('[CartContext] No cart exists, creating new cart...');
         currentCart = await createCart();
-        console.log('[addItem] New cart created:', currentCart.id);
       }
 
-      console.log('[addItem] Current cart:', currentCart.id);
-      console.log('[addItem] Sending add request...');
+      console.log('[CartContext] Adding to cart:', currentCart.id);
 
       const response = await fetch('/api/shopify/cart/add', {
         method: 'POST',
@@ -134,20 +144,19 @@ export function useShopifyCart(): UseShopifyCartReturn {
         }),
       });
 
-      console.log('[addItem] Response status:', response.status);
+      console.log('[CartContext] Add response status:', response.status);
 
       if (!response.ok) {
         const errorData = await response.text();
-        console.error('[addItem] API error:', errorData);
+        console.error('[CartContext] Add error:', errorData);
         throw new Error('Failed to add item to cart');
       }
 
       const data = await response.json();
-      console.log('[addItem] Server response cart:', data.cart);
+      console.log('[CartContext] Cart updated:', data.cart);
       setCart(data.cart);
-      console.log('[addItem] Cart state updated successfully');
     } catch (err) {
-      console.error('[addItem] Error:', err);
+      console.error('[CartContext] Error adding to cart:', err);
       setError(err instanceof Error ? err.message : 'Failed to add item');
       throw err;
     } finally {
@@ -161,14 +170,12 @@ export function useShopifyCart(): UseShopifyCartReturn {
   const updateItem = useCallback(async (lineId: string, quantity: number) => {
     if (!cart) return;
 
-    // Store the original cart for rollback
     const originalCart = cart;
 
     try {
-      setLoading(true);
       setError(null);
 
-      // Optimistic update: immediately update the quantity in UI
+      // Optimistic update
       const optimisticCart = {
         ...cart,
         items: cart.items.map(item => 
@@ -179,7 +186,6 @@ export function useShopifyCart(): UseShopifyCartReturn {
         ),
       };
       
-      // Recalculate subtotal and total
       const newSubtotal = optimisticCart.items.reduce(
         (sum, item) => sum + (item.price * item.quantity), 
         0
@@ -187,6 +193,7 @@ export function useShopifyCart(): UseShopifyCartReturn {
       optimisticCart.subtotal = newSubtotal;
       optimisticCart.total = newSubtotal;
       
+      console.log('[CartContext] Optimistic update for quantity');
       setCart(optimisticCart);
 
       const response = await fetch('/api/shopify/cart/update', {
@@ -206,16 +213,13 @@ export function useShopifyCart(): UseShopifyCartReturn {
       }
 
       const data = await response.json();
-      // Update with the actual response from server
+      console.log('[CartContext] Cart updated from server');
       setCart(data.cart);
     } catch (err) {
-      console.error('Error updating cart:', err);
-      // Rollback to original cart on error
+      console.error('[CartContext] Error updating cart:', err);
       setCart(originalCart);
       setError(err instanceof Error ? err.message : 'Failed to update item');
       throw err;
-    } finally {
-      setLoading(false);
     }
   }, [cart]);
 
@@ -224,19 +228,18 @@ export function useShopifyCart(): UseShopifyCartReturn {
    */
   const removeItem = useCallback(async (lineId: string) => {
     if (!cart) {
-      console.log('[removeItem] No cart found');
+      console.log('[CartContext] No cart found');
       return;
     }
 
-    console.log('[removeItem] Removing item:', lineId, 'from cart:', cart.id);
+    console.log('[CartContext] Removing item:', lineId);
 
-    // Store the original cart for rollback
     const originalCart = cart;
 
     try {
       setError(null);
 
-      // Optimistic update: immediately remove the item from UI
+      // Optimistic update
       const optimisticCart = {
         ...cart,
         items: cart.items.filter(item => item.id !== lineId),
@@ -245,7 +248,6 @@ export function useShopifyCart(): UseShopifyCartReturn {
           .reduce((sum, item) => sum + item.quantity, 0),
       };
       
-      // Recalculate subtotal and total
       const newSubtotal = optimisticCart.items.reduce(
         (sum, item) => sum + (item.price * item.quantity), 
         0
@@ -253,10 +255,9 @@ export function useShopifyCart(): UseShopifyCartReturn {
       optimisticCart.subtotal = newSubtotal;
       optimisticCart.total = newSubtotal;
       
-      console.log('[removeItem] Optimistic cart update:', optimisticCart);
+      console.log('[CartContext] Optimistic removal');
       setCart(optimisticCart);
 
-      console.log('[removeItem] Sending API request...');
       const response = await fetch('/api/shopify/cart/remove', {
         method: 'POST',
         headers: {
@@ -268,21 +269,19 @@ export function useShopifyCart(): UseShopifyCartReturn {
         }),
       });
 
-      console.log('[removeItem] API response status:', response.status);
+      console.log('[CartContext] Remove response status:', response.status);
 
       if (!response.ok) {
         const errorData = await response.text();
-        console.error('[removeItem] API error:', errorData);
+        console.error('[CartContext] Remove error:', errorData);
         throw new Error('Failed to remove item from cart');
       }
 
       const data = await response.json();
-      console.log('[removeItem] Server cart response:', data.cart);
-      // Update with the actual response from server
+      console.log('[CartContext] Cart updated from server');
       setCart(data.cart);
     } catch (err) {
-      console.error('[removeItem] Error:', err);
-      // Rollback to original cart on error
+      console.error('[CartContext] Error removing from cart:', err);
       setCart(originalCart);
       setError(err instanceof Error ? err.message : 'Failed to remove item');
       throw err;
@@ -300,15 +299,29 @@ export function useShopifyCart(): UseShopifyCartReturn {
 
   const itemCount = cart?.totalQuantity || 0;
 
-  return {
-    cart,
-    loading,
-    error,
-    addItem,
-    updateItem,
-    removeItem,
-    clearCart,
-    itemCount,
-  };
+  return (
+    <CartContext.Provider
+      value={{
+        cart,
+        loading,
+        error,
+        addItem,
+        updateItem,
+        removeItem,
+        clearCart,
+        itemCount,
+      }}
+    >
+      {children}
+    </CartContext.Provider>
+  );
+}
+
+export function useCart() {
+  const context = useContext(CartContext);
+  if (context === undefined) {
+    throw new Error('useCart must be used within a CartProvider');
+  }
+  return context;
 }
 

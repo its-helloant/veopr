@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Header from '@/components/shared/Header';
 import Footer from '@/components/shared/Footer';
 import { Product, isShopifyProduct } from '@/types/product';
-import { useShopifyCart } from '@/hooks/useShopifyCart';
+import { useCart } from '@/contexts/CartContext';
 import { 
   ArrowLeftIcon,
   HeartIcon,
@@ -35,7 +35,7 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
-  const { addItem, loading: cartLoading } = useShopifyCart();
+  const { addItem, loading: cartLoading } = useCart();
 
   // Handle async params
   useEffect(() => {

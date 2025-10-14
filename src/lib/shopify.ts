@@ -103,7 +103,7 @@ function normalizeProduct(shopifyProduct: ShopifyProduct): Product {
       selectedOptions: node.selectedOptions,
     })),
     tags: shopifyProduct.tags,
-    productType: shopifyProduct.productType,
+    productType: 'Latin Doctors', // Override all Shopify products to show "Latin Doctors" category
     vendor: shopifyProduct.vendor,
   };
 }
@@ -564,7 +564,8 @@ export async function removeFromCart(cartId: string, lineId: string): Promise<Ca
     }
   `;
 
-  const { cartLinesRemove } = await shopifyFetch<{ cartLinesRemove: { cart: ShopifyCart } }>(
+  console.log('[Shopify removeFromCart] Executing GraphQL mutation...');
+  const response = await shopifyFetch<{ cartLinesRemove: { cart: ShopifyCart } }>(
     query,
     {
       cartId,
@@ -572,7 +573,11 @@ export async function removeFromCart(cartId: string, lineId: string): Promise<Ca
     }
   );
 
-  return normalizeCart(cartLinesRemove.cart);
+  console.log('[Shopify removeFromCart] GraphQL response:', JSON.stringify(response, null, 2));
+  const normalizedCart = normalizeCart(response.cartLinesRemove.cart);
+  console.log('[Shopify removeFromCart] Normalized cart:', normalizedCart);
+
+  return normalizedCart;
 }
 
 /**

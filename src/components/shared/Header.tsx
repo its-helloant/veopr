@@ -5,13 +5,13 @@ import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/react";
 import Link from "next/link";
 import { ShoppingCartIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import ShoppingCart from "./ShoppingCart";
-import { useShopifyCart } from "@/hooks/useShopifyCart";
+import { useCart } from "@/contexts/CartContext";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
-  const { itemCount } = useShopifyCart();
+  const { itemCount } = useCart();
 
   useEffect(() => {
     setIsClient(true);
