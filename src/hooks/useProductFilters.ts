@@ -73,6 +73,3 @@ export function useProductFilters(products: Product[]) {
     handleCategoryFilter,
   };
 }
-
-
-

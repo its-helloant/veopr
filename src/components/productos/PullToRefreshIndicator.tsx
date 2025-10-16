@@ -14,8 +14,3 @@ export function PullToRefreshIndicator({ isRefreshing }: PullToRefreshIndicatorP
     </div>
   );
 }
-
-
-
-
-

@@ -134,6 +134,3 @@ export function ProductsSearchBar({
     </div>
   );
 }
-
-
-

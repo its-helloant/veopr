@@ -97,8 +97,3 @@ export function ProductsFilterDrawer({
     </>
   );
 }
-
-
-
-
-
