@@ -23,7 +23,7 @@ interface ShoppingCartProps {
 }
 
 export default function ShoppingCart({ isOpen, onClose }: ShoppingCartProps) {
-  const { cart, isPending, updateItem, removeItem, itemCount } = useCart();
+  const { cart, isPending, updateItem, removeItem, itemCount, error, updatingLineId, removingLineId } = useCart();
 
   const handleUpdateQuantity = async (lineId: string, currentQuantity: number, change: number) => {
     const newQuantity = currentQuantity + change;
@@ -81,6 +81,13 @@ export default function ShoppingCart({ isOpen, onClose }: ShoppingCartProps) {
 
         {/* Cart Items */}
         <div className="flex-1 overflow-y-auto p-4">
+          {/* Error Message */}
+          {error && (
+            <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-sm text-red-600 font-medium">{error}</p>
+            </div>
+          )}
+
           {isPending && !cart && (
             <div className="flex items-center justify-center h-full">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500" />
@@ -108,8 +115,16 @@ export default function ShoppingCart({ isOpen, onClose }: ShoppingCartProps) {
 
           {cart && cart.items.length > 0 && (
             <div className="space-y-4">
-              {cart.items.map((item) => (
-                <div key={item.id} className="flex gap-4 p-3 bg-gray-50 rounded-lg">
+              {cart.items.map((item) => {
+                const isUpdating = updatingLineId === item.id;
+                const isRemoving = removingLineId === item.id;
+                const isProcessing = isUpdating || isRemoving;
+                
+                return (
+                <div 
+                  key={item.id} 
+                  className={`flex gap-4 p-3 bg-gray-50 rounded-lg transition-all duration-200 ${isRemoving ? 'opacity-60 pointer-events-none' : 'opacity-100'}`}
+                >
                   {/* Product Image */}
                   <div className="w-20 h-20 bg-gray-200 rounded-lg flex-shrink-0 overflow-hidden">
                     {item.image ? (
@@ -149,33 +164,44 @@ export default function ShoppingCart({ isOpen, onClose }: ShoppingCartProps) {
                     <div className="flex items-center gap-2 mt-2">
                       <button
                         onClick={() => handleUpdateQuantity(item.id, item.quantity, -1)}
-                        disabled={item.quantity <= 1}
+                        disabled={item.quantity <= 1 || isProcessing}
                         className="p-1 hover:bg-gray-200 rounded disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         aria-label="Disminuir cantidad"
                       >
                         <MinusIcon className="h-4 w-4 text-gray-600" />
                       </button>
-                      <span className="w-8 text-center text-sm font-medium">
-                        {item.quantity}
+                      <span className="w-8 text-center text-sm font-medium flex items-center justify-center">
+                        {isUpdating ? (
+                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500" />
+                        ) : (
+                          item.quantity
+                        )}
                       </span>
                       <button
                         onClick={() => handleUpdateQuantity(item.id, item.quantity, 1)}
-                        className="p-1 hover:bg-gray-200 rounded transition-colors"
+                        disabled={isProcessing}
+                        className="p-1 hover:bg-gray-200 rounded disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         aria-label="Aumentar cantidad"
                       >
                         <PlusIcon className="h-4 w-4 text-gray-600" />
                       </button>
                       <button
                         onClick={() => handleRemoveItem(item.id)}
-                        className="ml-auto p-1 hover:bg-red-100 rounded transition-colors"
+                        disabled={isProcessing}
+                        className="ml-auto p-1 hover:bg-red-100 rounded disabled:cursor-not-allowed transition-colors flex items-center justify-center w-6 h-6"
                         aria-label="Eliminar producto"
                       >
-                        <TrashIcon className="h-4 w-4 text-red-600" />
+                        {isRemoving ? (
+                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-red-600" />
+                        ) : (
+                          <TrashIcon className="h-4 w-4 text-red-600" />
+                        )}
                       </button>
                     </div>
                   </div>
                 </div>
-              ))}
+              );
+              })}
             </div>
           )}
         </div>

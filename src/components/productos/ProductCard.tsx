@@ -6,6 +6,7 @@ import { Product } from '@/types/product';
 interface ButtonConfig {
   text: string;
   disabled: boolean;
+  isLoading?: boolean;
 }
 
 interface ProductCardProps {
@@ -62,9 +63,12 @@ export function ProductCard({
           <button 
             onClick={() => onAction(product)}
             disabled={buttonConfig.disabled}
-            className="w-full bg-blue-500 text-white touch-target rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors text-sm sm:text-base font-medium"
+            className="w-full bg-blue-500 text-white touch-target rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors text-sm sm:text-base font-medium flex items-center justify-center gap-2"
           >
-            {buttonConfig.text}
+            {buttonConfig.isLoading && (
+              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
+            )}
+            <span>{buttonConfig.text}</span>
           </button>
         </div>
       </div>
@@ -109,9 +113,12 @@ export function ProductCard({
         <button 
           onClick={() => onAction(product)}
           disabled={buttonConfig.disabled}
-          className="bg-blue-500 text-white touch-target rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors text-xs sm:text-sm font-medium px-3 sm:px-4"
+          className="bg-blue-500 text-white touch-target rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors text-xs sm:text-sm font-medium px-3 sm:px-4 flex items-center justify-center gap-2"
         >
-          {buttonConfig.text}
+          {buttonConfig.isLoading && (
+            <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-white" />
+          )}
+          <span>{buttonConfig.text}</span>
         </button>
       </div>
     </div>

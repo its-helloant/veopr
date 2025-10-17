@@ -1,41 +1,39 @@
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import { Product, getDefaultVariantId } from '@/types/product';
 
 export function useProductActions(
   addItem: (variantId: string, quantity: number) => Promise<void>,
+  isAddingItem: (variantId: string) => boolean,
   cartLoading: boolean
 ) {
-  const [addingToCart, setAddingToCart] = useState<string | null>(null);
-
-  const handleAddToCart = useCallback(async (productId: string, variantId: string) => {
-    setAddingToCart(productId);
+  const handleAddToCart = useCallback(async (variantId: string) => {
     try {
       await addItem(variantId, 1);
     } catch (error) {
       // Error handled by cart context
-    } finally {
-      setAddingToCart(null);
+      console.error('Failed to add item to cart:', error);
     }
   }, [addItem]);
 
   const handleProductAction = useCallback((product: Product) => {
     const variantId = getDefaultVariantId(product);
     if (variantId) {
-      handleAddToCart(product.id, variantId);
+      handleAddToCart(variantId);
     }
   }, [handleAddToCart]);
 
   const getActionButton = useCallback((product: Product) => {
-    const isAddingThis = addingToCart === product.id;
+    const variantId = getDefaultVariantId(product);
+    const isAddingThis = variantId ? isAddingItem(variantId) : false;
     
     return {
       text: isAddingThis ? 'Agregando...' : !product.availableForSale ? 'Agotado' : 'Agregar al carrito',
       disabled: !product.availableForSale || isAddingThis || cartLoading,
+      isLoading: isAddingThis,
     };
-  }, [addingToCart, cartLoading]);
+  }, [isAddingItem, cartLoading]);
 
   return {
-    addingToCart,
     handleProductAction,
     getActionButton,
   };

@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import { updateCartLine } from '@/lib/shopify';
 import { logger } from '@/lib/logger';
 
+// Prevent static generation for API routes
+export const dynamic = 'force-dynamic';
+
 /**
  * POST /api/shopify/cart/update
  * Updates a cart line quantity

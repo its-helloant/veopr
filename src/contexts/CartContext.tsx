@@ -25,6 +25,9 @@ interface CartContextType {
   removeItem: (lineId: string) => Promise<void>;
   clearCart: () => Promise<void>;
   itemCount: number;
+  isAddingItem: (variantId: string) => boolean;
+  updatingLineId: string | null;
+  removingLineId: string | null;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -54,33 +57,69 @@ export function CartProvider({
   const [cart, setCart] = useState<Cart | null>(initialCart);
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [pendingRequests, setPendingRequests] = useState<Set<string>>(new Set());
+  const [updatingLineId, setUpdatingLineId] = useState<string | null>(null);
+  const [removingLineId, setRemovingLineId] = useState<string | null>(null);
+  const [pendingRemovals, setPendingRemovals] = useState<Set<string>>(new Set());
+  const [pendingUpdates, setPendingUpdates] = useState<Set<string>>(new Set());
 
   /**
-   * Adds an item to the cart
+   * Adds an item to the cart with optimistic updates and request deduplication
    */
   const addItem = async (variantId: string, quantity = 1) => {
+    // Request deduplication: prevent concurrent requests for the same variant
+    if (pendingRequests.has(variantId)) {
+      console.warn(`Add to cart request for ${variantId} already in progress, ignoring duplicate`);
+      return;
+    }
+
+    const originalCart = cart;
     setError(null);
     setIsPending(true);
+    
+    // Mark this request as pending
+    setPendingRequests(prev => new Set(prev).add(variantId));
+
     try {
+      // Note: We can't do full optimistic updates for addItem since we don't have 
+      // the complete product data (image, name, price, etc.) client-side.
+      // However, we can still prevent duplicate requests and handle state properly.
+      
       const updatedCart = await addItemToCart(variantId, quantity);
       setCart(updatedCart);
     } catch (err) {
+      // Rollback on error
+      setCart(originalCart);
       const errorMessage = err instanceof Error ? err.message : 'Failed to add item';
       setError(errorMessage);
       throw err;
     } finally {
       setIsPending(false);
+      // Remove from pending requests
+      setPendingRequests(prev => {
+        const next = new Set(prev);
+        next.delete(variantId);
+        return next;
+      });
     }
   };
 
   /**
-   * Updates a cart item quantity with optimistic UI
+   * Updates a cart item quantity with optimistic UI and request deduplication
    */
   const updateItem = async (lineId: string, quantity: number) => {
     if (!cart) return;
 
+    // Request deduplication: prevent concurrent updates for the same line
+    if (pendingUpdates.has(lineId)) {
+      console.warn(`Update cart request for line ${lineId} already in progress, ignoring duplicate`);
+      return;
+    }
+
     const originalCart = cart;
     setError(null);
+    setUpdatingLineId(lineId);
+    setPendingUpdates(prev => new Set(prev).add(lineId));
 
     try {
       // Optimistic update
@@ -101,35 +140,49 @@ export function CartProvider({
       const errorMessage = err instanceof Error ? err.message : 'Failed to update item';
       setError(errorMessage);
       throw err;
+    } finally {
+      setUpdatingLineId(null);
+      setPendingUpdates(prev => {
+        const next = new Set(prev);
+        next.delete(lineId);
+        return next;
+      });
     }
   };
 
   /**
-   * Removes an item from the cart with optimistic UI
+   * Removes an item from the cart with request deduplication
+   * Note: NO optimistic update - item stays visible until server confirms removal
    */
   const removeItem = async (lineId: string) => {
     if (!cart) return;
 
-    const originalCart = cart;
+    // Request deduplication: prevent concurrent removals for the same line
+    if (pendingRemovals.has(lineId)) {
+      console.warn(`Remove cart request for line ${lineId} already in progress, ignoring duplicate`);
+      return;
+    }
+
     setError(null);
+    setRemovingLineId(lineId);
+    setPendingRemovals(prev => new Set(prev).add(lineId));
 
     try {
-      // Optimistic update
-      const optimisticCart = recalculateCartTotals({
-        ...cart,
-        items: cart.items.filter(item => item.id !== lineId),
-      });
-      
-      setCart(optimisticCart);
-
+      // Wait for server response before updating UI
       const updatedCart = await removeCartItem(lineId);
       setCart(updatedCart);
     } catch (err) {
-      // Rollback on error
-      setCart(originalCart);
+      // No rollback needed since we didn't do optimistic update
       const errorMessage = err instanceof Error ? err.message : 'Failed to remove item';
       setError(errorMessage);
       throw err;
+    } finally {
+      setRemovingLineId(null);
+      setPendingRemovals(prev => {
+        const next = new Set(prev);
+        next.delete(lineId);
+        return next;
+      });
     }
   };
 
@@ -148,6 +201,13 @@ export function CartProvider({
     }
   };
 
+  /**
+   * Check if a specific variant is being added to cart
+   */
+  const isAddingItem = (variantId: string): boolean => {
+    return pendingRequests.has(variantId);
+  };
+
   const itemCount = cart?.totalQuantity || 0;
 
   return (
@@ -161,6 +221,9 @@ export function CartProvider({
         removeItem,
         clearCart,
         itemCount,
+        isAddingItem,
+        updatingLineId,
+        removingLineId,
       }}
     >
       {children}

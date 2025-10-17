@@ -9,8 +9,8 @@
 
 import { cookies } from 'next/headers';
 import { addToCart, getCart, updateCartLine, removeFromCart, createCart } from '@/lib/shopify';
-import { revalidatePath } from 'next/cache';
 import { Cart } from '@/types/shopify';
+import { logger } from '@/lib/logger';
 
 const CART_COOKIE = 'shopify_cart_id';
 
@@ -67,6 +67,7 @@ export async function getOrCreateCart(): Promise<Cart> {
   const cart = await getCart(cartId);
   if (!cart) {
     const newCart = await createCart();
+    logger.warn(`No cart found for ${cartId}, created new cart: ${newCart.id}`);
     await setCartId(newCart.id);
     return newCart;
   }
@@ -80,8 +81,6 @@ export async function getOrCreateCart(): Promise<Cart> {
 export async function addItemToCart(variantId: string, quantity: number = 1): Promise<Cart> {
   const cart = await getOrCreateCart();
   const updatedCart = await addToCart(cart.id, variantId, quantity);
-  revalidatePath('/');
-  revalidatePath('/productos');
   return updatedCart;
 }
 
@@ -91,8 +90,6 @@ export async function addItemToCart(variantId: string, quantity: number = 1): Pr
 export async function updateCartItemQuantity(lineId: string, quantity: number): Promise<Cart> {
   const cart = await getOrCreateCart();
   const updatedCart = await updateCartLine(cart.id, lineId, quantity);
-  revalidatePath('/');
-  revalidatePath('/productos');
   return updatedCart;
 }
 
@@ -102,8 +99,6 @@ export async function updateCartItemQuantity(lineId: string, quantity: number): 
 export async function removeCartItem(lineId: string): Promise<Cart> {
   const cart = await getOrCreateCart();
   const updatedCart = await removeFromCart(cart.id, lineId);
-  revalidatePath('/');
-  revalidatePath('/productos');
   return updatedCart;
 }
 
@@ -113,7 +108,5 @@ export async function removeCartItem(lineId: string): Promise<Cart> {
 export async function clearCartCookie(): Promise<void> {
   const cookieStore = await cookies();
   cookieStore.delete(CART_COOKIE);
-  revalidatePath('/');
-  revalidatePath('/productos');
 }
 

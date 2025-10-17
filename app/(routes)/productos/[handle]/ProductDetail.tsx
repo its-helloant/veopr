@@ -36,7 +36,7 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
-  const { addItem, isPending: cartLoading } = useCart();
+  const { addItem, isPending: cartLoading, isAddingItem } = useCart();
 
   // Handle async params
   useEffect(() => {
@@ -177,6 +177,7 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
   const compareAtPrice = selectedVariant?.compareAtPrice || product.compareAtPrice;
   const isAvailable = selectedVariant?.availableForSale ?? product.availableForSale;
   const canAddToCart = isAvailable;
+  const isAdding = selectedVariant ? isAddingItem(selectedVariant.id) : false;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -376,12 +377,22 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
               {canAddToCart ? (
                 <button 
                   onClick={addToCart}
-                  disabled={cartLoading}
+                  disabled={isAdding || cartLoading}
                   className="flex-1 bg-blue-500 text-white touch-target rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2 text-sm sm:text-base font-medium"
                 >
-                  <ShoppingCartIcon className="h-5 w-5" />
-                  <span className="hidden sm:inline">{cartLoading ? 'Agregando...' : 'Agregar al carrito'}</span>
-                  <span className="sm:hidden">{cartLoading ? 'Agregando...' : 'Agregar'}</span>
+                  {isAdding ? (
+                    <>
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white" />
+                      <span className="hidden sm:inline">Agregando...</span>
+                      <span className="sm:hidden">Agregando...</span>
+                    </>
+                  ) : (
+                    <>
+                      <ShoppingCartIcon className="h-5 w-5" />
+                      <span className="hidden sm:inline">Agregar al carrito</span>
+                      <span className="sm:hidden">Agregar</span>
+                    </>
+                  )}
                 </button>
               ) : (
                 <button 
@@ -460,11 +471,20 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
             </div>
             <button 
               onClick={addToCart}
-              disabled={cartLoading}
+              disabled={isAdding || cartLoading}
               className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center gap-2 font-medium"
             >
-              <ShoppingCartIcon className="h-5 w-5" />
-              {cartLoading ? 'Agregando...' : 'Agregar'}
+              {isAdding ? (
+                <>
+                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white" />
+                  <span>Agregando...</span>
+                </>
+              ) : (
+                <>
+                  <ShoppingCartIcon className="h-5 w-5" />
+                  <span>Agregar</span>
+                </>
+              )}
             </button>
           </div>
         </div>

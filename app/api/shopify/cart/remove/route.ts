@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import { removeFromCart } from '@/lib/shopify';
 import { logger } from '@/lib/logger';
 
+// Prevent static generation for API routes
+export const dynamic = 'force-dynamic';
+
 /**
  * POST /api/shopify/cart/remove
  * Removes an item from the cart

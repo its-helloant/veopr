@@ -15,7 +15,7 @@ import { PullToRefreshIndicator } from '@/components/productos/PullToRefreshIndi
 
 const ProductosPage = () => {
   const { products, loading: productsLoading, refetch } = useProducts();
-  const { addItem, isPending: cartLoading } = useCart();
+  const { addItem, isPending: cartLoading, isAddingItem } = useCart();
   
   const {
     searchTerm,
@@ -39,7 +39,7 @@ const ProductosPage = () => {
   const {
     handleProductAction,
     getActionButton,
-  } = useProductActions(addItem, cartLoading);
+  } = useProductActions(addItem, isAddingItem, cartLoading);
 
   return (
     <div className="min-h-screen bg-gray-50">

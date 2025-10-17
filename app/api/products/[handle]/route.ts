@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { getProduct } from '@/lib/products';
 
+// Prevent static generation for API routes
+export const dynamic = 'force-dynamic';
+
 /**
  * GET /api/products/[handle]
  * Fetches a single product by handle from any source
@@ -28,6 +31,4 @@ export async function GET(
     );
   }
 }
-
-export const revalidate = 60; // Revalidate every 60 seconds
 

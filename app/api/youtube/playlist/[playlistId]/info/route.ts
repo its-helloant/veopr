@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { fetchPlaylistInfo } from '@/src/lib/youtube';
 import { logger } from '@/src/lib/logger';
 
+// Prevent static generation for API routes
+export const dynamic = 'force-dynamic';
+
 /**
  * API Route: /api/youtube/playlist/[playlistId]/info
  * 

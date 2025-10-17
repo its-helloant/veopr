@@ -3,6 +3,9 @@ import { fetchPlaylistInfo, fetchPlaylistVideos } from '@/src/lib/youtube';
 import { ProcessedPlaylist } from '@/src/types/youtube';
 import { logger } from '@/src/lib/logger';
 
+// Prevent static generation for API routes
+export const dynamic = 'force-dynamic';
+
 /**
  * API Route: /api/youtube/playlist/[playlistId]
  * 

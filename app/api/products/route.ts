@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 import { getAllProducts } from '@/lib/products';
 
+// Prevent static generation for API routes
+export const dynamic = 'force-dynamic';
+
 /**
  * GET /api/products
  * Fetches all products from Shopify
@@ -16,6 +19,4 @@ export async function GET() {
     );
   }
 }
-
-export const revalidate = 60; // Revalidate every 60 seconds
 

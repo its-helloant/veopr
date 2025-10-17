@@ -28,26 +28,42 @@ const SHOPIFY_GRAPHQL_URL = `https://${SHOPIFY_STORE_DOMAIN}/api/2025-10/graphql
 
 /**
  * Makes a GraphQL request to Shopify Storefront API
+ * @param query - GraphQL query string
+ * @param variables - Query variables
+ * @param options - Fetch options including caching strategy
  */
-async function shopifyFetch<T>(query: string, variables: Record<string, any> = {}): Promise<T> {
+async function shopifyFetch<T>(
+  query: string, 
+  variables: Record<string, any> = {},
+  options: { cache?: boolean } = { cache: true }
+): Promise<T> {
   if (!SHOPIFY_STORE_DOMAIN || !SHOPIFY_STOREFRONT_ACCESS_TOKEN) {
     logger.error('Shopify credentials not configured');
     throw new Error('Shopify credentials are not configured');
   }
 
   try {
-    const response = await fetch(SHOPIFY_GRAPHQL_URL, {
+    const fetchOptions: RequestInit = {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'X-Shopify-Storefront-Access-Token': SHOPIFY_STOREFRONT_ACCESS_TOKEN,
       },
       body: JSON.stringify({ query, variables }),
-      next: { 
+    };
+
+    // Only cache product queries, never cache cart operations
+    if (options.cache) {
+      fetchOptions.next = { 
         revalidate: 3600, // Cache for 1 hour (3600 seconds)
         tags: ['shopify', 'products'] // Tags for on-demand revalidation
-      }
-    });
+      };
+    } else {
+      // Explicitly disable caching for cart operations
+      fetchOptions.cache = 'no-store';
+    }
+
+    const response = await fetch(SHOPIFY_GRAPHQL_URL, fetchOptions);
 
     if (!response.ok) {
       logger.error('Shopify API request failed', null, { 
@@ -355,7 +371,7 @@ export async function createCart(): Promise<Cart> {
     }
   `;
 
-  const { cartCreate } = await shopifyFetch<{ cartCreate: { cart: ShopifyCart } }>(query);
+  const { cartCreate } = await shopifyFetch<{ cartCreate: { cart: ShopifyCart } }>(query, {}, { cache: false });
   return normalizeCart(cartCreate.cart);
 }
 
@@ -427,7 +443,8 @@ export async function addToCart(cartId: string, variantId: string, quantity = 1)
     {
       cartId,
       lines: [{ merchandiseId: variantId, quantity }],
-    }
+    },
+    { cache: false }
   );
 
   return normalizeCart(cartLinesAdd.cart);
@@ -501,7 +518,8 @@ export async function updateCartLine(cartId: string, lineId: string, quantity: n
     {
       cartId,
       lines: [{ id: lineId, quantity }],
-    }
+    },
+    { cache: false }
   );
 
   return normalizeCart(cartLinesUpdate.cart);
@@ -575,7 +593,8 @@ export async function removeFromCart(cartId: string, lineId: string): Promise<Ca
     {
       cartId,
       lineIds: [lineId],
-    }
+    },
+    { cache: false }
   );
 
   return normalizeCart(response.cartLinesRemove.cart);
@@ -642,7 +661,7 @@ export async function getCart(cartId: string): Promise<Cart | null> {
   `;
 
   try {
-    const { cart } = await shopifyFetch<{ cart: ShopifyCart | null }>(query, { cartId });
+    const { cart } = await shopifyFetch<{ cart: ShopifyCart | null }>(query, { cartId }, { cache: false });
     return cart ? normalizeCart(cart) : null;
   } catch (error) {
     logger.error('Failed to get cart', error, { cartId });
