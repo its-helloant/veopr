@@ -7,7 +7,7 @@
 
 'use client'
 
-import { useState, useTransition } from 'react';
+import { useState } from 'react';
 import { addItemToCart, updateCartItemQuantity, removeCartItem, clearCartCookie } from '@/actions/cart';
 
 interface UseShopifyCartReturn {
@@ -15,12 +15,10 @@ interface UseShopifyCartReturn {
   updateItem: (lineId: string, quantity: number) => Promise<void>;
   removeItem: (lineId: string) => Promise<void>;
   clearCart: () => Promise<void>;
-  isPending: boolean;
   error: string | null;
 }
 
 export function useShopifyCart(): UseShopifyCartReturn {
-  const [isPending, _] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
   /**
@@ -84,7 +82,6 @@ export function useShopifyCart(): UseShopifyCartReturn {
     updateItem,
     removeItem,
     clearCart,
-    isPending,
     error,
   };
 }

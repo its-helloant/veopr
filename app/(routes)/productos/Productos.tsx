@@ -15,7 +15,7 @@ import { PullToRefreshIndicator } from '@/components/productos/PullToRefreshIndi
 
 const ProductosPage = () => {
   const { products, loading: productsLoading, refetch } = useProducts();
-  const { addItem, isPending: cartLoading, isAddingItem } = useCart();
+  const { addItem, isAddingItem, isPending: cartLoading } = useCart();
   
   const {
     searchTerm,
@@ -67,9 +67,7 @@ const ProductosPage = () => {
           onSearchChange={handleSearch}
           viewMode={viewMode}
           onViewModeChange={setViewMode}
-          showFilters={showFilters}
           onToggleFilters={() => setShowFilters(!showFilters)}
-          selectedCategory={selectedCategory}
           filterCount={selectedCategory !== 'all' ? 1 : 0}
         />
 

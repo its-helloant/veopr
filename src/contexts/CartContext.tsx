@@ -15,6 +15,7 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { addItemToCart, updateCartItemQuantity, removeCartItem, clearCartCookie } from '@/actions/cart';
 import { Cart } from '@/types/shopify';
+import { logger } from '@/lib/logger';
 
 interface CartContextType {
   cart: Cart | null;
@@ -69,7 +70,7 @@ export function CartProvider({
   const addItem = async (variantId: string, quantity = 1) => {
     // Request deduplication: prevent concurrent requests for the same variant
     if (pendingRequests.has(variantId)) {
-      console.warn(`Add to cart request for ${variantId} already in progress, ignoring duplicate`);
+      logger.warn(`Add to cart request for ${variantId} already in progress, ignoring duplicate`);
       return;
     }
 
@@ -112,7 +113,7 @@ export function CartProvider({
 
     // Request deduplication: prevent concurrent updates for the same line
     if (pendingUpdates.has(lineId)) {
-      console.warn(`Update cart request for line ${lineId} already in progress, ignoring duplicate`);
+      logger.warn(`Update cart request for line ${lineId} already in progress, ignoring duplicate`);
       return;
     }
 
@@ -159,7 +160,7 @@ export function CartProvider({
 
     // Request deduplication: prevent concurrent removals for the same line
     if (pendingRemovals.has(lineId)) {
-      console.warn(`Remove cart request for line ${lineId} already in progress, ignoring duplicate`);
+      logger.warn(`Remove cart request for line ${lineId} already in progress, ignoring duplicate`);
       return;
     }
 

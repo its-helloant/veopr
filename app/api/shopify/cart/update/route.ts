@@ -13,9 +13,9 @@ export async function POST(request: Request) {
   try {
     const { cartId, lineId, quantity } = await request.json();
 
-    if (!cartId || !lineId || quantity === undefined || quantity < 1) {
+    if (!cartId || !lineId || !Number.isInteger(quantity) || quantity < 1) {
       return NextResponse.json(
-        { error: 'Cart ID, line ID, and quantity are required' },
+        { error: 'Cart ID, line ID, and valid quantity are required' },
         { status: 400 }
       );
     }

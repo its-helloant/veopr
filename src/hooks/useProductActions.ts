@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { Product, getDefaultVariantId } from '@/types/product';
+import { logger } from '@/lib/logger';
 
 export function useProductActions(
   addItem: (variantId: string, quantity: number) => Promise<void>,
@@ -11,7 +12,7 @@ export function useProductActions(
       await addItem(variantId, 1);
     } catch (error) {
       // Error handled by cart context
-      console.error('Failed to add item to cart:', error);
+      logger.error('Failed to add item to cart:', error);
     }
   }, [addItem]);
 

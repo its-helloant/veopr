@@ -11,9 +11,7 @@ interface ProductsSearchBarProps {
   onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   viewMode: 'grid' | 'list';
   onViewModeChange: (mode: 'grid' | 'list') => void;
-  showFilters: boolean;
   onToggleFilters: () => void;
-  selectedCategory: string;
   filterCount: number;
 }
 

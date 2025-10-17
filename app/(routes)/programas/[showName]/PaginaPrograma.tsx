@@ -9,6 +9,7 @@ import Footer from '@/src/components/shared/Footer';
 import YoutubeVideoPlayer, { VideoInfo } from '@/src/components/youtube/YoutubeVideoPlayer';
 import YoutubePlaylist from '@/src/components/youtube/YoutubePlaylist';
 import { ProgramConfig } from './ConfigProgramas';
+import CarruselProductos from '@/components/shared/CarruselProductos';
 
 interface DetalleProgramaProps {
   programConfig: ProgramConfig;
