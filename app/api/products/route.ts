@@ -3,7 +3,7 @@ import { getAllProducts } from '@/lib/products';
 
 /**
  * GET /api/products
- * Fetches all products from all sources (Shopify, custom, etc.)
+ * Fetches all products from Shopify
  */
 export async function GET() {
   try {

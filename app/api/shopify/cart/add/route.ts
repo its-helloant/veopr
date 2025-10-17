@@ -16,7 +16,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const cart = await addToCart(cartId, variantId, quantity || 1);
+    const cart = await addToCart(cartId, variantId, quantity > 0 ? quantity : 1);
     return NextResponse.json({ cart }, {
       headers: {
         'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',

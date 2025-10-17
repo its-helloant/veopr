@@ -1,12 +1,10 @@
 import React from 'react';
 import { Product } from '@/types/product';
 import { ProductCard } from './ProductCard';
-import { ButtonIconType } from '@/hooks/useProductActions';
 
 interface ButtonConfig {
   text: string;
   disabled: boolean;
-  iconType: ButtonIconType;
 }
 
 interface ProductsGridProps {

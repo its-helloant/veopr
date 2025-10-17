@@ -1,13 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
 import { Product } from '@/types/product';
-import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline';
-import { ButtonIconType } from '@/hooks/useProductActions';
 
 interface ButtonConfig {
   text: string;
   disabled: boolean;
-  iconType: ButtonIconType;
 }
 
 interface ProductCardProps {
@@ -24,14 +21,6 @@ export function ProductCard({
   buttonConfig,
 }: ProductCardProps) {
   const primaryImage = product.images[0];
-  
-  // Render icon based on iconType
-  const renderIcon = () => {
-    if (buttonConfig.iconType === 'external') {
-      return <ArrowTopRightOnSquareIcon className="h-4 w-4" />;
-    }
-    return null;
-  };
 
   if (viewMode === 'grid') {
     return (
@@ -71,10 +60,9 @@ export function ProductCard({
           <button 
             onClick={() => onAction(product)}
             disabled={buttonConfig.disabled}
-            className="w-full bg-blue-500 text-white touch-target rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors text-mobile-body font-medium flex items-center justify-center gap-2"
+            className="w-full bg-blue-500 text-white touch-target rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors text-mobile-body font-medium"
           >
             {buttonConfig.text}
-            {renderIcon()}
           </button>
         </div>
       </div>
@@ -118,11 +106,10 @@ export function ProductCard({
         <button 
           onClick={() => onAction(product)}
           disabled={buttonConfig.disabled}
-            className="bg-blue-500 text-white touch-target rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors text-xs sm:text-sm font-medium px-3 sm:px-4 flex items-center gap-1"
-          >
-            {renderIcon()}
-            {buttonConfig.text}
-          </button>
+          className="bg-blue-500 text-white touch-target rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors text-xs sm:text-sm font-medium px-3 sm:px-4"
+        >
+          {buttonConfig.text}
+        </button>
       </div>
     </div>
   );

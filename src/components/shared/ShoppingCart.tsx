@@ -22,7 +22,7 @@ interface ShoppingCartProps {
 }
 
 export default function ShoppingCart({ isOpen, onClose }: ShoppingCartProps) {
-  const { cart, loading, updateItem, removeItem, itemCount } = useCart();
+  const { cart, isPending, updateItem, removeItem, itemCount } = useCart();
 
   const handleUpdateQuantity = async (lineId: string, currentQuantity: number, change: number) => {
     const newQuantity = currentQuantity + change;
@@ -80,13 +80,13 @@ export default function ShoppingCart({ isOpen, onClose }: ShoppingCartProps) {
 
         {/* Cart Items */}
         <div className="flex-1 overflow-y-auto p-4">
-          {loading && !cart && (
+          {isPending && !cart && (
             <div className="flex items-center justify-center h-full">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500" />
             </div>
           )}
 
-          {!loading && (!cart || cart.items.length === 0) && (
+          {!isPending && (!cart || cart.items.length === 0) && (
             <div className="flex flex-col items-center justify-center h-full text-center">
               <ShoppingBagIcon className="h-16 w-16 text-gray-300 mb-4" />
               <h3 className="text-lg font-medium text-gray-700 mb-2">
@@ -199,7 +199,7 @@ export default function ShoppingCart({ isOpen, onClose }: ShoppingCartProps) {
             {/* Checkout Button */}
             <button
               onClick={handleCheckout}
-              disabled={loading}
+              disabled={isPending}
               className="w-full bg-blue-500 text-white py-3 rounded-lg font-medium hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               Proceder al Pago

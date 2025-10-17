@@ -7,6 +7,12 @@ export function usePullToRefresh(refetch: () => Promise<void>) {
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     setTouchStartY(e.touches[0].clientY);
   }, []);
+  
+  const handleRefresh = useCallback(async () => {
+    setIsRefreshing(true);
+    await refetch();
+    setIsRefreshing(false);
+  }, [refetch]);
 
   const handleTouchMove = useCallback((e: React.TouchEvent) => {
     const touchY = e.touches[0].clientY;
@@ -16,13 +22,7 @@ export function usePullToRefresh(refetch: () => Promise<void>) {
     if (typeof window !== 'undefined' && window.scrollY === 0 && touchDiff > 100 && !isRefreshing) {
       handleRefresh();
     }
-  }, [touchStartY, isRefreshing]);
-
-  const handleRefresh = useCallback(async () => {
-    setIsRefreshing(true);
-    await refetch();
-    setIsRefreshing(false);
-  }, [refetch]);
+  }, [touchStartY, isRefreshing, handleRefresh]);
 
   return {
     isRefreshing,

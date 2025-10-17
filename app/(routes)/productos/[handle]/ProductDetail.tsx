@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Header from '@/components/shared/Header';
 import Footer from '@/components/shared/Footer';
-import { Product, isShopifyProduct } from '@/types/product';
+import { Product } from '@/types/product';
 import { useCart } from '@/contexts/CartContext';
 import { 
   ArrowLeftIcon,
@@ -35,7 +35,7 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
-  const { addItem, loading: cartLoading } = useCart();
+  const { addItem, isPending: cartLoading } = useCart();
 
   // Handle async params
   useEffect(() => {
@@ -117,7 +117,7 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
   };
 
   const addToCart = async () => {
-    if (!product || !isShopifyProduct(product)) return;
+    if (!product) return;
     
     try {
       const variant = product.variants[selectedVariantIndex];
@@ -173,12 +173,12 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
     );
   }
 
-  // Get selected variant for Shopify products
-  const selectedVariant = isShopifyProduct(product) ? product.variants[selectedVariantIndex] : null;
+  // Get selected variant
+  const selectedVariant = product.variants[selectedVariantIndex];
   const currentPrice = selectedVariant?.price || product.price;
   const compareAtPrice = selectedVariant?.compareAtPrice || product.compareAtPrice;
   const isAvailable = selectedVariant?.availableForSale ?? product.availableForSale;
-  const canAddToCart = isShopifyProduct(product) && isAvailable;
+  const canAddToCart = isAvailable;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -320,8 +320,8 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
               )}
             </div>
 
-            {/* Variants for Shopify products */}
-            {isShopifyProduct(product) && product.variants.length > 1 && (
+            {/* Variants */}
+            {product.variants.length > 1 && (
               <div>
                 <h3 className="text-mobile-body font-medium text-gray-900 mb-2">Opciones</h3>
                 <div className="flex flex-wrap gap-2">

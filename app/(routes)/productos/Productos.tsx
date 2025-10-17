@@ -15,7 +15,7 @@ import { PullToRefreshIndicator } from '@/components/productos/PullToRefreshIndi
 
 const ProductosPage = () => {
   const { products, loading: productsLoading, refetch } = useProducts();
-  const { addItem, loading: cartLoading } = useCart();
+  const { addItem, isPending: cartLoading } = useCart();
   
   const {
     searchTerm,

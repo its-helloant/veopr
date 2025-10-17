@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Product } from '@/types/product';
 
@@ -12,6 +12,11 @@ export function useProductFilters(products: Product[]) {
   const [selectedCategory, setSelectedCategory] = useState(category || 'all');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [showFilters, setShowFilters] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
 
   // Get unique categories for filter
   const categories = useMemo(() => {
@@ -55,10 +60,10 @@ export function useProductFilters(products: Product[]) {
     }
     router.push(`/productos?${params.toString()}`);
     // Close mobile filter drawer after selection
-    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+    if (isMobile) {
       setShowFilters(false);
     }
-  }, [searchParams, router]);
+  }, [searchParams, router, isMobile]);
 
   return {
     searchTerm,
