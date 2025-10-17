@@ -2,13 +2,17 @@
  * Cart Context Provider
  * Provides shared cart state across all components using Server Actions
  * 
- * This context now uses server-side cart management with cookies,
- * following SSR-first principles.
+ * This context uses a hybrid approach:
+ * - Server-side persistence: Cart data is stored in cookies via Server Actions
+ * - Client-side state: Manages UI state and optimistic updates for immediate feedback
+ * 
+ * Note: This must be a Client Component to use React Context and manage state,
+ * but cart persistence is handled server-side for SSR compatibility.
  */
 
 'use client'
 
-import React, { createContext, useContext, useState, useOptimistic, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { addItemToCart, updateCartItemQuantity, removeCartItem, clearCartCookie } from '@/actions/cart';
 import { Cart } from '@/types/shopify';
 
@@ -24,6 +28,21 @@ interface CartContextType {
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
+
+/**
+ * Recalculates cart totals based on current items
+ */
+function recalculateCartTotals(cart: Cart): Cart {
+  const totalQuantity = cart.items.reduce((sum, item) => sum + item.quantity, 0);
+  const subtotal = cart.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  
+  return {
+    ...cart,
+    totalQuantity,
+    subtotal,
+    total: subtotal,
+  };
+}
 
 export function CartProvider({ 
   children, 
@@ -65,22 +84,12 @@ export function CartProvider({
 
     try {
       // Optimistic update
-      const optimisticCart = {
+      const optimisticCart = recalculateCartTotals({
         ...cart,
         items: cart.items.map(item => 
           item.id === lineId ? { ...item, quantity } : item
         ),
-      };
-      
-      optimisticCart.totalQuantity = optimisticCart.items.reduce(
-        (sum, item) => sum + item.quantity, 
-        0
-      );
-      optimisticCart.subtotal = optimisticCart.items.reduce(
-        (sum, item) => sum + (item.price * item.quantity), 
-        0
-      );
-      optimisticCart.total = optimisticCart.subtotal;
+      });
       
       setCart(optimisticCart);
 
@@ -106,20 +115,10 @@ export function CartProvider({
 
     try {
       // Optimistic update
-      const optimisticCart = {
+      const optimisticCart = recalculateCartTotals({
         ...cart,
         items: cart.items.filter(item => item.id !== lineId),
-      };
-      
-      optimisticCart.totalQuantity = optimisticCart.items.reduce(
-        (sum, item) => sum + item.quantity, 
-        0
-      );
-      optimisticCart.subtotal = optimisticCart.items.reduce(
-        (sum, item) => sum + (item.price * item.quantity), 
-        0
-      );
-      optimisticCart.total = optimisticCart.subtotal;
+      });
       
       setCart(optimisticCart);
 
