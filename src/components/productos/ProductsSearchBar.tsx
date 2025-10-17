@@ -22,9 +22,7 @@ export function ProductsSearchBar({
   onSearchChange,
   viewMode,
   onViewModeChange,
-  showFilters,
   onToggleFilters,
-  selectedCategory,
   filterCount,
 }: ProductsSearchBarProps) {
   return (

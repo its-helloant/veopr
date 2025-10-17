@@ -31,6 +31,3 @@ export function usePullToRefresh(refetch: () => Promise<void>) {
     handleRefresh,
   };
 }
-
-
-

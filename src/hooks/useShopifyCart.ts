@@ -7,9 +7,8 @@
 
 'use client'
 
-import { useState, useTransition, useOptimistic } from 'react';
+import { useState, useTransition } from 'react';
 import { addItemToCart, updateCartItemQuantity, removeCartItem, clearCartCookie } from '@/actions/cart';
-import { Cart } from '@/types/shopify';
 
 interface UseShopifyCartReturn {
   addItem: (variantId: string, quantity?: number) => Promise<void>;
@@ -21,7 +20,7 @@ interface UseShopifyCartReturn {
 }
 
 export function useShopifyCart(): UseShopifyCartReturn {
-  const [isPending, startTransition] = useTransition();
+  const [isPending, _] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
   /**

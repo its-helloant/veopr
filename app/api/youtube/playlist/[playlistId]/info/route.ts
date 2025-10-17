@@ -13,9 +13,9 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ playlistId: string }> }
 ) {
+  const { playlistId } = await params;
+  
   try {
-    const { playlistId } = await params;
-
     // Validate playlist ID
     if (!playlistId) {
       return NextResponse.json({
@@ -47,7 +47,6 @@ export async function GET(
     return response;
 
   } catch (error) {
-    const { playlistId } = await params;
     logger.error('YouTube playlist info fetch failed', error, { playlistId });
     const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
     
