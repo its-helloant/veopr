@@ -12,6 +12,7 @@ import {
   Cart, 
   CartItem 
 } from '@/types/shopify';
+import { logger } from './logger';
 
 // Access environment variables - these are public client-side variables
 // Next.js replaces process.env.NEXT_PUBLIC_* at build time
@@ -23,10 +24,6 @@ const SHOPIFY_STORE_DOMAIN: string | undefined = process.env.NEXT_PUBLIC_SHOPIFY
 // @ts-ignore - process.env is available in Next.js
 const SHOPIFY_STOREFRONT_ACCESS_TOKEN: string | undefined = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN;
 
-if (!SHOPIFY_STORE_DOMAIN || !SHOPIFY_STOREFRONT_ACCESS_TOKEN) {
-  console.warn('Shopify credentials not configured. Add them to your .env.local file.');
-}
-
 const SHOPIFY_GRAPHQL_URL = `https://${SHOPIFY_STORE_DOMAIN}/api/2025-10/graphql.json`;
 
 /**
@@ -34,6 +31,7 @@ const SHOPIFY_GRAPHQL_URL = `https://${SHOPIFY_STORE_DOMAIN}/api/2025-10/graphql
  */
 async function shopifyFetch<T>(query: string, variables: Record<string, any> = {}): Promise<T> {
   if (!SHOPIFY_STORE_DOMAIN || !SHOPIFY_STOREFRONT_ACCESS_TOKEN) {
+    logger.error('Shopify credentials not configured');
     throw new Error('Shopify credentials are not configured');
   }
 
@@ -52,19 +50,23 @@ async function shopifyFetch<T>(query: string, variables: Record<string, any> = {
     });
 
     if (!response.ok) {
+      logger.error('Shopify API request failed', null, { 
+        status: response.status, 
+        statusText: response.statusText 
+      });
       throw new Error(`Shopify API error ${response.status}: ${response.statusText}`);
     }
 
     const json = await response.json();
 
     if (json.errors) {
-      console.error('Shopify GraphQL errors:', json.errors);
+      logger.error('Shopify GraphQL errors', null, { errors: json.errors });
       throw new Error('GraphQL errors occurred');
     }
 
     return json.data;
   } catch (error) {
-    console.error('Error fetching from Shopify:', error);
+    logger.error('Shopify fetch failed', error);
     throw error;
   }
 }
@@ -294,6 +296,7 @@ export async function getProduct(handle: string): Promise<Product | null> {
  * Creates a new cart
  */
 export async function createCart(): Promise<Cart> {
+  logger.shopify('Creating new cart');
   const query = `
     mutation createCart {
       cartCreate {
@@ -360,6 +363,7 @@ export async function createCart(): Promise<Cart> {
  * Adds items to a cart
  */
 export async function addToCart(cartId: string, variantId: string, quantity = 1): Promise<Cart> {
+  logger.shopify('Adding item to cart', { cartId, variantId, quantity });
   const query = `
     mutation addToCart($cartId: ID!, $lines: [CartLineInput!]!) {
       cartLinesAdd(cartId: $cartId, lines: $lines) {
@@ -433,6 +437,7 @@ export async function addToCart(cartId: string, variantId: string, quantity = 1)
  * Updates cart line quantity
  */
 export async function updateCartLine(cartId: string, lineId: string, quantity: number): Promise<Cart> {
+  logger.shopify('Updating cart line', { cartId, lineId, quantity });
   const query = `
     mutation updateCartLine($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
       cartLinesUpdate(cartId: $cartId, lines: $lines) {
@@ -506,6 +511,7 @@ export async function updateCartLine(cartId: string, lineId: string, quantity: n
  * Removes a line from the cart
  */
 export async function removeFromCart(cartId: string, lineId: string): Promise<Cart> {
+  logger.shopify('Removing item from cart', { cartId, lineId });
   const query = `
     mutation removeFromCart($cartId: ID!, $lineIds: [ID!]!) {
       cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
@@ -564,7 +570,6 @@ export async function removeFromCart(cartId: string, lineId: string): Promise<Ca
     }
   `;
 
-  console.log('[Shopify removeFromCart] Executing GraphQL mutation...');
   const response = await shopifyFetch<{ cartLinesRemove: { cart: ShopifyCart } }>(
     query,
     {
@@ -573,11 +578,7 @@ export async function removeFromCart(cartId: string, lineId: string): Promise<Ca
     }
   );
 
-  console.log('[Shopify removeFromCart] GraphQL response:', JSON.stringify(response, null, 2));
-  const normalizedCart = normalizeCart(response.cartLinesRemove.cart);
-  console.log('[Shopify removeFromCart] Normalized cart:', normalizedCart);
-
-  return normalizedCart;
+  return normalizeCart(response.cartLinesRemove.cart);
 }
 
 /**
@@ -644,7 +645,7 @@ export async function getCart(cartId: string): Promise<Cart | null> {
     const { cart } = await shopifyFetch<{ cart: ShopifyCart | null }>(query, { cartId });
     return cart ? normalizeCart(cart) : null;
   } catch (error) {
-    console.error('Error fetching cart:', error);
+    logger.error('Failed to get cart', error, { cartId });
     return null;
   }
 }

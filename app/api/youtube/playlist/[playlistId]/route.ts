@@ -1,15 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { fetchPlaylistInfo, fetchPlaylistVideos } from '@/src/lib/youtube';
 import { ProcessedPlaylist } from '@/src/types/youtube';
-import { ApiResponse } from '@/src/types/youtube';
-
-interface CombinedPlaylistResponse extends ApiResponse<ProcessedPlaylist> {
-  pagination?: {
-    nextPageToken?: string;
-    totalResults: number;
-    resultsPerPage: number;
-  };
-}
+import { logger } from '@/src/lib/logger';
 
 /**
  * API Route: /api/youtube/playlist/[playlistId]
@@ -43,7 +35,7 @@ export async function GET(
     // Validate API key
     const apiKey = process.env.YOUTUBE_API_KEY;
     if (!apiKey) {
-      console.error('YouTube API key not configured');
+      logger.error('YouTube API key not configured');
       return NextResponse.json({
         success: false,
         error: 'YouTube API not configured'
@@ -58,6 +50,8 @@ export async function GET(
         error: 'maxResults must be a number between 1 and 50'
       }, { status: 400 });
     }
+
+    logger.youtube('Fetching playlist with videos', { playlistId, maxResults: maxResultsNum });
 
     // Fetch playlist info and videos in parallel
     const [playlistInfo, videosResult] = await Promise.all([
@@ -92,8 +86,8 @@ export async function GET(
     return response;
 
   } catch (error) {
-    console.error('Error in combined playlist API:', error);
-    
+    const { playlistId } = await params;
+    logger.error('YouTube playlist videos fetch failed', error, { playlistId });
     const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
     
     // Handle specific YouTube API errors

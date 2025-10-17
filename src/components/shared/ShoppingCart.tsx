@@ -31,7 +31,7 @@ export default function ShoppingCart({ isOpen, onClose }: ShoppingCartProps) {
     try {
       await updateItem(lineId, newQuantity);
     } catch (error) {
-      console.error('Failed to update quantity');
+      // Silently handle error - user feedback handled by UI state
     }
   };
 
@@ -39,7 +39,7 @@ export default function ShoppingCart({ isOpen, onClose }: ShoppingCartProps) {
     try {
       await removeItem(lineId);
     } catch (error) {
-      console.error('Failed to remove item');
+      // Silently handle error - user feedback handled by UI state
     }
   };
 

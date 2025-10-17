@@ -31,7 +31,6 @@ export function useShopifyProducts(): UseShopifyProductsReturn {
       const data = await response.json();
       setProducts(data.products || []);
     } catch (err) {
-      console.error('Error fetching products:', err);
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setLoading(false);
@@ -84,7 +83,6 @@ export function useShopifyProduct(handle: string): UseShopifyProductReturn {
       const data = await response.json();
       setProduct(data.product || null);
     } catch (err) {
-      console.error('Error fetching product:', err);
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setLoading(false);

@@ -68,7 +68,6 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
         const data = await response.json();
         setProduct(data.product);
       } catch (err) {
-        console.error('Error fetching product:', err);
         setError('Error al cargar el producto');
       } finally {
         setLoading(false);
@@ -125,9 +124,7 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
       
       await addItem(variant.id, quantity);
       // Optional: Show success notification
-      console.log('Added to cart successfully');
     } catch (error) {
-      console.error('Error adding to cart:', error);
       // Optional: Show error notification
     }
   };

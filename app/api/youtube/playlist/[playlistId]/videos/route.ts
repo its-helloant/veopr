@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { fetchPlaylistVideos } from '@/src/lib/youtube';
 import { PlaylistVideosApiResponse } from '@/src/types/youtube';
+import { logger } from '@/src/lib/logger';
 
 /**
  * API Route: /api/youtube/playlist/[playlistId]/videos
@@ -34,7 +35,6 @@ export async function GET(
     // Validate API key
     const apiKey = process.env.YOUTUBE_API_KEY;
     if (!apiKey) {
-      console.error('YouTube API key not configured');
       return NextResponse.json({
         success: false,
         error: 'YouTube API not configured'
@@ -74,8 +74,8 @@ export async function GET(
     return response;
 
   } catch (error) {
-    console.error('Error in playlist videos API:', error);
-    
+    const { playlistId } = await params;
+    logger.error('YouTube playlist videos fetch failed', error, { playlistId });
     const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
     
     // Handle specific YouTube API errors

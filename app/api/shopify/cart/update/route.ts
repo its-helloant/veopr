@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { updateCartLine } from '@/lib/shopify';
+import { logger } from '@/lib/logger';
 
 /**
  * POST /api/shopify/cart/update
@@ -9,7 +10,7 @@ export async function POST(request: Request) {
   try {
     const { cartId, lineId, quantity } = await request.json();
 
-    if (!cartId || !lineId || quantity === undefined) {
+    if (!cartId || !lineId || quantity === undefined || quantity < 1) {
       return NextResponse.json(
         { error: 'Cart ID, line ID, and quantity are required' },
         { status: 400 }
@@ -25,7 +26,7 @@ export async function POST(request: Request) {
       },
     });
   } catch (error) {
-    console.error('Error updating cart:', error);
+    logger.error('Failed to update cart', error);
     return NextResponse.json(
       { error: 'Failed to update cart' },
       { status: 500 }

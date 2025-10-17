@@ -107,7 +107,6 @@ export default function DetallePrograma({ programConfig }: DetalleProgramaProps)
   };
 
   const onPlayerError: YouTubeProps['onError'] = (event) => {
-    console.error('YouTube Player Error:', event.data);
     // Could show a toast notification or error message here
   };
 

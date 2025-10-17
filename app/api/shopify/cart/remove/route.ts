@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { removeFromCart } from '@/lib/shopify';
+import { logger } from '@/lib/logger';
 
 /**
  * POST /api/shopify/cart/remove
@@ -11,7 +12,7 @@ export async function POST(request: Request) {
     const { cartId, lineId } = body;
 
     if (!cartId || !lineId) {
-      console.error('[API /cart/remove] Missing required fields:', { cartId, lineId });
+      logger.warn('Cart remove request missing required fields', { cartId, lineId });
       return NextResponse.json(
         { error: 'Cart ID and line ID are required' },
         { status: 400 }
@@ -19,7 +20,7 @@ export async function POST(request: Request) {
     }
 
     const cart = await removeFromCart(cartId, lineId);
-    console.log('[API /cart/remove] Cart after removal:', cart);
+    logger.info('Item removed from cart successfully', { cartId, itemCount: cart.totalQuantity });
     
     return NextResponse.json({ cart }, {
       headers: {
@@ -29,13 +30,9 @@ export async function POST(request: Request) {
       },
     });
   } catch (error) {
-    console.error('[API /cart/remove] Error:', error);
-    if (error instanceof Error) {
-      console.error('[API /cart/remove] Error message:', error.message);
-      console.error('[API /cart/remove] Error stack:', error.stack);
-    }
+    logger.error('Failed to remove item from cart', error);
     return NextResponse.json(
-      { error: 'Failed to remove item from cart', details: error instanceof Error ? error.message : 'Unknown error' },
+      { error: 'Failed to remove item from cart' },
       { status: 500 }
     );
   }

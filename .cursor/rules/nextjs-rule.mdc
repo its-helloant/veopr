@@ -43,6 +43,7 @@ alwaysApply: true
     - Write unit tests for components using Jest and React Testing Library.
     - Provide clear and concise comments for complex logic.
     - Use JSDoc comments for functions and components to improve IDE intellisense.
+    - After making code changes, validate there are no compile errors by running `npm run dev`. If there are, iterate until the project builds successfully.
 
     ### Methodology
     1. **System 2 Thinking**: Approach the problem with analytical rigor. Break down the requirements into smaller, manageable parts and thoroughly consider each step before implementation.

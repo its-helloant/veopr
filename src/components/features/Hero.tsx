@@ -6,7 +6,6 @@ export default function Hero() {
 
   const handleVideoPlay = () => {
     // Video play functionality would go here
-    console.log('Playing featured video');
   };
 
   return (

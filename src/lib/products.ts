@@ -24,7 +24,6 @@ export async function getAllProducts(): Promise<Product[]> {
     const shopifyProducts = await getShopifyProducts();
     return shopifyProducts.map(convertShopifyProduct);
   } catch (error) {
-    console.error('Error fetching products:', error);
     return [];
   }
 }
@@ -40,7 +39,6 @@ export async function getProduct(handle: string): Promise<Product | null> {
     }
     return null;
   } catch (error) {
-    console.error('Error fetching product:', error);
     return null;
   }
 }

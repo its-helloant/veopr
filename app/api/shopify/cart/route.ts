@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createCart, getCart } from '@/lib/shopify';
+import { logger } from '@/lib/logger';
 
 /**
  * POST /api/shopify/cart
@@ -8,6 +9,7 @@ import { createCart, getCart } from '@/lib/shopify';
 export async function POST() {
   try {
     const cart = await createCart();
+    logger.info('New cart created', { cartId: cart.id });
     return NextResponse.json({ cart }, {
       headers: {
         'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
@@ -16,7 +18,7 @@ export async function POST() {
       },
     });
   } catch (error) {
-    console.error('Error creating cart:', error);
+    logger.error('Failed to create cart', error);
     return NextResponse.json(
       { error: 'Failed to create cart' },
       { status: 500 }
@@ -33,8 +35,6 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const cartId = searchParams.get('cartId');
 
-    console.log('[API /cart GET] Fetching cart:', cartId);
-
     if (!cartId) {
       return NextResponse.json(
         { error: 'Cart ID is required' },
@@ -43,8 +43,6 @@ export async function GET(request: Request) {
     }
 
     const cart = await getCart(cartId);
-    
-    console.log('[API /cart GET] Cart retrieved:', cart);
     
     if (!cart) {
       return NextResponse.json(
@@ -61,7 +59,7 @@ export async function GET(request: Request) {
       },
     });
   } catch (error) {
-    console.error('[API /cart GET] Error fetching cart:', error);
+    logger.error('Failed to fetch cart', error, { cartId: new URL(request.url).searchParams.get('cartId') });
     return NextResponse.json(
       { error: 'Failed to fetch cart' },
       { status: 500 }

@@ -12,7 +12,7 @@ export function useProductActions(
     try {
       await addItem(variantId, 1);
     } catch (error) {
-      console.error('Error adding to cart:', error);
+      // Error handled by cart context
     } finally {
       setAddingToCart(null);
     }
