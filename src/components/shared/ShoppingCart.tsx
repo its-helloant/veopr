@@ -7,6 +7,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useCart } from '@/contexts/CartContext';
 import { 
   XMarkIcon, 
@@ -112,9 +113,11 @@ export default function ShoppingCart({ isOpen, onClose }: ShoppingCartProps) {
                   {/* Product Image */}
                   <div className="w-20 h-20 bg-gray-200 rounded-lg flex-shrink-0 overflow-hidden">
                     {item.image ? (
-                      <img
+                      <Image
                         src={item.image.url}
                         alt={item.image.alt || item.name}
+                        width={80}
+                        height={80}
                         className="w-full h-full object-cover"
                       />
                     ) : (

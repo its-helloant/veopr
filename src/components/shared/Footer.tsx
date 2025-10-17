@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -6,11 +7,14 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto padding-mobile">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
           <div className="space-y-3 sm:space-y-4">
-            <img 
-              src="/veopr-logo.png" 
-              alt="VeoPR Logo" 
-              className="h-8 w-auto"
-            />
+            <div className="relative h-8 w-[120px]">
+              <Image 
+                src="/veopr-logo.png" 
+                alt="VeoPR Logo" 
+                fill
+                className="object-contain object-left"
+              />
+            </div>
             <p className="text-mobile-body text-gray-300">
               El mejor entretenimiento puertorriqueño
             </p>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import Header from '@/components/shared/Header';
 import Footer from '@/components/shared/Footer';
 import { Product } from '@/types/product';
@@ -212,10 +213,13 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
                 onTouchEnd={handleTouchEnd}
               >
                 {product.images[currentImageIndex] ? (
-                  <img 
+                  <Image 
                     src={product.images[currentImageIndex].url} 
                     alt={product.images[currentImageIndex].alt || product.name}
+                    width={800}
+                    height={800}
                     className="w-full h-full object-cover"
+                    priority={currentImageIndex === 0}
                   />
                 ) : (
                   <svg className="w-16 sm:w-24 h-16 sm:h-24 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -269,9 +273,11 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
                     }`}
                   >
                     {image.url ? (
-                      <img 
+                      <Image 
                         src={image.url} 
                         alt={image.alt || `${product.name} - ${index + 1}`}
+                        width={80}
+                        height={80}
                         className="w-full h-full object-cover"
                       />
                     ) : (

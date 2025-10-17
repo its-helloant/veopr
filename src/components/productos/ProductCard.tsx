@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Product } from '@/types/product';
 
 interface ButtonConfig {
@@ -29,11 +30,12 @@ export function ProductCard({
         <Link href={`/productos/${product.handle}`} className="block flex-grow flex flex-col">
           <div className="w-full h-40 sm:h-48 bg-gray-200 flex items-center justify-center flex-shrink-0 overflow-hidden">
             {primaryImage ? (
-              <img 
+              <Image 
                 src={primaryImage.url} 
                 alt={primaryImage.alt || product.name}
+                width={400}
+                height={300}
                 className="w-full h-full object-cover"
-                loading="lazy"
               />
             ) : (
               <svg className="w-8 h-8 sm:w-12 sm:h-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -75,11 +77,12 @@ export function ProductCard({
       <Link href={`/productos/${product.handle}`} className="flex flex-grow items-center min-w-0">
         <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gray-200 rounded-lg flex items-center justify-center flex-shrink-0 mr-3 sm:mr-4 overflow-hidden">
           {primaryImage ? (
-            <img 
+            <Image 
               src={primaryImage.url} 
               alt={primaryImage.alt || product.name}
+              width={80}
+              height={80}
               className="w-full h-full object-cover"
-              loading="lazy"
             />
           ) : (
             <svg className="w-6 h-6 sm:w-8 sm:h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

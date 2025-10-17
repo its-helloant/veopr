@@ -1,13 +1,7 @@
-'use client'
-
-import { Button } from "@heroui/react";
+import Image from "next/image";
+import HeroVideoButton from "./HeroVideoButton";
 
 export default function Hero() {
-
-  const handleVideoPlay = () => {
-    // Video play functionality would go here
-  };
-
   return (
     <section className="hero-gradient py-12 sm:py-16 md:py-24 text-white relative overflow-hidden">
       <div className="absolute inset-0 opacity-10 pointer-events-none">
@@ -27,24 +21,15 @@ export default function Hero() {
         
         <div className="flex justify-center lg:justify-end">
           <div className="w-full max-w-md shadow-2xl rounded-lg overflow-hidden relative group">
-            <img 
+            <Image 
               src="/dia-a-dia-logo.png" 
               alt="Programa destacado Día a Día - Ver episodio" 
+              width={448}
+              height={448}
               className="w-full h-auto transition-transform duration-300 group-hover:scale-105"
+              priority
             />
-            {/* Single button overlay to avoid nested interactive elements */}
-            <button
-              onClick={handleVideoPlay}
-              className="absolute inset-0 w-full h-full bg-transparent border-none outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-blue-600 hover:bg-black hover:bg-opacity-20 focus:bg-black focus:bg-opacity-20 transition-all"
-              aria-label="Reproducir programa destacado Día a Día"
-            >
-              <div className="absolute inset-0 bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 group-focus:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <div className="bg-white bg-opacity-90 text-black text-xl sm:text-2xl hover:scale-110 focus:scale-110 transition-transform rounded-full w-16 h-16 flex items-center justify-center">
-                  <span aria-hidden="true">▶</span>
-                </div>
-              </div>
-              <span className="sr-only">Reproducir programa destacado</span>
-            </button>
+            <HeroVideoButton />
           </div>
         </div>
       </div>

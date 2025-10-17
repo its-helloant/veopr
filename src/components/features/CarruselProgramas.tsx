@@ -2,6 +2,7 @@
 
 import { Card, CardBody, CardHeader, Chip } from "@heroui/react";
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { programs } from '@/data/programas';
 
 
@@ -44,11 +45,12 @@ export default function Programas() {
               onKeyDown={(e) => handleKeyDown(e, program.slug)}
             >
               <CardHeader className="p-0 relative">
-                <div className="relative w-full">
-                  <img 
+                <div className="relative w-full h-40 sm:h-48">
+                  <Image 
                     src={program.image} 
                     alt={`Imagen promocional de ${program.title}`}
-                    className="w-full h-40 sm:h-48 object-cover"
+                    fill
+                    className="object-cover"
                   />
                   <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 group-focus-within:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
                     <div className="opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300 bg-white text-black font-semibold text-sm px-4 py-2 rounded-md">

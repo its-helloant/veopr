@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/react";
 import Link from "next/link";
+import Image from "next/image";
 import { ShoppingCartIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import ShoppingCart from "./ShoppingCart";
 import { useCart } from "@/contexts/CartContext";
@@ -65,10 +66,13 @@ export default function Header() {
             onClick={closeMobileMenu}
             className="touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white transition-all"
           >
-            <img 
+            <Image 
               src="/veopr-logo.png" 
               alt="VeoPR Logo" 
+              width={120}
+              height={32}
               className="h-8 w-auto"
+              priority
             />
           </Link>
         </NavbarBrand>

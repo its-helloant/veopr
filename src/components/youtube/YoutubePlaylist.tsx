@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { ProcessedVideo } from '@/src/types/youtube';
 
 interface YoutubePlaylistProps {
@@ -35,11 +36,12 @@ const YoutubePlaylist: React.FC<YoutubePlaylistProps> = ({
             }`}
           >
             <div className="flex space-x-3">
-              <div className="flex-shrink-0 relative">
-                <img
-                  src={video.thumbnails.medium?.url || video.thumbnails.default?.url}
+              <div className="flex-shrink-0 relative w-16 h-10 lg:w-20 lg:h-12">
+                <Image
+                  src={video.thumbnails.medium?.url || video.thumbnails.default?.url || '/placeholder.png'}
                   alt={video.title}
-                  className="w-16 h-10 lg:w-20 lg:h-12 object-cover rounded"
+                  fill
+                  className="object-cover rounded"
                 />
                 {video.duration && (
                   <span className="absolute bottom-1 right-1 bg-black bg-opacity-75 text-white text-xs px-1 rounded">
