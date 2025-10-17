@@ -55,7 +55,7 @@ export default function Header() {
       <Navbar 
         className="bg-gray-900 sticky top-0 z-50 shadow-sm"
         classNames={{
-          wrapper: "max-w-7xl mx-auto padding-mobile",
+          wrapper: "max-w-7xl mx-auto px-4 sm:px-6 md:px-8",
           brand: "text-white",
           content: "text-white",
         }}
@@ -166,14 +166,14 @@ export default function Header() {
           ></div>
           <div className="relative bg-white border-t border-gray-200">
             <nav 
-              className="padding-mobile py-6 space-y-2"
+              className="px-4 sm:px-6 md:px-8 py-6 space-y-2"
               id="mobile-menu"
               role="navigation"
               aria-label="Menú de navegación móvil"
             >
               <Link 
                 href="/#programas"
-                className="block text-gray-900 text-mobile-body sm:text-lg font-medium hover:text-blue-600 focus:text-blue-600 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white"
+                className="block text-gray-900 text-sm sm:text-lg font-medium hover:text-blue-600 focus:text-blue-600 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white"
                 onClick={closeMobileMenu}
               >
                 Programas
@@ -181,7 +181,7 @@ export default function Header() {
               
               <Link 
                 href="/productos"
-                className="block text-gray-900 text-mobile-body sm:text-lg font-medium hover:text-blue-600 focus:text-blue-600 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white"
+                className="block text-gray-900 text-sm sm:text-lg font-medium hover:text-blue-600 focus:text-blue-600 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white"
                 onClick={closeMobileMenu}
               >
                 Productos
@@ -190,7 +190,7 @@ export default function Header() {
               <Link 
                 color="foreground" 
                 href="#nosotros"
-                className="block text-gray-900 text-mobile-body sm:text-lg font-medium hover:text-blue-600 focus:text-blue-600 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white"
+                className="block text-gray-900 text-sm sm:text-lg font-medium hover:text-blue-600 focus:text-blue-600 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white"
                 onClick={closeMobileMenu}
               >
                 Nosotros

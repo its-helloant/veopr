@@ -32,8 +32,8 @@ export function ProductsFilterDrawer({
         <div className="fixed bottom-0 left-0 right-0 bg-white rounded-t-2xl z-50">
           <div className="p-4">
             {/* Drawer Header */}
-            <div className="flex items-center justify-between margin-mobile">
-              <h3 className="text-mobile-h2 text-gray-900">Filtros</h3>
+            <div className="flex items-center justify-between mb-4 sm:mb-6">
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-900">Filtros</h3>
               <button
                 onClick={onClose}
                 className="touch-target rounded-full hover:bg-gray-100"
@@ -44,13 +44,13 @@ export function ProductsFilterDrawer({
             
             {/* Filter Content */}
             <div>
-              <h4 className="text-mobile-body font-medium text-gray-700 margin-mobile">Filtrar por categoría:</h4>
+              <h4 className="text-sm sm:text-base font-medium text-gray-700 mb-4 sm:mb-6">Filtrar por categoría:</h4>
               <div className="grid grid-cols-2 gap-2">
                 {categories.map((cat) => (
                   <button
                     key={cat}
                     onClick={() => onCategorySelect(cat)}
-                    className={`touch-target px-3 py-2 rounded-lg text-mobile-body font-medium transition-colors ${
+                    className={`touch-target px-3 py-2 rounded-lg text-sm sm:text-base font-medium transition-colors ${
                       selectedCategory === cat
                         ? 'bg-blue-500 text-white'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -66,7 +66,7 @@ export function ProductsFilterDrawer({
             {selectedCategory !== 'all' && (
               <button
                 onClick={() => onCategorySelect('all')}
-                className="w-full mt-4 py-2 text-blue-500 text-mobile-body font-medium"
+                className="w-full mt-4 py-2 text-blue-500 text-sm sm:text-base font-medium"
               >
                 Limpiar filtros
               </button>
@@ -76,7 +76,7 @@ export function ProductsFilterDrawer({
       </div>
 
       {/* Desktop Filter Options */}
-      <div className="hidden md:block bg-white rounded-lg shadow-sm border p-4 sm:p-6 margin-mobile">
+      <div className="hidden md:block bg-white rounded-lg shadow-sm border p-4 sm:p-6 mb-4 sm:mb-6 md:mb-8">
         <h3 className="text-sm font-medium text-gray-700 mb-3">Filtrar por categoría:</h3>
         <div className="flex flex-wrap gap-2">
           {categories.map((cat) => (

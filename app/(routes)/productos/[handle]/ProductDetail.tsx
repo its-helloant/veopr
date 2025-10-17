@@ -135,7 +135,7 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
     return (
       <div className="min-h-screen bg-gray-50">
         <Header />
-        <div className="max-w-7xl mx-auto padding-mobile py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-8">
           <div className="flex items-center justify-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
           </div>
@@ -150,12 +150,12 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
     return (
       <div className="min-h-screen bg-gray-50">
         <Header />
-        <div className="max-w-7xl mx-auto padding-mobile py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-8">
           <div className="text-center py-12">
-            <h2 className="text-mobile-h2 text-gray-900 margin-mobile">
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-900 mb-4 sm:mb-6">
               {error || 'Producto no encontrado'}
             </h2>
-            <p className="text-mobile-body text-gray-600 margin-mobile">
+            <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">
               El producto que buscas no existe o ha sido removido.
             </p>
             <Link 
@@ -182,9 +182,9 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
     <div className="min-h-screen bg-gray-50">
       <Header />
       
-      <main className="max-w-7xl mx-auto padding-mobile py-4 sm:py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-4 sm:py-8">
         {/* Breadcrumb - Hidden on mobile to save space */}
-        <nav className="hidden sm:flex items-center gap-2 text-sm text-gray-600 margin-mobile">
+        <nav className="hidden sm:flex items-center gap-2 text-sm text-gray-600 mb-4 sm:mb-6">
           <Link href="/" className="hover:text-blue-500">Inicio</Link>
           <span>/</span>
           <Link href="/productos" className="hover:text-blue-500">Productos</Link>
@@ -195,10 +195,10 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
         {/* Back Button - Mobile optimized */}
         <button
           onClick={() => router.back()}
-          className="touch-target flex items-center gap-2 text-gray-600 hover:text-gray-900 margin-mobile transition-colors"
+          className="touch-target flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4 sm:mb-6 transition-colors"
         >
           <ArrowLeftIcon className="h-5 w-5" />
-          <span className="text-mobile-body">Volver</span>
+          <span className="text-sm sm:text-base">Volver</span>
         </button>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 mb-8 lg:mb-16">
@@ -297,7 +297,7 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
           <div className="space-y-4 sm:space-y-6">
             {/* Header - Mobile optimized typography */}
             <div>
-              <div className="flex items-center gap-2 margin-mobile">
+              <div className="flex items-center gap-2 mb-4 sm:mb-6">
                 {product.productType && (
                   <span className="text-xs sm:text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
                     {product.productType}
@@ -307,8 +307,8 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
                   <span className="text-xs sm:text-sm text-gray-500">{product.vendor}</span>
                 )}
               </div>
-              <h1 className="text-mobile-h1 text-gray-900 margin-mobile">{product.name}</h1>
-              <p className="text-mobile-body text-gray-600">{product.description}</p>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">{product.name}</h1>
+              <p className="text-sm sm:text-base text-gray-600">{product.description}</p>
             </div>
 
             {/* Price - Prominent on mobile */}
@@ -326,14 +326,14 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
             {/* Variants */}
             {product.variants.length > 1 && (
               <div>
-                <h3 className="text-mobile-body font-medium text-gray-900 mb-2">Opciones</h3>
+                <h3 className="text-sm sm:text-base font-medium text-gray-900 mb-2">Opciones</h3>
                 <div className="flex flex-wrap gap-2">
                   {product.variants.map((variant, index) => (
                     <button
                       key={variant.id}
                       onClick={() => setSelectedVariantIndex(index)}
                       disabled={!variant.availableForSale}
-                      className={`touch-target px-3 sm:px-4 py-2 border rounded-lg text-mobile-body font-medium transition-colors ${
+                      className={`touch-target px-3 sm:px-4 py-2 border rounded-lg text-sm sm:text-base font-medium transition-colors ${
                         selectedVariantIndex === index
                           ? 'border-blue-500 bg-blue-50 text-blue-700'
                           : variant.availableForSale
@@ -352,7 +352,7 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
             {/* Quantity - Mobile optimized */}
             {canAddToCart && (
               <div>
-                <h3 className="text-mobile-body font-medium text-gray-900 mb-2">Cantidad</h3>
+                <h3 className="text-sm sm:text-base font-medium text-gray-900 mb-2">Cantidad</h3>
                 <div className="flex items-center border border-gray-300 rounded-lg w-fit">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -360,7 +360,7 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
                   >
                     -
                   </button>
-                  <span className="px-4 py-2 min-w-[3rem] text-center text-mobile-body">{quantity}</span>
+                  <span className="px-4 py-2 min-w-[3rem] text-center text-sm sm:text-base">{quantity}</span>
                   <button
                     onClick={() => setQuantity(quantity + 1)}
                     className="touch-target hover:bg-gray-50 transition-colors"
@@ -377,7 +377,7 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
                 <button 
                   onClick={addToCart}
                   disabled={cartLoading}
-                  className="flex-1 bg-blue-500 text-white touch-target rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2 text-mobile-body font-medium"
+                  className="flex-1 bg-blue-500 text-white touch-target rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2 text-sm sm:text-base font-medium"
                 >
                   <ShoppingCartIcon className="h-5 w-5" />
                   <span className="hidden sm:inline">{cartLoading ? 'Agregando...' : 'Agregar al carrito'}</span>
@@ -386,7 +386,7 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
               ) : (
                 <button 
                   disabled
-                  className="flex-1 bg-gray-400 text-white touch-target rounded-lg cursor-not-allowed transition-colors flex items-center justify-center gap-2 text-mobile-body font-medium"
+                  className="flex-1 bg-gray-400 text-white touch-target rounded-lg cursor-not-allowed transition-colors flex items-center justify-center gap-2 text-sm sm:text-base font-medium"
                 >
                   {isAvailable ? 'No disponible' : 'Agotado'}
                 </button>
@@ -409,7 +409,7 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
             {/* Stock Status */}
             <div className="flex items-center gap-2">
               <div className={`w-3 h-3 rounded-full ${isAvailable ? 'bg-green-500' : 'bg-red-500'}`}></div>
-              <span className="text-mobile-body text-gray-600">
+              <span className="text-sm sm:text-base text-gray-600">
                 {isAvailable ? 'En stock' : 'Agotado'}
               </span>
             </div>
@@ -420,25 +420,25 @@ const ProductDetail = ({ params }: ProductDetailProps) => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-12 mb-8 lg:mb-16">
           {/* Description */}
           <div>
-            <h2 className="text-mobile-h2 text-gray-900 margin-mobile">Descripción</h2>
-            <p className="text-mobile-body text-gray-600 leading-relaxed whitespace-pre-wrap">{product.description}</p>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-900 mb-4 sm:mb-6">Descripción</h2>
+            <p className="text-sm sm:text-base text-gray-600 leading-relaxed whitespace-pre-wrap">{product.description}</p>
           </div>
 
           {/* Additional Info */}
           <div>
-            <h2 className="text-mobile-h2 text-gray-900 margin-mobile">Información adicional</h2>
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-900 mb-4 sm:mb-6">Información adicional</h2>
             <ul className="space-y-2">
-              <li className="flex items-center gap-2 text-mobile-body text-gray-600">
+              <li className="flex items-center gap-2 text-sm sm:text-base text-gray-600">
                 <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"></div>
                 Vendido por: {product.vendor}
               </li>
               {product.productType && (
-                <li className="flex items-center gap-2 text-mobile-body text-gray-600">
+                <li className="flex items-center gap-2 text-sm sm:text-base text-gray-600">
                   <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"></div>
                   Tipo: {product.productType}
                 </li>
               )}
-              <li className="flex items-center gap-2 text-mobile-body text-gray-600">
+              <li className="flex items-center gap-2 text-sm sm:text-base text-gray-600">
                 <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0"></div>
                 Moneda: {product.currency}
               </li>

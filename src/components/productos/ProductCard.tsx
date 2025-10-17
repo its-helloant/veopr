@@ -21,7 +21,7 @@ export function ProductCard({
   onAction,
   buttonConfig,
 }: ProductCardProps) {
-  const primaryImage = product.images[0];
+  const primaryImage = product.images?.[0] || null;
 
   if (viewMode === 'grid') {
     return (
@@ -44,11 +44,11 @@ export function ProductCard({
             )}
           </div>
           <div className="p-3 sm:p-4 flex-grow flex flex-col">
-            <div className="flex justify-between items-start margin-mobile">
-              <h3 className="text-mobile-body font-semibold text-gray-800 hover:text-blue-600 transition-colors line-clamp-2">{product.name}</h3>
-              <p className="text-mobile-body font-bold text-gray-900 ml-2">${product.price.toFixed(2)}</p>
+            <div className="flex justify-between items-start mb-4 sm:mb-6">
+              <h3 className="text-sm sm:text-base font-semibold text-gray-800 hover:text-blue-600 transition-colors line-clamp-2">{product.name}</h3>
+              <p className="text-sm sm:text-base font-bold text-gray-900 ml-2">${product.price.toFixed(2)}</p>
             </div>
-            <p className="text-xs sm:text-sm text-gray-500 margin-mobile flex-grow line-clamp-2">{product.description}</p>
+            <p className="text-xs sm:text-sm text-gray-500 mb-4 sm:mb-6 flex-grow line-clamp-2">{product.description}</p>
             {product.productType && (
               <div className="flex justify-between items-center mt-auto">
                 <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
@@ -62,7 +62,7 @@ export function ProductCard({
           <button 
             onClick={() => onAction(product)}
             disabled={buttonConfig.disabled}
-            className="w-full bg-blue-500 text-white touch-target rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors text-mobile-body font-medium"
+            className="w-full bg-blue-500 text-white touch-target rounded-lg hover:bg-blue-600 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors text-sm sm:text-base font-medium"
           >
             {buttonConfig.text}
           </button>
@@ -92,8 +92,8 @@ export function ProductCard({
         </div>
         <div className="flex-grow min-w-0">
           <div className="flex justify-between items-start mb-1">
-            <h3 className="text-mobile-body font-semibold text-gray-800 hover:text-blue-600 transition-colors line-clamp-1 pr-2">{product.name}</h3>
-            <p className="text-mobile-body font-bold text-gray-900 flex-shrink-0">${product.price.toFixed(2)}</p>
+            <h3 className="text-sm sm:text-base font-semibold text-gray-800 hover:text-blue-600 transition-colors line-clamp-1 pr-2">{product.name}</h3>
+            <p className="text-sm sm:text-base font-bold text-gray-900 flex-shrink-0">${product.price.toFixed(2)}</p>
           </div>
           <p className="text-xs sm:text-sm text-gray-500 mb-2 line-clamp-1">{product.description}</p>
           {product.productType && (

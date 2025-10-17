@@ -8,12 +8,12 @@ export default function Hero() {
         <div className="w-full h-full bg-gradient-to-br from-white/20 via-transparent to-white/10"></div>
       </div>
       
-      <div className="max-w-6xl mx-auto padding-mobile grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center relative z-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8 grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center relative z-10">
         <div className="space-y-4 sm:space-y-6">
-          <h2 className="text-mobile-h1 font-extrabold leading-tight tracking-tight">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight">
             Los mejores programas puertorriqueños
           </h2>
-          <p className="text-mobile-body sm:text-lg md:text-xl opacity-90 leading-relaxed">
+          <p className="text-sm sm:text-lg md:text-xl opacity-90 leading-relaxed">
             Disfruta del mejor entretenimiento boricua. Programas originales, 
             entrevistas exclusivas y mucho más.
           </p>

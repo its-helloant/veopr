@@ -46,18 +46,18 @@ const ProductosPage = () => {
       <Header />
       
       <main 
-        className="max-w-7xl mx-auto padding-mobile py-4 sm:py-8"
+        className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-4 sm:py-8"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
       >
         <PullToRefreshIndicator isRefreshing={isRefreshing} />
 
         {/* Page Header */}
-        <div className="margin-mobile">
-          <h1 className="text-mobile-h1 text-gray-900 margin-mobile">
+        <div className="mb-4 sm:mb-6 md:mb-8">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 sm:mb-6 md:mb-8">
             Todos los Productos
           </h1>
-          <p className="text-mobile-body text-gray-600">
+          <p className="text-sm sm:text-base text-gray-600">
             Descubre toda nuestra colección de productos oficiales
           </p>
         </div>
