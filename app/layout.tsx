@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { HeroUIProvider } from '@heroui/react'
+import { CartProvider } from '@/contexts/CartContext'
+import { getExistingCart } from '@/actions/cart'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -26,11 +28,15 @@ export const viewport: Viewport = {
   initialScale: 1,
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  // Fetch existing cart server-side for SSR (without creating a new one)
+  // Cart will be created lazily when user adds first item
+  const cart = await getExistingCart();
+
   return (
     <html lang="es">
       <head>
@@ -42,7 +48,9 @@ export default function RootLayout({
       </head>
       <body>
         <HeroUIProvider>
-          {children}
+          <CartProvider initialCart={cart}>
+            {children}
+          </CartProvider>
         </HeroUIProvider>
       </body>
     </html>

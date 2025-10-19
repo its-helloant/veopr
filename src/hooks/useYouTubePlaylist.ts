@@ -85,7 +85,6 @@ export function useYouTubePlaylist(
       }));
 
     } catch (error) {
-      console.error('Error fetching YouTube playlist:', error);
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
       
       setState(prev => ({
@@ -186,7 +185,6 @@ export function useYouTubePlaylistInfo(playlistId: string) {
 
       setPlaylist(data.data);
     } catch (error) {
-      console.error('Error fetching playlist info:', error);
       const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
       setError(errorMessage);
     } finally {

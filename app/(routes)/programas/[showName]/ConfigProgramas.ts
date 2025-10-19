@@ -21,12 +21,12 @@ const configPrograma: ProgramsConfig = {
   },
   'latin-doctors': {
     title: "Latin Doctors",
-    playlistId: "PLUsWg2Ffmenc2Pkr7si59fgEb-46VZM5r",
+    playlistId: "PLUsWg2FfmendGClwSiUnZBQdqnJxl0RfV",
     description: "Información médica y consejos de salud para la comunidad latina."
   },
   'rayos-x': {
     title: "Rayos X",
-    playlistId: "PLUsWg2Ffmenc2Pkr7si59fgEb-46VZM5r",
+    playlistId: "PLUsWg2FfmendH48u-7uhkfteNT1bIl7Lc",
     description: "Periodismo investigativo que expone la verdad detrás de los hechos."
   }
 };

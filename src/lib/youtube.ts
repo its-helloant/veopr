@@ -70,7 +70,6 @@ async function fetchVideoDetails(videoIds: string[], apiKey: string): Promise<Ma
     const response = await fetch(url.toString());
     
     if (!response.ok) {
-      console.warn('Failed to fetch video details:', response.status);
       return new Map();
     }
 
@@ -86,7 +85,6 @@ async function fetchVideoDetails(videoIds: string[], apiKey: string): Promise<Ma
 
     return videoDetailsMap;
   } catch (error) {
-    console.warn('Error fetching video details:', error);
     return new Map();
   }
 }
@@ -151,7 +149,6 @@ export async function fetchPlaylistVideos(
       totalResults: data.pageInfo.totalResults
     };
   } catch (error) {
-    console.error('Error fetching playlist videos:', error);
     throw error;
   }
 }
@@ -194,7 +191,6 @@ export async function fetchPlaylistInfo(
       thumbnails: playlist.snippet.thumbnails
     };
   } catch (error) {
-    console.error('Error fetching playlist info:', error);
     throw error;
   }
 }

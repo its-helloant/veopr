@@ -2,6 +2,7 @@
 
 import { Card, CardBody, CardHeader, Chip } from "@heroui/react";
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { programs } from '@/data/programas';
 
 
@@ -21,12 +22,12 @@ export default function Programas() {
 
   return (
     <section id="programas" className="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-gray-50 to-white">
-      <div className="max-w-6xl mx-auto padding-mobile">
-        <div className="text-center margin-mobile">
-          <h3 className="text-mobile-h1 lg:text-4xl font-extrabold text-blue-900 margin-mobile tracking-tight">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 md:px-8">
+        <div className="text-center mb-4 sm:mb-6 md:mb-8">
+          <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-extrabold text-blue-900 mb-4 sm:mb-6 md:mb-8 tracking-tight">
             Nuestros Programas
           </h3>
-          <p className="text-mobile-body lg:text-lg text-gray-600">
+          <p className="text-sm sm:text-base lg:text-lg text-gray-600">
             Descubre todos nuestros shows
           </p>
         </div>
@@ -44,11 +45,12 @@ export default function Programas() {
               onKeyDown={(e) => handleKeyDown(e, program.slug)}
             >
               <CardHeader className="p-0 relative">
-                <div className="relative w-full">
-                  <img 
+                <div className="relative w-full h-40 sm:h-48">
+                  <Image 
                     src={program.image} 
                     alt={`Imagen promocional de ${program.title}`}
-                    className="w-full h-40 sm:h-48 object-cover"
+                    fill
+                    className="object-cover"
                   />
                   <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 group-focus-within:bg-opacity-40 transition-all duration-300 flex items-center justify-center">
                     <div className="opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-300 bg-white text-black font-semibold text-sm px-4 py-2 rounded-md">
@@ -61,7 +63,7 @@ export default function Programas() {
               <CardBody className="p-3 sm:p-4">
                 <div className="space-y-2 sm:space-y-3">
                   <div className="flex items-start justify-between">
-                    <h4 className="text-mobile-body sm:text-lg font-bold text-gray-900">
+                    <h4 className="text-sm sm:text-lg font-bold text-gray-900">
                       {program.title}
                     </h4>
                   </div>

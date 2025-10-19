@@ -3,11 +3,16 @@
 import { useState, useEffect } from "react";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/react";
 import Link from "next/link";
+import Image from "next/image";
 import { ShoppingCartIcon, Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import ShoppingCart from "./ShoppingCart";
+import { useCart } from "@/contexts/CartContext";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
   const [isClient, setIsClient] = useState(false);
+  const { itemCount } = useCart();
 
   useEffect(() => {
     setIsClient(true);
@@ -50,7 +55,7 @@ export default function Header() {
       <Navbar 
         className="bg-gray-900 sticky top-0 z-50 shadow-sm"
         classNames={{
-          wrapper: "max-w-7xl mx-auto padding-mobile",
+          wrapper: "max-w-7xl mx-auto px-4 sm:px-6 md:px-8",
           brand: "text-white",
           content: "text-white",
         }}
@@ -61,10 +66,13 @@ export default function Header() {
             onClick={closeMobileMenu}
             className="touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white transition-all"
           >
-            <img 
+            <Image 
               src="/veopr-logo.png" 
               alt="VeoPR Logo" 
+              width={120}
+              height={32}
               className="h-8 w-auto"
+              priority
             />
           </Link>
         </NavbarBrand>
@@ -100,10 +108,16 @@ export default function Header() {
           </NavbarItem>
           <NavbarItem>
             <button 
-              className="text-white hover:text-blue-400 focus:text-blue-400 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900"
+              onClick={() => setIsCartOpen(true)}
+              className="text-white hover:text-blue-400 focus:text-blue-400 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900 relative"
               aria-label="Ver carrito de compras"
             >
               <ShoppingCartIcon className="h-6 w-6" />
+              {itemCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
+                  {itemCount}
+                </span>
+              )}
             </button>
           </NavbarItem>
         </NavbarContent>
@@ -112,10 +126,16 @@ export default function Header() {
         <NavbarContent justify="end" className="md:hidden">
           <NavbarItem>
             <button 
-              className="text-white hover:text-blue-400 focus:text-blue-400 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900"
+              onClick={() => setIsCartOpen(true)}
+              className="text-white hover:text-blue-400 focus:text-blue-400 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-gray-900 relative"
               aria-label="Ver carrito de compras"
             >
               <ShoppingCartIcon className="h-6 w-6" />
+              {itemCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
+                  {itemCount}
+                </span>
+              )}
             </button>
           </NavbarItem>
           <NavbarItem>
@@ -146,14 +166,14 @@ export default function Header() {
           ></div>
           <div className="relative bg-white border-t border-gray-200">
             <nav 
-              className="padding-mobile py-6 space-y-2"
+              className="px-4 sm:px-6 md:px-8 py-6 space-y-2"
               id="mobile-menu"
               role="navigation"
               aria-label="Menú de navegación móvil"
             >
               <Link 
                 href="/#programas"
-                className="block text-gray-900 text-mobile-body sm:text-lg font-medium hover:text-blue-600 focus:text-blue-600 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white"
+                className="block text-gray-900 text-sm sm:text-lg font-medium hover:text-blue-600 focus:text-blue-600 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white"
                 onClick={closeMobileMenu}
               >
                 Programas
@@ -161,7 +181,7 @@ export default function Header() {
               
               <Link 
                 href="/productos"
-                className="block text-gray-900 text-mobile-body sm:text-lg font-medium hover:text-blue-600 focus:text-blue-600 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white"
+                className="block text-gray-900 text-sm sm:text-lg font-medium hover:text-blue-600 focus:text-blue-600 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white"
                 onClick={closeMobileMenu}
               >
                 Productos
@@ -170,7 +190,7 @@ export default function Header() {
               <Link 
                 color="foreground" 
                 href="#nosotros"
-                className="block text-gray-900 text-mobile-body sm:text-lg font-medium hover:text-blue-600 focus:text-blue-600 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white"
+                className="block text-gray-900 text-sm sm:text-lg font-medium hover:text-blue-600 focus:text-blue-600 transition-all touch-target rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white"
                 onClick={closeMobileMenu}
               >
                 Nosotros
@@ -179,6 +199,9 @@ export default function Header() {
           </div>
         </div>
       )}
+
+      {/* Shopping Cart */}
+      <ShoppingCart isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </>
   )
 } 

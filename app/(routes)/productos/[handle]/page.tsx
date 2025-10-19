@@ -2,7 +2,7 @@ import ProductDetail from './ProductDetail'
 
 interface ProductPageProps {
   params: Promise<{
-    id: string
+    handle: string
   }>
 }
 
